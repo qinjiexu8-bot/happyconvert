@@ -1119,6 +1119,40 @@ export default function App() {
     return false;
   };
 
+  const toolById = (toolId) => TOOL_PAGES.find((page) => page.toolId === toolId);
+  const contextualToolLinks = (() => {
+    const relatedIdsByTool = {
+      Convert: ["Extract Audio", "Compress", "GIF"],
+      Trim: ["Compress", "GIF", "Extract Audio"],
+      Compress: ["Convert", "Trim", "GIF"],
+      GIF: ["Trim", "Compress", "Convert"],
+      "Extract Audio": ["Convert", "Trim", "Compress"],
+      Crop: ["Compress", "Trim", "Convert"]
+    };
+    return (relatedIdsByTool[activePageConfig.toolId] || ["Convert", "Compress", "Trim"])
+      .map(toolById)
+      .filter(Boolean);
+  })();
+
+  const contextualLinkIntro = (() => {
+    if (lang === "zh") {
+      if (activePageConfig.toolId === "Convert") return "转换完成后，您还可以继续提取音频、压缩文件或生成 GIF。";
+      if (activePageConfig.toolId === "Trim") return "剪切完成后，您可以继续压缩片段、制作 GIF 或提取音频。";
+      if (activePageConfig.toolId === "Compress") return "压缩前后，您也可以转换格式、剪切片段或制作 GIF。";
+      if (activePageConfig.toolId === "GIF") return "制作 GIF 前，建议先剪切片段；也可以压缩视频或转换格式。";
+      if (activePageConfig.toolId === "Extract Audio") return "提取音频前后，您也可以转换视频格式、剪切片段或压缩源文件。";
+      if (activePageConfig.toolId === "Crop") return "裁切完成后，您可以继续压缩、剪切或转换视频格式。";
+      return "继续探索相关的免费浏览器媒体工具。";
+    }
+    if (activePageConfig.toolId === "Convert") return "After converting, you can also extract audio, compress the file, or make a GIF.";
+    if (activePageConfig.toolId === "Trim") return "After cutting, you can compress the clip, create a GIF, or extract its audio.";
+    if (activePageConfig.toolId === "Compress") return "Before or after compression, you can convert formats, cut a clip, or create a GIF.";
+    if (activePageConfig.toolId === "GIF") return "Before making a GIF, trim the clip first; you can also compress or convert the source video.";
+    if (activePageConfig.toolId === "Extract Audio") return "Before or after extracting audio, you can convert video, cut a clip, or compress the source file.";
+    if (activePageConfig.toolId === "Crop") return "After cropping, continue with compression, trimming, or video format conversion.";
+    return "Explore related free browser media tools.";
+  })();
+
   return (
     <div className="app-shell">
       {/* Ambient Studio Background Glowing Mesh Spheres */}
@@ -1949,6 +1983,28 @@ export default function App() {
                   </div>
                 ))}
               </div>
+
+              <nav className="article-related-tools" aria-label={lang === "zh" ? "文章相关工具" : "Article related tools"}>
+                <span>{lang === "zh" ? "相关工具：" : "Related tools:"}</span>
+                {[
+                  activePageConfig.toolLink && TOOL_PAGES.find((page) => page.path === activePageConfig.toolLink),
+                  ...TOOL_PAGES.filter((page) => page.path !== activePageConfig.toolLink).slice(0, 3)
+                ].filter(Boolean).map((page) => {
+                  const item = localizedPage(page, lang);
+                  return (
+                    <a
+                      key={page.path}
+                      href={buildLocalizedPath(page.path, lang)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigateToPath(page.path);
+                      }}
+                    >
+                      {item.title}
+                    </a>
+                  );
+                })}
+              </nav>
 
               <div className="article-cta-box" style={{ marginTop: "56px", padding: "40px", backgroundColor: "var(--bg-root)", border: "1px solid var(--border-color)", borderRadius: "var(--radius-lg)", textAlign: "center", backgroundImage: "linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%)" }}>
                 <h3 style={{ fontSize: "24px", fontWeight: "800", marginBottom: "12px", color: "var(--text-primary)" }}>
@@ -3004,6 +3060,27 @@ export default function App() {
             <p className="tool-page-kicker">{lang === "zh" ? "✨ 免费在线音视频工作室" : "✨ Free Online Media Studio"}</p>
             <h2>{activePage.seoH2 || activePage.title}</h2>
             <p>{activePage.description}</p>
+            <p className="tool-page-context-link-copy">
+              {contextualLinkIntro}
+              {" "}
+              {contextualToolLinks.map((page, index) => {
+                const item = localizedPage(page, lang);
+                return (
+                  <React.Fragment key={page.path}>
+                    <a
+                      href={buildLocalizedPath(page.path, lang)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigateToTool(page.toolId);
+                      }}
+                    >
+                      {item.title}
+                    </a>
+                    {index < contextualToolLinks.length - 1 ? " · " : ""}
+                  </React.Fragment>
+                );
+              })}
+            </p>
           </div>
 
           <nav className="tool-page-internal-links" aria-label={lang === "zh" ? "相关工具" : "Related tools"}>
@@ -3013,7 +3090,7 @@ export default function App() {
               return (
                 <a
                   key={page.path}
-                  href={page.path}
+                  href={buildLocalizedPath(page.path, lang)}
                   onClick={(e) => {
                     e.preventDefault();
                     navigateToTool(page.toolId);
@@ -3113,11 +3190,38 @@ export default function App() {
 
       {/* Standalone Footer */}
       <footer className="studio-footer" role="contentinfo">
-        <div className="footer-links">
-          <a href="/how-to-use" onClick={(e) => { e.preventDefault(); navigateToPath("/how-to-use/"); }}>{lang === "zh" ? "使用教程" : "How to Use"}</a>
-          <a href="/about" onClick={(e) => { e.preventDefault(); navigateToPath("/about/"); }}>{t("aboutUs")}</a>
-          <a href="/privacy" onClick={(e) => { e.preventDefault(); navigateToPath("/privacy/"); }}>{t("privacyPolicy")}</a>
-          <a href="/terms" onClick={(e) => { e.preventDefault(); navigateToPath("/terms/"); }}>{t("termsOfService")}</a>
+        <div className="footer-link-groups">
+          <nav className="footer-link-group" aria-label={lang === "zh" ? "工具链接" : "Tool links"}>
+            <span>{lang === "zh" ? "工具" : "Tools"}</span>
+            <div className="footer-links">
+              {TOOL_PAGES.map((page) => {
+                const item = localizedPage(page, lang);
+                return (
+                  <a
+                    key={page.path}
+                    href={buildLocalizedPath(page.path, lang)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigateToTool(page.toolId);
+                    }}
+                  >
+                    {item.title}
+                  </a>
+                );
+              })}
+            </div>
+          </nav>
+
+          <nav className="footer-link-group" aria-label={lang === "zh" ? "网站链接" : "Site links"}>
+            <span>{lang === "zh" ? "网站" : "Site"}</span>
+            <div className="footer-links">
+              <a href={buildLocalizedPath("/how-to-use/", lang)} onClick={(e) => { e.preventDefault(); navigateToPath("/how-to-use/"); }}>{lang === "zh" ? "使用教程" : "How to Use"}</a>
+              <a href={buildLocalizedPath("/blog/", lang)} onClick={(e) => { e.preventDefault(); navigateToPath("/blog/"); }}>{lang === "zh" ? "博客教程" : "Blog"}</a>
+              <a href={buildLocalizedPath("/about/", lang)} onClick={(e) => { e.preventDefault(); navigateToPath("/about/"); }}>{t("aboutUs")}</a>
+              <a href={buildLocalizedPath("/privacy/", lang)} onClick={(e) => { e.preventDefault(); navigateToPath("/privacy/"); }}>{t("privacyPolicy")}</a>
+              <a href={buildLocalizedPath("/terms/", lang)} onClick={(e) => { e.preventDefault(); navigateToPath("/terms/"); }}>{t("termsOfService")}</a>
+            </div>
+          </nav>
         </div>
         <div className="footer-copyright">
           © {new Date().getFullYear()} HappyConvert. {t("copyright")}
