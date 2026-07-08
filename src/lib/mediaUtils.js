@@ -42,6 +42,29 @@ export function formatBytes(bytes) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
 }
 
+export function detectBinaryFormat(bytes) {
+  if (!bytes || bytes.length < 4) return "unknown";
+  const b = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+  const ascii = (start, length) => String.fromCharCode(...b.slice(start, start + length));
+
+  if (ascii(0, 3) === "GIF") return "gif";
+  if (ascii(0, 3) === "ID3") return "mp3";
+  if (ascii(0, 4) === "RIFF" && ascii(8, 4) === "WAVE") return "wav";
+  if (ascii(0, 4) === "RIFF" && ascii(8, 4) === "WEBP") return "webp";
+  if (b[0] === 0x1a && b[1] === 0x45 && b[2] === 0xdf && b[3] === 0xa3) return "webm";
+  if (b.length > 11 && ascii(4, 4) === "ftyp") return "mp4";
+  if (b[0] === 0xff && (b[1] & 0xe0) === 0xe0) return "mp3";
+  return "unknown";
+}
+
+export function isExpectedOutputFormat(bytes, expectedFormat) {
+  const detected = detectBinaryFormat(bytes);
+  if (detected === "unknown") return true;
+  if (expectedFormat === "mov" && detected === "mp4") return true;
+  if (expectedFormat === "mkv" && detected === "webm") return true;
+  return detected === expectedFormat;
+}
+
 /* Helper: parse CLI args, preserving double quotes */
 export function parseCommandString(cmdStr) {
   let clean = cmdStr.trim();

@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, useState, useEffect } from "react";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fetchFile, toBlobURL } from "@ffmpeg/util";
-import { formatBytes, formatTime, parseTime, extensionFor } from "./lib/mediaUtils.js";
+import { formatBytes, formatTime, parseTime, extensionFor, isExpectedOutputFormat, detectBinaryFormat } from "./lib/mediaUtils.js";
 import { buildCommandPreview, buildFfmpegArgs, getBlobTypeForFormat, getOutputFormatForTool } from "./lib/ffmpegCommands.js";
 import { TOOLS, TRANSLATIONS } from "./i18n/translations.js";
 import { DEFAULT_PAGE, TOOL_PAGES, getToolPageByPath, getToolPageByTool, localizedPage, normalizePath } from "./config/toolPages.js";
@@ -935,25 +935,33 @@ export default function App() {
       const targetReadName = outputName;
       
       const data = await ffmpeg.readFile(targetReadName);
-      
-      const blob = new Blob([data], { type: getBlobTypeForFormat(outFormat) });
-      const url = URL.createObjectURL(blob);
+      const outputBytes = data instanceof Uint8Array ? data.slice() : new Uint8Array(data);
+      const detectedFormat = detectBinaryFormat(outputBytes);
+      if (!isExpectedOutputFormat(outputBytes, outFormat)) {
+        throw new Error(`Output validation failed: expected ${outFormat.toUpperCase()}, got ${detectedFormat.toUpperCase()}.`);
+      }
+
+      const mimeType = getBlobTypeForFormat(outFormat);
+      const outputFile = new File([outputBytes], targetReadName, { type: mimeType, lastModified: Date.now() });
+      const url = URL.createObjectURL(outputFile);
       
       const exportItem = {
         id: `export-${Date.now()}`,
         name: targetReadName,
         url: url,
-        size: formatBytes(data.length),
+        size: formatBytes(outputBytes.length),
         format: outFormat,
-        blob: blob,
+        blob: outputFile,
+        mimeType,
         origSize: file ? file.size : 0,
         origSizeStr: file ? formatBytes(file.size) : "0 B",
-        percentSaved: file && file.size > 0 ? Math.round(Math.max(0, (file.size - data.length) / file.size * 100)) : 0
+        percentSaved: file && file.size > 0 ? Math.round(Math.max(0, (file.size - outputBytes.length) / file.size * 100)) : 0
       };
       
       setExportGallery((current) => [exportItem, ...current]);
       setLatestOutput(exportItem);
       setProgress(100);
+      addLog(`Verified output container: ${detectedFormat.toUpperCase()} (${mimeType})`, "success");
       addLog(`${t("logSuccessFile")}: ${targetReadName}`, "success");
       
       await ffmpeg.deleteFile(inputName).catch(() => {});
@@ -979,6 +987,19 @@ export default function App() {
   const loadGalleryPreview = (url, name) => {
     setPreviewUrl(url);
     addLog(`${t("logPlayExport")}: ${name}`, "info");
+  };
+
+  const downloadExport = (item) => {
+    if (!item?.blob) return;
+    const downloadUrl = URL.createObjectURL(item.blob);
+    const anchor = document.createElement("a");
+    anchor.href = downloadUrl;
+    anchor.download = item.name;
+    anchor.rel = "noopener";
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
   };
 
   const loadAsInput = (item) => {
@@ -2885,14 +2906,14 @@ export default function App() {
                   >
                     🔄 {t("loadAsInputBtn")}
                   </button>
-                  <a 
+                  <button
+                    type="button"
                     className="studio-btn studio-btn-primary" 
-                    href={latestOutput.url} 
-                    download={latestOutput.name}
+                    onClick={() => downloadExport(latestOutput)}
                     style={{ fontSize: "11px", padding: "6px 14px", minHeight: "auto", height: "auto" }}
                   >
                     📥 {t("downloadBtn")}
-                  </a>
+                  </button>
                 </div>
               </div>
             )}
@@ -2930,14 +2951,14 @@ export default function App() {
                         >
                           🔄 {t("loadAsInputBtn")}
                         </button>
-                        <a 
+                        <button
+                          type="button"
                           className="gallery-btn" 
-                          href={item.url} 
-                          download={item.name}
+                          onClick={() => downloadExport(item)}
                           style={{ borderColor: "var(--border-color)", color: "var(--text-secondary)" }}
                         >
                           {t("downloadBtn")}
-                        </a>
+                        </button>
                         <button 
                           className="gallery-btn delete-btn"
                           onClick={() => deleteGalleryItem(item.id, item.url)}
