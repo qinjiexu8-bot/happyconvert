@@ -2436,8 +2436,8 @@ export default function App() {
                         className={`convert-preset-card convert-preset-card-cyan ${isConvertPresetActive("webm") ? "active" : ""}`}
                         aria-pressed={isConvertPresetActive("webm")}
                       >
-                        🌐 {lang === "zh" ? "网页透明/兼容 WebM" : "WebM Browser Video"}
-                        <div>{lang === "zh" ? "极小体积网页流媒体" : "HTML5 web standard"}</div>
+                        🌐 {lang === "zh" ? "WebM 网页视频" : "WebM for Web Embed"}
+                        <div>{lang === "zh" ? "适合网页播放，本地通用性不如 MP4" : "Great in browsers, less universal locally"}</div>
                       </button>
                       <button 
                         type="button"
@@ -2890,7 +2890,7 @@ export default function App() {
                   )}
                 </div>
 
-                {["mov", "mkv"].includes(latestOutput.format) && (
+                {["webm", "mov", "mkv"].includes(latestOutput.format) && (
                   <div className="latest-output-warning">
                     ⚠️ {t("latestOutputWarning")}
                   </div>

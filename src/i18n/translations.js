@@ -19,7 +19,7 @@ export const TRANSLATIONS = {
     heroTitle: "Offline-First, <span class=\"highlight\">Private Browser</span> Media Studio",
     heroSub: "Edit, compress, crop, and convert your media files locally inside your browser sandbox. 100% secure with zero server uploads—your files never leave your computer.",
     latestOutputTitle: "Latest Processed Output",
-    latestOutputWarning: "Note: MKV/MOV formats may require local download depending on your browser codec support.",
+    latestOutputWarning: "Note: WebM, MKV, and MOV playback depends on your local app/browser support. For widest local playback compatibility, export MP4.",
     latestOutputClose: "Close Preview",
     loadAsInputBtn: "Load as Input",
 
@@ -218,7 +218,7 @@ logWasmSuccess: "FFmpeg WASM environment initialized successfully. Local compute
     heroTitle: "离线安全、<span class=\"highlight\">绝对私密</span>的本地浏览器媒体工作室",
     heroSub: "在您的浏览器本地沙盒内直接进行视频裁剪、压缩、裁切与格式转换。100% 本地运算，无需上传任何服务器，保护您的隐私安全。",
     latestOutputTitle: "最新生成预览",
-    latestOutputWarning: "提示: MKV/MOV 格式的预览播放依赖于您的浏览器解码支持。如若黑屏，请点击下载至本地播放。",
+    latestOutputWarning: "提示: WebM、MKV、MOV 的本地播放取决于系统或播放器支持。若要下载后在电脑/手机上通用播放，建议导出 MP4。",
     latestOutputClose: "关闭预览",
     loadAsInputBtn: "设为当前输入",
 
