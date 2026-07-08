@@ -904,6 +904,66 @@ body.light-theme .upload-format-pill {
   font-family: var(--font-mono);
 }
 
+.convert-preset-card {
+  padding: 10px 12px;
+  border: 1.5px solid var(--preset-border, var(--border-color));
+  border-radius: var(--radius-md);
+  background: var(--preset-bg, rgba(255, 255, 255, 0.65));
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.convert-preset-card div {
+  margin-top: 2px;
+  color: var(--text-tertiary);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.convert-preset-card:hover,
+.convert-preset-card:focus-visible {
+  border-color: var(--preset-active-border);
+  box-shadow: 0 0 0 3px var(--preset-ring);
+  transform: translateY(-1px);
+}
+
+.convert-preset-card.active {
+  border-color: var(--preset-active-border);
+  background: var(--preset-active-bg);
+  box-shadow: 0 0 0 3px var(--preset-ring), 0 10px 24px var(--preset-shadow);
+}
+
+.convert-preset-card-purple {
+  --preset-border: rgba(139, 92, 246, 0.3);
+  --preset-active-border: var(--accent-purple);
+  --preset-bg: rgba(139, 92, 246, 0.08);
+  --preset-active-bg: rgba(139, 92, 246, 0.16);
+  --preset-ring: rgba(139, 92, 246, 0.16);
+  --preset-shadow: rgba(139, 92, 246, 0.12);
+}
+
+.convert-preset-card-cyan {
+  --preset-border: rgba(6, 182, 212, 0.3);
+  --preset-active-border: var(--accent-cyan);
+  --preset-bg: rgba(6, 182, 212, 0.08);
+  --preset-active-bg: rgba(6, 182, 212, 0.16);
+  --preset-ring: rgba(6, 182, 212, 0.16);
+  --preset-shadow: rgba(6, 182, 212, 0.12);
+}
+
+.convert-preset-card-green {
+  --preset-border: rgba(16, 185, 129, 0.3);
+  --preset-active-border: #10b981;
+  --preset-bg: rgba(16, 185, 129, 0.08);
+  --preset-active-bg: rgba(16, 185, 129, 0.16);
+  --preset-ring: rgba(16, 185, 129, 0.16);
+  --preset-shadow: rgba(16, 185, 129, 0.12);
+}
+
 /* Inputs & Form Controls */
 .studio-select,
 .studio-input,

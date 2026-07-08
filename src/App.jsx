@@ -1112,6 +1112,13 @@ export default function App() {
     }
   };
 
+  const isConvertPresetActive = (preset) => {
+    if (preset === "mp4") return convertFormat === "mp4" && convertVideoCodec === "libx264" && convertAudioCodec === "aac";
+    if (preset === "webm") return convertFormat === "webm" && convertVideoCodec === "libvpx" && convertAudioCodec === "vorbis";
+    if (preset === "mp3") return convertFormat === "mp3";
+    return false;
+  };
+
   return (
     <div className="app-shell">
       {/* Ambient Studio Background Glowing Mesh Spheres */}
@@ -2417,32 +2424,29 @@ export default function App() {
                       <button 
                         type="button"
                         onClick={() => { setConvertFormat("mp4"); setConvertVideoCodec("libx264"); setConvertAudioCodec("aac"); }}
-                        style={{ padding: "10px 12px", borderRadius: "var(--radius-md)", border: "1px solid rgba(139, 92, 246, 0.3)", background: "rgba(139, 92, 246, 0.08)", color: "var(--text-primary)", fontSize: "12px", fontWeight: "600", cursor: "pointer", textAlign: "left", transition: "all 0.2s" }}
-                        onMouseOver={(e) => e.currentTarget.style.borderColor = "var(--accent-purple)"}
-                        onMouseOut={(e) => e.currentTarget.style.borderColor = "rgba(139, 92, 246, 0.3)"}
+                        className={`convert-preset-card convert-preset-card-purple ${isConvertPresetActive("mp4") ? "active" : ""}`}
+                        aria-pressed={isConvertPresetActive("mp4")}
                       >
                         📱 {lang === "zh" ? "iPhone MOV 转 MP4" : "Apple MOV to MP4"}
-                        <div style={{ fontSize: "11px", color: "var(--text-tertiary)", marginTop: "2px", fontWeight: "400" }}>{lang === "zh" ? "完美适配 Windows/剪映" : "Best for Win & Premiere"}</div>
+                        <div>{lang === "zh" ? "完美适配 Windows/剪映" : "Best for Win & Premiere"}</div>
                       </button>
                       <button 
                         type="button"
                         onClick={() => { setConvertFormat("webm"); setConvertVideoCodec("libvpx"); setConvertAudioCodec("vorbis"); }}
-                        style={{ padding: "10px 12px", borderRadius: "var(--radius-md)", border: "1px solid rgba(6, 182, 212, 0.3)", background: "rgba(6, 182, 212, 0.08)", color: "var(--text-primary)", fontSize: "12px", fontWeight: "600", cursor: "pointer", textAlign: "left", transition: "all 0.2s" }}
-                        onMouseOver={(e) => e.currentTarget.style.borderColor = "var(--accent-cyan)"}
-                        onMouseOut={(e) => e.currentTarget.style.borderColor = "rgba(6, 182, 212, 0.3)"}
+                        className={`convert-preset-card convert-preset-card-cyan ${isConvertPresetActive("webm") ? "active" : ""}`}
+                        aria-pressed={isConvertPresetActive("webm")}
                       >
                         🌐 {lang === "zh" ? "网页透明/兼容 WebM" : "WebM Browser Video"}
-                        <div style={{ fontSize: "11px", color: "var(--text-tertiary)", marginTop: "2px", fontWeight: "400" }}>{lang === "zh" ? "极小体积网页流媒体" : "HTML5 web standard"}</div>
+                        <div>{lang === "zh" ? "极小体积网页流媒体" : "HTML5 web standard"}</div>
                       </button>
                       <button 
                         type="button"
                         onClick={() => { setConvertFormat("mp3"); setConvertVideoCodec("copy"); setConvertAudioCodec("copy"); }}
-                        style={{ padding: "10px 12px", borderRadius: "var(--radius-md)", border: "1px solid rgba(16, 185, 129, 0.3)", background: "rgba(16, 185, 129, 0.08)", color: "var(--text-primary)", fontSize: "12px", fontWeight: "600", cursor: "pointer", textAlign: "left", transition: "all 0.2s" }}
-                        onMouseOver={(e) => e.currentTarget.style.borderColor = "#10b981"}
-                        onMouseOut={(e) => e.currentTarget.style.borderColor = "rgba(16, 185, 129, 0.3)"}
+                        className={`convert-preset-card convert-preset-card-green ${isConvertPresetActive("mp3") ? "active" : ""}`}
+                        aria-pressed={isConvertPresetActive("mp3")}
                       >
                         🎵 {lang === "zh" ? "分离纯音频 MP3" : "Extract Audio MP3"}
-                        <div style={{ fontSize: "11px", color: "var(--text-tertiary)", marginTop: "2px", fontWeight: "400" }}>{lang === "zh" ? "提取视频背景音乐 BGM" : "Save BGM track"}</div>
+                        <div>{lang === "zh" ? "提取视频背景音乐 BGM" : "Save BGM track"}</div>
                       </button>
                     </div>
                   </div>
