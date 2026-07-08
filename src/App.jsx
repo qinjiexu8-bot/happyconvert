@@ -2437,7 +2437,7 @@ export default function App() {
                         aria-pressed={isConvertPresetActive("webm")}
                       >
                         🌐 {lang === "zh" ? "WebM 网页视频" : "WebM for Web Embed"}
-                        <div>{lang === "zh" ? "适合网页播放，本地通用性不如 MP4" : "Great in browsers, less universal locally"}</div>
+                        <div>{lang === "zh" ? "网页播放友好，但转码会比 MP4 慢" : "Web-friendly, slower than MP4 to encode"}</div>
                       </button>
                       <button 
                         type="button"

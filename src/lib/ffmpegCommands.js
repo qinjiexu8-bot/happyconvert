@@ -169,7 +169,7 @@ function convertCodecPreview(options) {
     options.convertVideoCodec === "copy"
       ? "copy"
       : options.convertFormat === "webm"
-        ? "libvpx -crf 10 -b:v 1M"
+        ? "libvpx -deadline realtime -cpu-used 8 -row-mt 1 -crf 32 -b:v 1M"
         : "libx264 -preset veryfast -crf 23";
   const ac =
     options.convertAudioCodec === "copy"
@@ -183,7 +183,7 @@ function convertCodecPreview(options) {
 function videoCodecArgs(options) {
   if (options.convertVideoCodec === "copy") return ["-c:v", "copy"];
   if (options.convertFormat === "webm") {
-    return ["-c:v", "libvpx", "-crf", "10", "-b:v", "1M"];
+    return ["-c:v", "libvpx", "-deadline", "realtime", "-cpu-used", "8", "-row-mt", "1", "-crf", "32", "-b:v", "1M"];
   }
   return ["-c:v", "libx264", "-preset", "veryfast", "-crf", "23"];
 }

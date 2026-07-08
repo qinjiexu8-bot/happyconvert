@@ -112,8 +112,8 @@ export const TOOL_PAGES = [
       zh: "🚀 免费使用 • 高清无水印 • 极速互转"
     },
     proTip: {
-      en: "💡 Pro-Tip: Select WebM (VP8) to reduce file size for web sharing without losing visual quality.",
-      zh: "💡 专家建议：转换为 WebM (VP8) 格式可在保持画质的同时，有效缩减网页加载的视频体积。"
+      en: "💡 Pro-Tip: Select MP4 for the fastest local export. Use WebM when you specifically need browser-friendly web embeds.",
+      zh: "💡 专家建议：想要最快导出请选择 MP4；只有在网页嵌入播放场景下，再选择 WebM。"
     },
     faqs: [
       {
@@ -132,8 +132,8 @@ export const TOOL_PAGES = [
           zh: "如何使用这款工具一步步转换视频格式？"
         },
         a: {
-          en: "Step 1: Click 'Select File' or drag and drop your video into the upload box. Step 2: Choose your desired target format (e.g., MP4, WebM, MOV, or MP3) from the options panel. Step 3: Click the glowing '🚀 Run Editing Task' button. Your video will process instantly and download automatically!",
-          zh: "第一步：点击「选择文件」或直接将视频拖入左侧上传框。第二步：在右侧控制台中选择您需要的目标格式（如 MP4、WebM、MOV 或 MP3）。第三步：点击首屏醒目的「🚀 开始处理」按钮。系统将在几秒内极速转码并自动弹出保存提示！"
+          en: "Step 1: Click 'Select File' or drag and drop your video into the upload box. Step 2: Choose your desired target format (e.g., MP4, WebM, MOV, or MP3) from the options panel. Step 3: Click the glowing '🚀 Run Editing Task' button. MP4 and audio exports are usually fastest; WebM takes longer because it must be re-encoded in your browser.",
+          zh: "第一步：点击「选择文件」或直接将视频拖入左侧上传框。第二步：在右侧控制台中选择您需要的目标格式（如 MP4、WebM、MOV 或 MP3）。第三步：点击首屏醒目的「🚀 开始处理」按钮。MP4 与音频导出通常最快；WebM 需要在浏览器内重新编码，耗时会更长。"
         }
       },
       {
