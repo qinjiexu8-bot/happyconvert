@@ -964,6 +964,40 @@ body.light-theme .upload-format-pill {
   --preset-shadow: rgba(16, 185, 129, 0.12);
 }
 
+.conversion-estimate-note {
+  margin: -2px 0 16px;
+  padding: 12px 14px;
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  border-radius: var(--radius-md);
+  background: rgba(245, 158, 11, 0.07);
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.conversion-estimate-note-title {
+  margin-bottom: 8px;
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.conversion-estimate-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 5px 12px;
+  margin-bottom: 8px;
+}
+
+.conversion-estimate-grid strong {
+  color: #b45309;
+  font-weight: 700;
+}
+
+.conversion-estimate-note p {
+  margin: 0;
+}
+
 /* Inputs & Form Controls */
 .studio-select,
 .studio-input,

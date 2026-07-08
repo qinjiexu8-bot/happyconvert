@@ -84,32 +84,32 @@ export const TOOL_PAGES = [
     path: "/video-converter/",
     toolId: "Convert",
     title: {
-      en: "Free Online Video Converter - Convert MP4, MOV, WebM No Watermark",
-      zh: "在线视频格式转换 - 免费极速 MP4/MOV/MKV 转换无水印不限大小"
+      en: "Convert Video Online - Free MP4 Converter Online (No Watermark)",
+      zh: "在线视频格式转换 - 免费 MP4/MOV/MKV 视频转换器（推荐1GB以内）"
     },
     description: {
-      en: "Convert video formats online for free with zero watermarks and no cloud queue times. Fast conversion between MP4, WebM, MOV, MKV, and audio using browser WebAssembly; practical limits depend on your browser memory.",
-      zh: "免费在线转换视频格式，无水印且受本机内存限制。极速互转 MP4、WebM、MOV、MKV 和音频格式。在浏览器本地直接处理，无需下载安装软件。"
+      en: "Convert video online for free with zero watermarks and no cloud queue times. Fast MP4 converter online for MOV, WebM, MKV, and audio using browser WebAssembly.",
+      zh: "免费在线进行视频格式转换，无水印且受本机内存限制。极速互转 MP4、WebM、MOV、MKV 和音频格式。在浏览器本地直接处理，无需下载安装软件。"
     },
     h1: {
-      en: "Free Online <span class=\"highlight\">Fast Video Converter</span>",
-      zh: "免费在线<span class=\"highlight\">视频格式极速转换</span>"
+      en: "Free Online <span class=\"highlight\">Video Converter</span>",
+      zh: "免费在线<span class=\"highlight\">视频格式转换</span>"
     },
     seoH2: {
-      en: "Convert Common Video Formats in Your Browser — No Uploads Needed",
-      zh: "在浏览器中即时转换任意视频格式 — 无需上传至服务器"
+      en: "Convert Video Online - MP4 Converter Online in Browser",
+      zh: "在浏览器中即时进行在线视频转换 — 零上传高画质"
     },
     subtitle: {
-      en: "Convert your video and audio files quickly with zero watermarks. Processing is subject to your browser and device memory limits.",
-      zh: "免费使用、受本机内存限制、导出的视频纯净无水印！基于最先进的 WebAssembly 本地计算引擎，免去漫长的服务器上传与排队等待，即开即转，极速省心。"
+      en: "Convert your video and audio files quickly with zero watermarks. Processing is subject to browser memory limits (recommended for videos under 1GB).",
+      zh: "免费使用、受本机内存限制（推荐1GB以内视频）、导出的视频纯净无水印！基于最先进的 WebAssembly 本地计算引擎，免去漫长的服务器上传与排队等待，即开即转，极速省心。"
     },
     intent: {
       en: "Best for universal format conversion, web video optimization (WebM), and fast audio extraction without installing desktop software.",
       zh: "最适合跨平台视频格式互转、网页格式优化（如 MP4 转 WebM）以及免安装软件快速搞定音视频转换。"
     },
     badge: {
-      en: "🚀 100% Free • No Watermark • Instant Convert",
-      zh: "🚀 免费使用 • 高清无水印 • 极速互转"
+      en: "🚀 100% Free • No Watermark • Fast Convert",
+      zh: "🚀 免费使用 • 高清无水印 • 快速互转"
     },
     proTip: {
       en: "💡 Pro-Tip: Select MP4 for the fastest local export. Use WebM when you specifically need browser-friendly web embeds.",
@@ -155,6 +155,16 @@ export const TOOL_PAGES = [
           en: "We support bidirectional conversion between all industry-standard containers including MP4 (H.264/H.265), WebM (VP8), MOV (Apple QuickTime), MKV, and audio formats like MP3, WAV, AAC, and Vorbis.",
           zh: "全面支持行业主流格式的互转，包括 MP4 (H.264/H.265)、WebM (VP8)、MOV (苹果 QuickTime)、MKV，以及高音质音频编码如 MP3、WAV、AAC 与 Vorbis。"
         }
+      },
+      {
+        q: {
+          en: "How long does browser video conversion take for large files?",
+          zh: "大文件在浏览器里转换大概要多久？"
+        },
+        a: {
+          en: "Processing time depends on video duration, resolution, frame rate, codec, and your CPU. As a rough browser-based estimate: a 13MB MP4 to WebM job can take around 5 minutes on some devices; 100MB WebM conversion can take 30+ minutes; 300MB may take 1-2 hours or fail because of browser memory; 500MB+ is not recommended for WebM conversion. MP4 exports and audio extraction are usually much faster.",
+          zh: "处理时间取决于视频时长、分辨率、帧率、编码复杂度和电脑 CPU。以浏览器本地处理粗略估算：13MB 的 MP4 转 WebM 在部分设备上可能约 5 分钟；100MB 转 WebM 可能 30 分钟以上；300MB 可能 1-2 小时甚至因浏览器内存失败；500MB 以上不建议做 WebM 转换。MP4 导出和音频提取通常快很多。"
+        }
       }
     ]
   },
@@ -162,36 +172,36 @@ export const TOOL_PAGES = [
     path: "/video-cutter/",
     toolId: "Trim",
     title: {
-      en: "Free Online Video Cutter - Trim & Cut MP4/MOV No Watermark",
-      zh: "在线视频剪切工具 - 免费秒剪 MP4/MOV 无水印受本机内存限制"
+      en: "Cut Video Online - Free MP4 Cutter Online & Video Trimmer",
+      zh: "在线剪切视频 - 免费 MP4 视频裁剪与剪辑器"
     },
     description: {
-      en: "Cut and trim video online for free with zero watermarks. Slice MP4, MOV, WebM, and MKV files locally with millisecond precision. Supports fast lossless stream copy.",
-      zh: "免费在线极速剪切与裁剪视频，纯净无水印！支持毫秒级精准定轨裁剪 MP4、MOV、WebM、MKV 文件。独家提供「无损流拷贝」技术，快速极速导出原始高清片断。"
+      en: "Cut video online for free with zero watermarks. Fast trim video online tool for MP4, MOV, WebM, and MKV files locally in your browser with millisecond precision.",
+      zh: "免费在线进行视频剪切，纯净无水印！支持毫秒级精准定轨裁剪 MP4、MOV、WebM、MKV 文件。提供无损流拷贝模式，快速导出原始画质片段。"
     },
     h1: {
-      en: "Free Online <span class=\"highlight\">Lossless Video Cutter</span>",
-      zh: "免费在线<span class=\"highlight\">无损视频极速剪切</span>"
+      en: "Cut Video Online - <span class=\"highlight\">Video Trimmer</span>",
+      zh: "在线剪切视频 - <span class=\"highlight\">免费视频裁剪器</span>"
     },
     seoH2: {
-      en: "Trim Videos with Millisecond Precision — Lossless Stream Copy in quickly",
-      zh: "毫秒级精准剪切视频 — 无损流拷贝 快速导出"
+      en: "Trim Video Online - Cut MP4 Online with Millisecond Precision",
+      zh: "在线剪切视频 - 快速裁剪 MP4 视频片段"
     },
     subtitle: {
-      en: "Slice out unwanted intro or outro sections with millisecond precision. Enable 'Lossless Stream Copy' mode to export trimmed clips in quickly without re-encoding quality loss!",
-      zh: "免费使用、无水印、支持超大文件！精准设定起止时间戳，秒切多余片头片尾。开启「无损流拷贝」模式，无需重新编码，快速即可极速导出原片音画质量！"
+      en: "Slice out unwanted sections with millisecond precision. Enable Lossless Stream Copy mode to export trimmed clips quickly without re-encoding quality loss.",
+      zh: "免费使用、无水印。精准设定起止时间戳，剪掉多余片头片尾。开启无损流拷贝模式后，无需重新编码，导出速度通常最快。"
     },
     intent: {
       en: "Best for removing intro/outro segments, extracting highlights, or trimming screen recordings before sharing.",
       zh: "适合快速剔除视频片头片尾、截取精彩高光片段，或在发送微信与邮件前裁剪私密录屏。"
     },
     badge: {
-      en: "✂️ 1-Sec Export • 100% Free • No Watermark",
-      zh: "✂️ 快速导出 • 免费使用 • 无水印"
+      en: "✂️ Fast Trim • 100% Free • No Watermark",
+      zh: "✂️ 快速剪切 • 免费使用 • 无水印"
     },
     proTip: {
-      en: "💡 Pro-Tip: Select 'Lossless Stream Copy' mode for instant fast exports without re-encoding quality degradation!",
-      zh: "💡 专家建议：开启「无损流拷贝」模式，无需重新编码，快速极速导出原始高清剪切片段！"
+      en: "💡 Pro-Tip: Select Lossless Stream Copy mode for the fastest trim exports without re-encoding quality degradation.",
+      zh: "💡 专家建议：开启无损流拷贝模式，无需重新编码，通常可以最快导出原始画质剪切片段。"
     },
     faqs: [
       {
@@ -200,8 +210,8 @@ export const TOOL_PAGES = [
           zh: "这款在线视频剪切软件是完全免费的吗？需要注册账号或付费订阅吗？"
         },
         a: {
-          en: "Yes, 100% completely free forever! Unlike competitor tools that limit you to 500MB or force a watermark unless you pay, HappyConvert requires no registration, no login, and no subscription fees. You can cut and trim videos immediately right in your browser without a single watermark or file size cap!",
-          zh: "100% 免费使用且无任何限制！市面上许多同类剪切软件在免费使用时限制 500MB 大小，甚至强制加上水印。无云剪打破这一惯例：不仅无需注册账号、无需登录、无需付费订阅，且受本机内存限制、导出视频绝对无水印、无排队等待，真正实现随开随切！"
+          en: "Yes, the video cutter is free to use. There is no registration required, no login needed, and no credit card or subscription fees. You can cut and trim videos directly in your browser with no watermark overlays or cloud queue times. Practical file size depends on browser memory.",
+          zh: "100% 免费使用！无需注册账号、无需登录、无需付费订阅。您可以直接在浏览器中剪切视频，导出无水印、无云端排队。实际可处理体积取决于浏览器内存。"
         }
       },
       {
@@ -210,18 +220,18 @@ export const TOOL_PAGES = [
           zh: "如何不损失清晰度地剪切和裁剪视频片段？"
         },
         a: {
-          en: "Step 1: Upload your video file. Step 2: Use the start and end time inputs or drag the time slider to select your desired clip range. Step 3: Ensure the Cutting Mode is set to 'Lossless Stream Copy'. Step 4: Click '🚀 Run Editing Task' to export your clip in under quickly with 100% original visual quality!",
-          zh: "第一步：上传待剪切的视频。第二步：在右侧输入精确的起点和终点秒数，或在下方播放器中拖动进度条确认范围。第三步：在剪切模式中确认已选择「无损流拷贝 (Lossless)」。第四步：点击首屏「🚀 开始处理」，系统将直接截取原始数据流，在快速为您导出 100% 原生高清画质片段！"
+          en: "Step 1: Upload your video file. Step 2: Use the start and end time inputs or drag the time slider to select your clip range. Step 3: Keep Cutting Mode set to Lossless Stream Copy when possible. Step 4: Click Run Editing Task to export the selected segment.",
+          zh: "第一步：上传待剪切的视频。第二步：在右侧输入起点和终点秒数，或拖动时间轴确认范围。第三步：能用时优先选择无损流拷贝。第四步：点击开始处理导出片段。"
         }
       },
       {
         q: {
           en: "What is the difference between Lossless Stream Copy and Re-encode mode?",
-          zh: "「无损流拷贝」和「重新编码」模式的区别是什么？"
+          zh: "无损流拷贝和重新编码模式的区别是什么？"
         },
         a: {
-          en: "Lossless Stream Copy directly slices video data chunks from the container without re-compressing them, resulting in lightning-fast (fast) exports with zero quality degradation. Re-encode mode recalculates every frame pixel by pixel, which takes slightly longer but guarantees compatibility across older media players.",
-          zh: "「无损流拷贝」技术会直接从原片封装流中截取数据段，不进行二次压缩，因此通常速度更快且尽量保留原始画质。「重新编码」则是重新对每一帧像素进行渲染压缩，适合需要改变分辨率或修补损坏时间戳的特殊场景。"
+          en: "Lossless Stream Copy slices video data from the existing container without recompressing frames, so it is usually much faster and preserves original quality. Re-encode mode recalculates frames, which is slower but can improve compatibility.",
+          zh: "无损流拷贝会直接从原视频封装中切出数据段，不重新压缩画面，因此通常更快并尽量保留原始画质。重新编码会重新计算帧画面，速度更慢，但兼容性更稳定。"
         }
       },
       {
@@ -230,8 +240,8 @@ export const TOOL_PAGES = [
           zh: "可以剪切 1GB 甚至 2GB 以上的超大视频文件吗？"
         },
         a: {
-          en: "Yes! Because all processing takes place locally inside your browser's WebAssembly engine, you don't have to wait hours for massive files to upload to a remote server. As long as your device has sufficient RAM, you can slice multi-gigabyte videos instantly.",
-          zh: "完全可以！因为所有的视频数据都是在您本地电脑的 WebAssembly 沙盒内存中进行读取与切分，您根本不需要将几千兆的巨型视频上传到网络服务器。只要您的电脑内存充足，多大体积的视频都能秒级响应、极速裁切！"
+          en: "Large trims can work when your device has enough memory, especially in Lossless Stream Copy mode. Browser memory still matters, so for stability we recommend keeping files under 1GB and using a desktop browser for large clips.",
+          zh: "如果设备内存充足，尤其是使用无损流拷贝模式时，大文件剪切也可以完成。但浏览器内存仍是硬限制；为保证稳定，建议 1GB 以内文件优先使用桌面浏览器处理。"
         }
       }
     ]
@@ -240,36 +250,36 @@ export const TOOL_PAGES = [
     path: "/video-compressor/",
     toolId: "Compress",
     title: {
-      en: "Free Online Video Compressor - Reduce MP4 Size No Watermark",
-      zh: "在线视频压缩工具 - 免费减小 MP4 体积无水印高清压缩"
+      en: "Compress Video Online - Free Video Size Reducer (No Watermark)",
+      zh: "在线压缩视频 - 免费减小视频文件体积"
     },
     description: {
-      en: "Compress video online for free without watermarks. Reduce MP4 and MOV file sizes by up to 80% using smart CRF bitrate control and resolution scaling for Discord, email, and WeChat.",
-      zh: "在线免费压缩视频文件，肉眼不失真且无水印！通过智能 CRF 码率调控与分辨率缩放，把 MP4/MOV 体积大幅缩减 50%~80%，完美支持微信、钉钉、Discord 和邮件发送。"
+      en: "Compress video online for free without watermarks. Reduce MP4 and MOV file sizes using smart CRF bitrate control and resolution scaling locally in your browser.",
+      zh: "在线免费压缩视频文件，画质清晰且无水印！通过智能 CRF 码率调控与分辨率缩放，把 MP4/MOV 体积大幅缩减，适合微信、钉钉、Discord 和邮件发送。"
     },
     h1: {
-      en: "Free Online <span class=\"highlight\">video compressor</span>",
-      zh: "免费在线<span class=\"highlight\">极速视频高质量压缩</span>"
+      en: "Compress Video Online - <span class=\"highlight\">Video Size Reducer</span>",
+      zh: "在线压缩视频 - <span class=\"highlight\">减小视频体积</span>"
     },
     seoH2: {
-      en: "Shrink Video Files Up to 80% While Keeping Crystal-Clear Quality",
-      zh: "视频体积缩减高达 80%，画质依然清晰锐利"
+      en: "Compress Video Online - Reduce Video File Size up to 80%",
+      zh: "在线压缩视频 - 快速减小视频文件体积"
     },
     subtitle: {
-      en: "Shrink large video files up to 80% with crisp 1080p visual clarity. Zero watermarks, no cloud queue times, and local browser processing for WhatsApp, Discord, and email.",
-      zh: "免费使用、受本机内存限制、高清无水印！采用智能 CRF 编码调控，在肉眼无法分辨差异的高清画质下，轻松把视频文件缩减 50% ~ 80%，让邮件附件与微信发帖畅通无阻！"
+      en: "Shrink large video files with crisp visual clarity. Zero watermarks, no cloud queue times, and local browser processing. For stability, we recommend files under 1GB.",
+      zh: "免费使用、受本机内存限制（推荐1GB以内）、高清无水印！采用智能 CRF 编码调控，在清晰画质下缩小视频体积，让邮件附件与微信发帖更顺畅。"
     },
     intent: {
       en: "Essential for bypassing email attachment size limits, Discord/WhatsApp upload restrictions, and saving web hosting bandwidth.",
-      zh: "完美解决邮件附件大小限制、微信/钉钉/Discord 视频发送超限以及节省硬盘与网盘存储空间。"
+      zh: "适合解决邮件附件大小限制、微信/钉钉/Discord 视频发送超限，以及节省硬盘与网盘存储空间。"
     },
     badge: {
-      en: "📉 Crisp Quality • device limits apply • Fast Compress",
-      zh: "📉 高清压缩 • 免费受本机内存限制 • 极速压缩"
+      en: "📉 High Fidelity • Device Limits Apply • Fast Compress",
+      zh: "📉 高清压缩 • 受本机限制 • 快速压缩"
     },
     proTip: {
-      en: "💡 Pro-Tip: CRF 28 (Balanced) provides the best size reduction (~60%) while maintaining crisp 1080p visual clarity on mobile devices.",
-      zh: "💡 专家建议：选择 CRF 28「平衡模式」可以在高质量的清晰度下，将 1080p 视频体积压缩约 60%。"
+      en: "💡 Pro-Tip: CRF 28 Balanced mode usually gives strong size reduction while preserving crisp 1080p visual clarity.",
+      zh: "💡 专家建议：选择 CRF 28 平衡模式，通常可以在保持 1080p 清晰度的同时明显减小体积。"
     },
     faqs: [
       {
@@ -279,47 +289,47 @@ export const TOOL_PAGES = [
         },
         a: {
           en: "Yes, the video compressor is free to use. There is no registration required, no login needed, and no credit card or subscription fees. You can compress videos directly in your browser, with no watermark overlays or cloud queue times. Practical file size depends on your browser memory.",
-          zh: "100% 免费使用！不仅没有任何收费门槛，更郑重承诺：无需注册账号、无需登录、无需绑定信用卡！您只要打开网页即可立刻使用专业的视频压缩功能。所有导出的 MP4/MOV 视频纯净无水印、不限转换次数与文件体积、无排队等待，依靠浏览器本地引擎极速完成，随开随用！"
+          zh: "100% 免费使用！无需注册账号、无需登录、无需绑定信用卡。您可以直接在浏览器中压缩视频，导出的 MP4/MOV 视频纯净无水印、无云端排队；实际可处理体积取决于浏览器内存。"
         }
       },
       {
         q: {
           en: "How do I compress a video file without getting a blurry result?",
-          zh: "如何把视频文件压缩得特别小，同时又保证画面不模糊、不马赛克？"
+          zh: "如何把视频文件压缩得更小，同时又保证画面不模糊？"
         },
         a: {
-          en: "Step 1: Upload your video file. Step 2: In the right-hand options panel, click the '⚖️ Balanced (CRF 28)' compression tier card. Step 3: (Optional) If your video is 4K, set Resolution Scaling to 1080p or 720p. Step 4: Click '🚀 Run Editing Task' to shrink your file by ~60% with crisp visual quality!",
-          zh: "第一步：上传原视频。第二步：在右侧控制台中选择「⚖️ 平衡模式 (CRF 28)」智能调控卡片，该模式能在高质量的情况下大幅剔除冗余数据。第三步：（可选）如果原片是 4K 巨型分辨率，可将其缩放到 1080p 或 720p。第四步：点击首屏「🚀 开始处理」，立刻获得体积缩减 60% 以上的高清成片！"
+          en: "Step 1: Upload your video file. Step 2: Choose a balanced compression tier. Step 3: If your video is 4K, scale it down to 1080p or 720p. Step 4: Click Run Editing Task to export the compressed MP4.",
+          zh: "第一步：上传原视频。第二步：选择平衡压缩档位。第三步：如果原片是 4K，可缩放到 1080p 或 720p。第四步：点击开始处理导出压缩后的 MP4。"
         }
       },
       {
         q: {
-          en: "Why is CRF (Constant Rate Factor) better than fixed bitrate compression?",
+          en: "Why is CRF better than fixed bitrate compression?",
           zh: "为什么 CRF 智能压缩比传统固定码率压缩更好？"
         },
         a: {
-          en: "Old-school compressors force a fixed bitrate across the entire video, wasting space on static scenes and causing pixelation during high-motion action. Our smart CRF encoder analyzes motion dynamic complexity frame by frame, allocating high bitrate to complex moving details and saving space on still areas.",
-          zh: "传统的压缩工具只会强制设定一个固定码率，这会导致平缓静止的画面浪费大量空间，而激烈运动的画面却因码率不足出现严重马赛克。我们内置的 CRF 智能算法会对每帧动态复杂度进行智能演算，在细节丰富的场景投入码率保证清晰，在静止场景大幅扣减码率，实现画质与体积的绝佳平衡。"
+          en: "Fixed bitrate compression spends the same bitrate across easy and complex scenes. CRF adjusts quality based on frame complexity, saving space on simple shots and preserving more detail in motion-heavy scenes.",
+          zh: "固定码率会给简单画面和复杂画面分配同样码率，容易浪费空间或损失细节。CRF 会根据画面复杂度动态控制质量，在简单场景节省体积，在运动场景保留更多细节。"
         }
       },
       {
         q: {
           en: "Is there any watermark or file size limit when compressing large videos?",
-          zh: "压缩几十兆甚至上百兆的视频时，会有文件限制或者加水印吗？"
+          zh: "压缩大容量视频时，会有文件限制或者加水印吗？"
         },
         a: {
-          en: "None at all! HappyConvert allows you to compress videos of any size completely free of charge. We never insert watermarks, logos, or artificial time limits into your compressed MP4 files.",
-          zh: "完全没有！无云剪不仅免费使用，更承诺不对文件体积做任何限制。无论您压缩几十兆还是大几百兆的视频，导出的 MP4 文件都绝对干净纯粹，无任何水印或收费陷阱。"
+          en: "HappyConvert never inserts watermarks, logos, or artificial time limits. Actual capacity is limited by browser memory, so large files are best handled on a desktop browser and we recommend files under 1GB for stability.",
+          zh: "HappyConvert 不会添加任何水印、Logo 或人为时长限制。实际能力受浏览器内存限制；大文件建议使用桌面浏览器，为保证稳定推荐 1GB 以内。"
         }
       },
       {
         q: {
           en: "Is my video file private? Will it be stored on your servers?",
-          zh: "压缩我的私密录像或商业宣讲视频安全吗？会被保存至云服务器吗？"
+          zh: "压缩我的私密录像或商业宣讲视频安全吗？"
         },
         a: {
-          en: "Your videos are 100% private and secure! Unlike cloud compression services that store your personal files on remote servers, our tool runs locally in your web browser using WebAssembly. Your videos never leave your machine.",
-          zh: "绝对安全保密！市场上大多数压缩网站都需要将您的商业机密或家庭录像上传到云端服务器，存在严重的泄露隐患。而我们的工具依靠浏览器本地 WebAssembly 沙盒运行，视频全程只在您电脑内存中流转，零数据外发，绝无泄露可能。"
+          en: "Your videos are private. The compression runs locally in your web browser using WebAssembly, so your videos never leave your machine for processing.",
+          zh: "您的视频是私密的。压缩过程通过 WebAssembly 在浏览器本地运行，视频不会为了处理而离开您的电脑。"
         }
       }
     ]

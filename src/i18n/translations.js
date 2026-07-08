@@ -153,8 +153,8 @@ logWasmSuccess: "FFmpeg WASM environment initialized successfully. Local compute
     // Marketing Feature cards
     mCardTitle1: "100% Privacy Protected",
     mCardDesc1: "Unlike traditional online video converters, your files never leave your device. All rendering, slicing, cropping, and transcoding happens directly in your browser's sandboxed Memory via WebAssembly (WASM).",
-    mCardTitle2: "Zero File Size Limits",
-    mCardDesc2: "No premium subscriptions or compression queue caps. Since computations are executed by your local CPU, you can transcode large gigabyte-sized files offline without uploading a single byte to external servers.",
+    mCardTitle2: "No Cloud Queue Limits",
+    mCardDesc2: "No premium subscriptions or server queue limits. Since computations are executed on your local CPU, you can transcode large files offline without uploading a single byte to external servers (recommended under 1GB for browser stability).",
     mCardTitle3: "Developer Grade Controls",
     mCardDesc3: "Powered by standard FFmpeg. You get granular control over container types, bitrates, quality scores (CRF), audio extractions, and a raw console command input box to type custom terminal scripts.",
 
@@ -352,23 +352,23 @@ logWasmSuccess: "FFmpeg WASM 环境初始化成功！本地硬件加速计算已
     // Marketing Feature cards
     mCardTitle1: "100% 隐私安全保障",
     mCardDesc1: "区别于传统在线音视频转换网站，您的文件永远不需要上传到任何云端服务器。所有剪辑、画面裁剪、压缩和转码渲染全在浏览器沙盒内存中通过 WebAssembly (WASM) 本地运算完成。",
-    mCardTitle2: "突破文件体积限制",
-    mCardDesc2: "无需付费订阅，没有上传限制。因为所有处理都运行在您本机的 CPU 上，即使导入数 GB 的超大视频也可以本地秒级处理，不消耗任何上传网络流量。",
+    mCardTitle2: "免云端排队与体积限制",
+    mCardDesc2: "无需付费订阅，没有上传限制。因为所有处理都运行在您本机的 CPU 上，即使导入大体积视频也可以直接在本地极速转换，不消耗任何上传流量（为保证浏览器稳定性，推荐 1GB 以内视频）。",
     mCardTitle3: "专业级极客参数控制",
     mCardDesc3: "基于标准 FFmpeg 封装。支持控制封装容器、视频分辨率缩放、视觉损失 CRF、音频剥离以及原始 FFmpeg 命令行参数自定义输入，让资深级极客用户也能游刃有余。",
 
     // FAQ Section
     faqTitle: "常见问题解答",
-    faqQ1: "使用无云剪工作室是完全免费的吗？需要注册账号或付费订阅吗？",
+    faqQ1: "使用 HappyConvert 是完全免费的吗？需要注册账号或付费订阅吗？",
     faqA1_1: "100% 永久免费！不仅没有任何收费门槛，更郑重承诺：无需注册账号、无需登录、无需绑定信用卡！您只要打开网页即可立刻使用全部专业音频与视频处理功能。",
-    faqA1_2: "所有导出的视频或音频纯净无水印、不限转换次数与文件体积、无排队等待时间。我们仅通过页面底部的非侵入式广告维持服务器运行，让您真正实现随开随用！",
+    faqA1_2: "所有导出的视频或音频纯净无水印、不限转换次数与文件体积、无排队等待时间（实际文件限制取决于浏览器内存）。我们仅通过页面底部的非侵入式广告维持服务器运行，让您真正实现随开随用！",
     
-    faqQ2: "无云剪工作室真的安全保密吗？视频会上传到云服务器吗？",
+    faqQ2: "HappyConvert 真的安全保密吗？视频会上传到云服务器吗？",
     faqA2_1: "绝对安全保密！传统转换网站需要把您的私人视频上传到云端服务器，存在严重的数据泄露隐患和隐私风险。",
-    faqA2_2: "无云剪利用前沿的 WebAssembly 技术将 FFmpeg 媒体引擎直接装载在您的浏览器本地。所有的读取、转码与保存操作全程只在您本机的 CPU 与内存中闭环运行 — 视频绝不会离开您的电脑！",
+    faqA2_2: "HappyConvert 利用前沿的 WebAssembly 技术将 FFmpeg 媒体引擎直接装载在您的浏览器本地。所有的读取、转码与保存操作全程只在您本机的 CPU 与内存中闭环运行 — 视频绝不会离开您的电脑！",
     
     faqQ3: "系统支持哪些音频和视频格式的导入与导出？",
-    faqA3_1: "得益于 FFmpeg 强大的封装支持，无云剪几乎可以读取市面上所有的主流媒体格式，包括 MP4、WebM、MOV、MKV、AVI、FLV、MP3、WAV、M4A 与 OGG 等。",
+    faqA3_1: "得益于 FFmpeg 强大的封装支持，HappyConvert 几乎可以读取市面上所有的主流媒体格式，包括 MP4、WebM、MOV、MKV、AVI、FLV、MP3、WAV、M4A 与 OGG 等。",
     faqA3_2: "在导出时，您可以将其转为网页兼容性极佳的 MP4 (H.264)、WebM (VP8)、MOV、高清流畅的 GIF 动画、通用 MP3 音频或无损母带级 WAV 音频。",
 
     faqQ4: "为什么首次加载处理引擎需要一点时间？",
@@ -376,7 +376,7 @@ logWasmSuccess: "FFmpeg WASM 环境初始化成功！本地硬件加速计算已
     faqA4_2: "但请放心，一旦加载成功，浏览器会自动将其放入本地缓存。以后再访问时均是瞬时秒开，即使断开网络在离线状态下也依旧可以正常转码！",
 
     faqQ5: "可以在手机、平板或 iPad 上流畅使用吗？",
-    faqA5_1: "可以！无云剪采用了现代响应式自适应布局。只要您在 iPhone、iPad 或 Android 设备上的 Chrome、Safari、Edge 等主流浏览器中打开，即可获得同样流畅便捷的触屏修图与转码体验！",
+    faqA5_1: "可以！HappyConvert 采用了现代响应式自适应布局。只要您在 iPhone、iPad 或 Android 设备上的 Chrome、Safari、Edge 等主流浏览器中打开，即可获得同样流畅便捷的触屏修图与转码体验！",
 
     // Help Text Tab
     helpTitle: "核心工作室功能指南：",

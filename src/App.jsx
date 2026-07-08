@@ -2350,6 +2350,24 @@ export default function App() {
                       </button>
                     </div>
                   </div>
+                  <div className="conversion-estimate-note">
+                    <div className="conversion-estimate-note-title">
+                      {lang === "zh" ? "⏱️ 浏览器本地转码耗时参考" : "⏱️ Browser conversion time estimate"}
+                    </div>
+                    <div className="conversion-estimate-grid">
+                      <span>{lang === "zh" ? "13MB WebM" : "13MB WebM"}</span>
+                      <strong>{lang === "zh" ? "约 5 分钟" : "~5 min"}</strong>
+                      <span>{lang === "zh" ? "100MB WebM" : "100MB WebM"}</span>
+                      <strong>{lang === "zh" ? "30 分钟以上" : "30+ min"}</strong>
+                      <span>{lang === "zh" ? "300MB WebM" : "300MB WebM"}</span>
+                      <strong>{lang === "zh" ? "1-2 小时或失败" : "1-2h or may fail"}</strong>
+                    </div>
+                    <p>
+                      {lang === "zh"
+                        ? "几百 MB 视频不建议在浏览器里转 WebM；如需通用下载播放，请优先导出 MP4。"
+                        : "For hundreds of MBs, browser WebM conversion is not recommended. Export MP4 for faster, universal local playback."}
+                    </p>
+                  </div>
                   <div className="setting-group">
                     <label>
                       {t("compQuality")}
