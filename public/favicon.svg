@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient: Cyberpunk Indigo to Magenta -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="40%" stop-color="#7c3aed" />
+      <stop offset="80%" stop-color="#d946ef" />
+      <stop offset="100%" stop-color="#f43f5e" />
+    </linearGradient>
+
+    <!-- Center Play/Convert Arrow Gradient: Electric Cyan to Neon Teal -->
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="100%" stop-color="#4facfe" />
+    </linearGradient>
+
+    <!-- Glassmorphic Top Highlight -->
+    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.0" />
+    </linearGradient>
+
+    <!-- Drop Shadows and Glow Filters -->
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.35" />
+    </filter>
+
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 1. Rounded Squircle Background -->
+  <rect x="24" y="24" width="464" height="464" rx="136" fill="url(#bgGrad)" filter="url(#dropShadow)" />
+
+  <!-- 2. Glassmorphism Top Highlight Overlay -->
+  <path d="M 24 160 C 24 84 84 24 160 24 L 352 24 C 428 24 488 84 488 160 L 488 256 L 24 256 Z" fill="url(#glassGrad)" />
+
+  <!-- 3. The Stylized "H" Emblem & Play Convert Prism -->
+  <g filter="url(#dropShadow)">
+    <!-- Left Stem of H -->
+    <rect x="132" y="136" width="68" height="240" rx="34" fill="#ffffff" />
+
+    <!-- Right Stem of H -->
+    <rect x="312" y="136" width="68" height="240" rx="34" fill="#ffffff" />
+
+    <!-- Center Play Triangle (The Convert Arrow linking the H stems) -->
+    <path d="M 180 186 L 338 256 L 180 326 Z" fill="url(#cyanGrad)" />
+  </g>
+
+  <!-- 4. Cyberpunk Neon Sparkles -->
+  <!-- Top Right Star -->
+  <path d="M 388 86 Q 388 118 420 118 Q 388 118 388 150 Q 388 118 356 118 Q 388 118 388 86 Z" fill="#00f2fe" filter="url(#glow)" />
+  
+  <!-- Bottom Left Star -->
+  <path d="M 116 364 Q 116 386 138 386 Q 116 386 116 408 Q 116 386 94 386 Q 116 386 116 364 Z" fill="#ff758c" fill-opacity="0.9" filter="url(#glow)" />
+
+  <!-- Small Accent Dot -->
+  <circle cx="396" cy="360" r="12" fill="#ffffff" fill-opacity="0.6" />
+</svg>

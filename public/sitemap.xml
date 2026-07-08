@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- / (Home/Convert) -->
+  <url>
+    <loc>https://happyconvert.app/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/"/>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://happyconvert.app/zh/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/"/>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- /video-converter/ -->
+  <url>
+    <loc>https://happyconvert.app/video-converter/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/video-converter/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/video-converter/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/video-converter/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://happyconvert.app/zh/video-converter/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/video-converter/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/video-converter/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/video-converter/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- /video-cutter/ -->
+  <url>
+    <loc>https://happyconvert.app/video-cutter/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/video-cutter/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/video-cutter/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/video-cutter/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://happyconvert.app/zh/video-cutter/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/video-cutter/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/video-cutter/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/video-cutter/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- /video-compressor/ -->
+  <url>
+    <loc>https://happyconvert.app/video-compressor/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/video-compressor/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/video-compressor/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/video-compressor/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://happyconvert.app/zh/video-compressor/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/video-compressor/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/video-compressor/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/video-compressor/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- /video-to-gif/ -->
+  <url>
+    <loc>https://happyconvert.app/video-to-gif/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/video-to-gif/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/video-to-gif/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/video-to-gif/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://happyconvert.app/zh/video-to-gif/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/video-to-gif/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/video-to-gif/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/video-to-gif/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- /extract-audio/ -->
+  <url>
+    <loc>https://happyconvert.app/extract-audio/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/extract-audio/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/extract-audio/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/extract-audio/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://happyconvert.app/zh/extract-audio/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/extract-audio/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/extract-audio/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/extract-audio/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- /crop-video/ -->
+  <url>
+    <loc>https://happyconvert.app/crop-video/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/crop-video/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/crop-video/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/crop-video/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://happyconvert.app/zh/crop-video/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/crop-video/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/crop-video/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/crop-video/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- /about/ -->
+  <url>
+    <loc>https://happyconvert.app/about/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/about/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/about/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://happyconvert.app/zh/about/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/about/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/about/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- /privacy/ -->
+  <url>
+    <loc>https://happyconvert.app/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/privacy/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://happyconvert.app/zh/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/privacy/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- /terms/ -->
+  <url>
+    <loc>https://happyconvert.app/terms/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/terms/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/terms/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://happyconvert.app/zh/terms/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/terms/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/terms/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/terms/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- /blog/ -->
+  <url>
+    <loc>https://happyconvert.app/blog/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/blog/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/blog/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/blog/"/>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://happyconvert.app/zh/blog/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/blog/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/blog/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/blog/"/>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- /blog/compress-video-for-discord/ -->
+  <url>
+    <loc>https://happyconvert.app/blog/compress-video-for-discord/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/blog/compress-video-for-discord/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/blog/compress-video-for-discord/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/blog/compress-video-for-discord/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://happyconvert.app/zh/blog/compress-video-for-discord/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/blog/compress-video-for-discord/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/blog/compress-video-for-discord/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/blog/compress-video-for-discord/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- /blog/ffmpeg-wasm-vs-cloud-converters/ -->
+  <url>
+    <loc>https://happyconvert.app/blog/ffmpeg-wasm-vs-cloud-converters/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/blog/ffmpeg-wasm-vs-cloud-converters/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/blog/ffmpeg-wasm-vs-cloud-converters/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/blog/ffmpeg-wasm-vs-cloud-converters/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://happyconvert.app/zh/blog/ffmpeg-wasm-vs-cloud-converters/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/blog/ffmpeg-wasm-vs-cloud-converters/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/blog/ffmpeg-wasm-vs-cloud-converters/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/blog/ffmpeg-wasm-vs-cloud-converters/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- /blog/iphone-mov-to-mp4-guide/ -->
+  <url>
+    <loc>https://happyconvert.app/blog/iphone-mov-to-mp4-guide/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/blog/iphone-mov-to-mp4-guide/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/blog/iphone-mov-to-mp4-guide/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/blog/iphone-mov-to-mp4-guide/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://happyconvert.app/zh/blog/iphone-mov-to-mp4-guide/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/blog/iphone-mov-to-mp4-guide/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/blog/iphone-mov-to-mp4-guide/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/blog/iphone-mov-to-mp4-guide/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- /blog/extract-mp3-audio-from-video/ -->
+  <url>
+    <loc>https://happyconvert.app/blog/extract-mp3-audio-from-video/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/blog/extract-mp3-audio-from-video/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/blog/extract-mp3-audio-from-video/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/blog/extract-mp3-audio-from-video/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://happyconvert.app/zh/blog/extract-mp3-audio-from-video/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://happyconvert.app/blog/extract-mp3-audio-from-video/"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://happyconvert.app/zh/blog/extract-mp3-audio-from-video/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://happyconvert.app/blog/extract-mp3-audio-from-video/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>

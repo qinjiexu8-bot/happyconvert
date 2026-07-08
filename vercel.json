@@ -1,0 +1,46 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/video-converter", "destination": "/video-converter/", "permanent": true },
+    { "source": "/video-cutter", "destination": "/video-cutter/", "permanent": true },
+    { "source": "/video-compressor", "destination": "/video-compressor/", "permanent": true },
+    { "source": "/video-to-gif", "destination": "/video-to-gif/", "permanent": true },
+    { "source": "/extract-audio", "destination": "/extract-audio/", "permanent": true },
+    { "source": "/crop-video", "destination": "/crop-video/", "permanent": true },
+    { "source": "/how-to-use", "destination": "/how-to-use/", "permanent": true },
+    { "source": "/about", "destination": "/about/", "permanent": true },
+    { "source": "/privacy", "destination": "/privacy/", "permanent": true },
+    { "source": "/terms", "destination": "/terms/", "permanent": true },
+    { "source": "/blog", "destination": "/blog/", "permanent": true },
+    { "source": "/zh", "destination": "/zh/", "permanent": true },
+    { "source": "/zh/video-converter", "destination": "/zh/video-converter/", "permanent": true },
+    { "source": "/zh/video-cutter", "destination": "/zh/video-cutter/", "permanent": true },
+    { "source": "/zh/video-compressor", "destination": "/zh/video-compressor/", "permanent": true },
+    { "source": "/zh/video-to-gif", "destination": "/zh/video-to-gif/", "permanent": true },
+    { "source": "/zh/extract-audio", "destination": "/zh/extract-audio/", "permanent": true },
+    { "source": "/zh/crop-video", "destination": "/zh/crop-video/", "permanent": true },
+    { "source": "/zh/how-to-use", "destination": "/zh/how-to-use/", "permanent": true },
+    { "source": "/zh/about", "destination": "/zh/about/", "permanent": true },
+    { "source": "/zh/privacy", "destination": "/zh/privacy/", "permanent": true },
+    { "source": "/zh/terms", "destination": "/zh/terms/", "permanent": true },
+    { "source": "/zh/blog", "destination": "/zh/blog/", "permanent": true },
+    { "source": "/en", "destination": "/", "permanent": true },
+    { "source": "/en/:path*", "destination": "/:path*", "permanent": true }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" },
+        { "key": "Cross-Origin-Embedder-Policy", "value": "credentialless" },
+        { "key": "Cross-Origin-Resource-Policy", "value": "cross-origin" }
+      ]
+    },
+    {
+      "source": "/(.*).wasm",
+      "headers": [
+        { "key": "Content-Type", "value": "application/wasm" }
+      ]
+    }
+  ]
+}
