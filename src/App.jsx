@@ -1396,9 +1396,9 @@ export default function App() {
                       HappyConvert 的媒体处理在浏览器本地执行，文件不会被主动上传到服务器。实际可处理的文件大小取决于您的设备内存、浏览器 WebAssembly 限制和视频编码复杂度。处理重要素材前，请保留原始文件备份。
                     </p>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "24px" }}>
-                      <button className="studio-btn studio-btn-primary" onClick={() => navigateToPath("/video-cutter/")}>打开视频剪切</button>
-                      <button className="studio-btn" onClick={() => navigateToPath("/video-converter/")}>打开视频转换</button>
-                      <button className="studio-btn" onClick={() => navigateToPath("/video-compressor/")}>打开视频压缩</button>
+                      <button className="studio-btn studio-btn-primary" onClick={() => navigateToPath("/cut-video/")}>打开视频剪切</button>
+                      <button className="studio-btn" onClick={() => navigateToPath("/convert-video/")}>打开视频转换</button>
+                      <button className="studio-btn" onClick={() => navigateToPath("/compress-video/")}>打开视频压缩</button>
                     </div>
                   </>
                 ) : (
@@ -1432,9 +1432,9 @@ export default function App() {
                       HappyConvert processes media locally in your browser. Files are not actively uploaded to a server for processing. The practical file size depends on your device memory, browser WebAssembly limits, and video codec complexity. Keep a backup of important source files before heavy edits.
                     </p>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "24px" }}>
-                      <button className="studio-btn studio-btn-primary" onClick={() => navigateToPath("/video-cutter/")}>Open Video Cutter</button>
-                      <button className="studio-btn" onClick={() => navigateToPath("/video-converter/")}>Open Video Converter</button>
-                      <button className="studio-btn" onClick={() => navigateToPath("/video-compressor/")}>Open Video Compressor</button>
+                      <button className="studio-btn studio-btn-primary" onClick={() => navigateToPath("/cut-video/")}>Open Video Cutter</button>
+                      <button className="studio-btn" onClick={() => navigateToPath("/convert-video/")}>Open Video Converter</button>
+                      <button className="studio-btn" onClick={() => navigateToPath("/compress-video/")}>Open Video Compressor</button>
                     </div>
                   </>
                 )

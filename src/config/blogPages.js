@@ -25,7 +25,7 @@ export const BLOG_PAGES = [
     category: { en: "Tutorials", zh: "实战教程" },
     readTime: { en: "5 min read", zh: "5 分钟阅读" },
     date: { en: "July 8, 2026", zh: "2026年7月8日" },
-    toolLink: "/video-compressor/",
+    toolLink: "/compress-video/",
     toolName: { en: "Free Video Compressor", zh: "免费在线视频压缩工具" },
     content: [
       {
@@ -116,7 +116,7 @@ export const BLOG_PAGES = [
     category: { en: "Tech & Privacy", zh: "技术与安全" },
     readTime: { en: "6 min read", zh: "6 分钟阅读" },
     date: { en: "July 5, 2026", zh: "2026年7月5日" },
-    toolLink: "/video-converter/",
+    toolLink: "/convert-video/",
     toolName: { en: "Free Video Converter", zh: "免费视频格式转换器" },
     content: [
       {
@@ -187,7 +187,7 @@ export const BLOG_PAGES = [
     category: { en: "Troubleshooting", zh: "问题解答" },
     readTime: { en: "4 min read", zh: "4 分钟阅读" },
     date: { en: "July 2, 2026", zh: "2026年7月2日" },
-    toolLink: "/video-converter/",
+    toolLink: "/convert-video/",
     toolName: { en: "MOV to MP4 Converter", zh: "MOV 转 MP4 转换器" },
     content: [
       {
@@ -246,8 +246,8 @@ export const BLOG_PAGES = [
     category: { en: "Audio Guides", zh: "音频技巧" },
     readTime: { en: "4 min read", zh: "4 分钟阅读" },
     date: { en: "June 28, 2026", zh: "2026年6月28日" },
-    toolLink: "/extract-audio/",
-    toolName: { en: "Free Audio Extractor", zh: "免费音频提取工具" },
+    toolLink: "/video-to-audio/",
+    toolName: { en: "Free Video to Audio Converter", zh: "免费视频转音频工具" },
     content: [
       {
         h2: {

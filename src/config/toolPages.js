@@ -81,7 +81,7 @@ export const DEFAULT_PAGE = {
 
 export const TOOL_PAGES = [
   {
-    path: "/video-converter/",
+    path: "/convert-video/",
     toolId: "Convert",
     title: {
       en: "Convert Video Online - Free MP4 Converter Online (No Watermark)",
@@ -169,7 +169,7 @@ export const TOOL_PAGES = [
     ]
   },
   {
-    path: "/video-cutter/",
+    path: "/cut-video/",
     toolId: "Trim",
     title: {
       en: "Cut Video Online - Free MP4 Cutter Online & Video Trimmer",
@@ -247,7 +247,7 @@ export const TOOL_PAGES = [
     ]
   },
   {
-    path: "/video-compressor/",
+    path: "/compress-video/",
     toolId: "Compress",
     title: {
       en: "Compress Video Online - Free Video Size Reducer (No Watermark)",
@@ -413,27 +413,27 @@ export const TOOL_PAGES = [
     ]
   },
   {
-    path: "/extract-audio/",
+    path: "/video-to-audio/",
     toolId: "Extract Audio",
     title: {
-      en: "Free Online Extract Audio From Video - Convert MP4 to MP3/WAV",
-      zh: "在线视频提取音频 - 免费导出高音质 MP3/WAV 纯音频无水印"
+      en: "Video to Audio Converter Online - Extract MP3/WAV Free",
+      zh: "视频转音频工具 - 免费导出高音质 MP3/WAV"
     },
     description: {
-      en: "Extract MP3 or lossless WAV audio from video online for free with zero watermarks. Convert MP4, MOV, WebM videos into pristine 320kbps audio tracks locally in your browser.",
-      zh: "免费在线从视频中提取 MP3 或无损 WAV 音频，纯净无水印！在浏览器本地把 MP4、MOV、WebM 视频一键分离导出为 320kbps 极品音质纯音轨，无需上传服务器。"
+      en: "Convert video to audio online for free. Extract MP3 or lossless WAV from MP4, MOV, and WebM videos locally in your browser with zero watermarks.",
+      zh: "免费在线视频转音频，从 MP4、MOV、WebM 视频中提取 MP3 或无损 WAV。浏览器本地处理，无水印，无需上传服务器。"
     },
     h1: {
-      en: "Free Online <span class=\"highlight\">Extract MP3 & WAV Audio</span>",
-      zh: "免费在线<span class=\"highlight\">提取无损 MP3/WAV 音频</span>"
+      en: "Free Online <span class=\"highlight\">Video to Audio Converter</span>",
+      zh: "免费在线<span class=\"highlight\">视频转音频工具</span>"
     },
     seoH2: {
-      en: "Strip Audio Tracks from Any Video — Export 320kbps MP3 or Lossless WAV",
-      zh: "从任意视频中分离音轨 — 导出 320kbps MP3 或无损 WAV"
+      en: "Convert Video to MP3 or WAV in Your Browser",
+      zh: "在浏览器中将视频转换为 MP3 或 WAV"
     },
     subtitle: {
-      en: "Strip out background music, voice notes, lectures, and podcast audio tracks from any video container. Export pristine 320kbps MP3s or uncompressed WAV PCM files instantly.",
-      zh: "免费使用、无水印、秒级剥离音轨！一键从任何视频中精准分离背景音乐、人声对话、讲座与播客录音。支持导出 320kbps 发烧级高保真 MP3 或未压缩的母带级 WAV 格式。"
+      en: "Turn videos into clean audio files. Extract background music, voice notes, lectures, and podcast audio as 320kbps MP3 or uncompressed WAV.",
+      zh: "将视频转换为干净的音频文件。一键提取背景音乐、人声、课程录音和播客音轨，支持 320kbps MP3 或未压缩 WAV。"
     },
     intent: {
       en: "Essential for podcasters, video editors, language learners, and musicians looking to save background tracks from videos.",
