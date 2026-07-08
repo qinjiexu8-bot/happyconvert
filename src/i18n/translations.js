@@ -162,7 +162,7 @@ logWasmSuccess: "FFmpeg WASM environment initialized successfully. Local compute
     faqTitle: "Frequently Asked Questions",
     faqQ1: "Is HappyConvert completely free to use? Do I need to register an account or pay?",
     faqA1_1: "Yes, 100% completely free forever! There is no registration required, no login needed, and no credit card or subscription fees. You can use all professional video and audio tools immediately right in your browser.",
-    faqA1_2: "All exported files are completely watermark-free without file size limits, daily caps, or queue times. We monetize solely through non-intrusive advertising.",
+    faqA1_2: "All exported files are watermark-free, with no cloud queue times. Practical file size depends on your browser and device memory. We monetize solely through non-intrusive advertising.",
     
     faqQ2: "Is HappyConvert really safe and private to use?",
     faqA2_1: "Yes, absolutely. Your security is our highest priority. Traditional sites require you to upload private video recordings to their clouds, creating massive security and privacy risks.",

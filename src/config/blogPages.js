@@ -166,7 +166,7 @@ export const BLOG_PAGES = [
             zh: "正因为每一次视频转码、裁剪和压缩重渲染，都是由用户本机的电脑硬件在本地浏览器 RAM 中高效承担，我们完全不需要承担动辄每年数百万美元的云端 GPU/CPU 服务器计算与带宽账单。这种底层架构的降维打击，是我们最为坚固的技术护城河。"
           },
           {
-            en: "We pass 100% of these savings directly to you. HappyConvert will always remain 100% free, without registration barriers, with browser memory limits, and without watermarks. Experience the blazing speed of local WebAssembly conversion today!",
+            en: "We pass those infrastructure savings directly to users. HappyConvert stays free to use, without registration barriers, watermark overlays, or cloud queue times. Practical file size depends on your browser and device memory.",
             zh: "我们将节约下来的全部服务器运维成本，100% 回馈给全球创作者。无云剪工作室承诺免费使用开放，不需要注册登录，不设文件大小上限，绝对不添加任何商业水印。立刻点击下方体验 WebAssembly 带来的极速转码革命！"
           }
         ]

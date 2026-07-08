@@ -8,7 +8,7 @@ export const DEFAULT_PAGE = {
     zh: "HappyConvert 快乐转码 - 免费在线视频剪辑、转码与压缩工作室"
   },
   description: {
-    en: "Free browser-based video editing suite. Cut, compress, convert, crop videos and extract audio locally with WebAssembly. No uploads, no watermarks, subject to browser memory limits.",
+    en: "Free browser-based video editing suite. Cut, compress, convert, crop videos and extract audio locally with WebAssembly. No uploads, no watermarks, and no cloud queues; practical limits depend on your browser memory.",
     zh: "免费浏览器端视频编辑套件。在本地使用 WebAssembly 剪切、压缩、转码、裁切视频并提取音频。无需上传、无水印、受本机内存限制。"
   },
   h1: {
@@ -42,7 +42,7 @@ export const DEFAULT_PAGE = {
         zh: "无云剪工作室是完全免费的吗？需要注册账号或付费订阅吗？"
       },
       a: {
-        en: "Yes, 100% completely free forever! There is no registration required, no login needed, and no credit card or subscription fees. You can use all professional video and audio tools immediately right in your browser. All exported files are completely watermark-free with browser memory limits or queue times!",
+        en: "Yes, HappyConvert is free to use. There is no registration required, no login needed, and no credit card or subscription fees. You can use the video and audio tools directly in your browser. Exports are watermark-free, with no cloud queue times; practical file size depends on your browser memory.",
         zh: "100% 免费使用！不仅没有任何收费门槛，更郑重承诺：无需注册账号、无需登录、无需绑定信用卡！您只要打开网页即可立刻使用全部专业音频与视频处理工具。导出的所有媒体文件纯净无水印、无文件大小限制、无排队等待，依靠浏览器本地引擎极速完成，随开随用！"
       }
     },
@@ -88,7 +88,7 @@ export const TOOL_PAGES = [
       zh: "在线视频格式转换 - 免费极速 MP4/MOV/MKV 转换无水印不限大小"
     },
     description: {
-      en: "Convert video formats online for free with zero watermarks and subject to browser memory limits. Fast conversion between MP4, WebM, MOV, MKV, and audio using browser WebAssembly.",
+      en: "Convert video formats online for free with zero watermarks and no cloud queue times. Fast conversion between MP4, WebM, MOV, MKV, and audio using browser WebAssembly; practical limits depend on your browser memory.",
       zh: "免费在线转换视频格式，无水印且受本机内存限制。极速互转 MP4、WebM、MOV、MKV 和音频格式。在浏览器本地直接处理，无需下载安装软件。"
     },
     h1: {
@@ -256,7 +256,7 @@ export const TOOL_PAGES = [
       zh: "视频体积缩减高达 80%，画质依然清晰锐利"
     },
     subtitle: {
-      en: "Shrink massive video files up to 80% with crisp 1080p visual clarity. Zero watermarks, subject to browser memory limits, and fast local browser processing for WhatsApp, Discord, and email.",
+      en: "Shrink large video files up to 80% with crisp 1080p visual clarity. Zero watermarks, no cloud queue times, and local browser processing for WhatsApp, Discord, and email.",
       zh: "免费使用、受本机内存限制、高清无水印！采用智能 CRF 编码调控，在肉眼无法分辨差异的高清画质下，轻松把视频文件缩减 50% ~ 80%，让邮件附件与微信发帖畅通无阻！"
     },
     intent: {
@@ -444,7 +444,7 @@ export const TOOL_PAGES = [
           zh: "在线视频提取音频是完全免费的吗？需要注册账号或付费订阅吗？"
         },
         a: {
-          en: "Yes, 100% completely free forever! There is no registration required, no login needed, and no subscription fees. You can strip audio tracks from videos immediately right in your browser. All exported MP3 (up to 320kbps) and WAV files are completely watermark-free with browser memory limits!",
+          en: "Yes, the audio extractor is free to use. There is no registration required, no login needed, and no subscription fees. You can strip audio tracks from videos directly in your browser. Exported MP3 and WAV files are watermark-free; practical file size depends on your browser memory.",
           zh: "100% 免费使用！不仅没有任何收费门槛，更郑重承诺：无需注册账号、无需登录、无需付费订阅！您打开网页即可立刻将视频声音分离为高音质 MP3 或无损 WAV 纯音轨。导出的音频绝对纯净无水印提示音、受本机内存限制与时长，随开随用！"
         }
       },
@@ -532,7 +532,7 @@ export const TOOL_PAGES = [
           zh: "在线视频画面裁切是完全免费的吗？需要注册账号或付费订阅吗？"
         },
         a: {
-          en: "Yes, 100% completely free forever! There is no registration required, no login needed, and no subscription fees. You can resize video aspect ratios (9:16, 16:9, 1:1) immediately right in your browser. All exported videos are completely watermark-free with browser memory limits or queue times!",
+          en: "Yes, the video cropper is free to use. There is no registration required, no login needed, and no subscription fees. You can resize video aspect ratios directly in your browser. Exports are watermark-free, with no cloud queue times; practical file size depends on your browser memory.",
           zh: "100% 免费使用！不仅没有任何收费门槛，更郑重承诺：无需注册账号、无需登录、无需付费订阅！您打开网页即可立刻重塑横屏或竖屏视频画幅（9:16 / 16:9 / 1:1）。导出的所有视频保持原生纯净无水印、受本机内存限制与时长，随开随用！"
         }
       },
