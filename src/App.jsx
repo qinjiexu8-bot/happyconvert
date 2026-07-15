@@ -1,11 +1,14 @@
 import React, { useMemo, useRef, useState, useEffect } from "react";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
-import { fetchFile, toBlobURL } from "@ffmpeg/util";
+import { fetchFile } from "@ffmpeg/util";
 import { formatBytes, formatTime, parseTime, extensionFor, isExpectedOutputFormat, detectBinaryFormat } from "./lib/mediaUtils.js";
 import { buildCommandPreview, buildFfmpegArgs, getBlobTypeForFormat, getOutputFormatForTool } from "./lib/ffmpegCommands.js";
 import { TOOLS, TRANSLATIONS } from "./i18n/translations.js";
 import { DEFAULT_PAGE, TOOL_PAGES, getToolPageByPath, getToolPageByTool, localizedPage, normalizePath } from "./config/toolPages.js";
 import { BLOG_PAGES } from "./config/blogPages.js";
+
+const FFMPEG_CORE_BASE_URL = "/ffmpeg";
+const FFMPEG_LOAD_TIMEOUT_MS = 45000;
 
 // Helper to extract clean tool/page path from URL (stripping /zh or /en prefix)
 const getCleanPathFromUrl = (pathname) => {
@@ -163,6 +166,7 @@ export default function App() {
   // Engine and status loading
   const [isLoaded, setIsLoaded] = useState(false);
   const [isWorking, setIsWorking] = useState(false);
+  const [engineLoadError, setEngineLoadError] = useState(false);
   const [progress, setProgress] = useState(0);
   const [logs, setLogs] = useState([]);
   
@@ -572,6 +576,7 @@ export default function App() {
   // Load engine async
   async function loadFFmpeg() {
     if (isLoaded) return;
+    setEngineLoadError(false);
     setIsWorking(true);
     setProgress(0);
     addLog(t("logTriggerWasm"), "info");
@@ -605,17 +610,30 @@ export default function App() {
       setProgress(Math.max(0, Math.min(100, Math.round(nextProgress * 100))));
     });
 
+    const loadController = new AbortController();
+    const loadTimeout = window.setTimeout(() => {
+      loadController.abort();
+    }, FFMPEG_LOAD_TIMEOUT_MS);
+
     try {
-      const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.10/dist/esm";
-      await ffmpeg.load({
-        coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
-        wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm")
-      });
+      await ffmpeg.load(
+        {
+          coreURL: `${FFMPEG_CORE_BASE_URL}/ffmpeg-core.js`,
+          wasmURL: `${FFMPEG_CORE_BASE_URL}/ffmpeg-core.wasm`
+        },
+        { signal: loadController.signal }
+      );
       setIsLoaded(true);
       addLog(t("logWasmSuccess"), "success");
     } catch (error) {
-      addLog(`${t("logWasmError")}: ${error.message || String(error)}`, "error");
+      setIsLoaded(false);
+      setEngineLoadError(true);
+      await ffmpeg.terminate().catch(() => {});
+      const isTimeout = error?.name === "AbortError";
+      const detail = isTimeout ? t("logWasmTimeout") : (error.message || String(error));
+      addLog(`${t("logWasmError")}: ${detail}`, "error");
     } finally {
+      window.clearTimeout(loadTimeout);
       setIsWorking(false);
     }
   }
@@ -1314,7 +1332,7 @@ export default function App() {
             onClick={loadFFmpeg}
             disabled={isLoaded || isWorking}
           >
-            {isLoaded ? t("engineReady") : isWorking ? t("engineLoading") : t("engineInit")}
+            {isLoaded ? t("engineReady") : isWorking ? t("engineLoading") : engineLoadError ? t("engineRetry") : t("engineInit")}
           </button>
         </div>
       </header>
