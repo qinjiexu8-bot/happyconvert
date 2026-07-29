@@ -721,7 +721,16 @@ export function localizedPage(page, lang) {
       h2: sec.h2 ? sec.h2[language] : null,
       p: sec.p ? sec.p.map((pText) => pText[language]) : null,
       list: sec.list ? sec.list.map((lText) => lText[language]) : null,
-      callout: sec.callout ? sec.callout[language] : null
+      callout: sec.callout ? sec.callout[language] : null,
+      image: sec.image ? {
+        src: sec.image.src,
+        alt: sec.image.alt ? sec.image.alt[language] : "",
+        caption: sec.image.caption ? sec.image.caption[language] : ""
+      } : null,
+      faqs: sec.faqs ? sec.faqs.map((faq) => ({
+        q: faq.q[language],
+        a: faq.a[language]
+      })) : null
     })) : null,
     faqs: page.faqs ? page.faqs.map((faq) => ({
       q: faq.q[language],

@@ -1993,9 +1993,34 @@ export default function App() {
                         ))}
                       </ul>
                     )}
+                    {sec.image && (
+                      <figure style={{ margin: "28px 0", padding: "14px", border: "1px solid var(--border-color)", borderRadius: "var(--radius-lg)", backgroundColor: "var(--bg-root)" }}>
+                        <img
+                          src={sec.image.src}
+                          alt={sec.image.alt}
+                          loading="lazy"
+                          style={{ display: "block", width: "100%", height: "auto", borderRadius: "var(--radius-md)", border: "1px solid var(--border-color)" }}
+                        />
+                        {sec.image.caption && (
+                          <figcaption style={{ marginTop: "10px", fontSize: "13px", lineHeight: "1.55", color: "var(--text-tertiary)", textAlign: "center" }}>
+                            {sec.image.caption}
+                          </figcaption>
+                        )}
+                      </figure>
+                    )}
                     {sec.callout && (
                       <div style={{ padding: "20px 24px", backgroundColor: "rgba(139, 92, 246, 0.08)", borderLeft: "4px solid var(--accent-purple)", borderRadius: "var(--radius-md)", margin: "28px 0", color: "var(--text-primary)", fontWeight: "500", fontSize: "15px", lineHeight: "1.6" }}>
                         {sec.callout}
+                      </div>
+                    )}
+                    {sec.faqs && (
+                      <div style={{ margin: "28px 0", display: "grid", gap: "12px" }}>
+                        {sec.faqs.map((faq, faqIdx) => (
+                          <div key={faqIdx} style={{ padding: "18px 20px", border: "1px solid var(--border-color)", borderRadius: "var(--radius-md)", backgroundColor: "var(--bg-root)" }}>
+                            <h3 style={{ margin: "0 0 8px 0", fontSize: "17px", fontWeight: "700", color: "var(--text-primary)" }}>{faq.q}</h3>
+                            <p style={{ margin: 0, fontSize: "15px", lineHeight: "1.65", color: "var(--text-secondary)" }}>{faq.a}</p>
+                          </div>
+                        ))}
                       </div>
                     )}
                   </div>
