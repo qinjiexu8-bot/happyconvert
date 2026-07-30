@@ -77,3 +77,8 @@ Before publishing, every article must pass:
 2. `How to Compress a Video for Email Under 25MB` -> `/compress-video/`
 3. `How to Trim MP4 Without Re-encoding` -> `/cut-video/`
 4. `How to Crop a Video to 9:16 for TikTok, Reels, and Shorts` -> `/crop-video/`
+
+## Second Batch Topics
+
+1. `How to Convert Video to GIF Online Without Watermark` -> `/video-to-gif/`
+2. `How to Extract Audio from MP4 as MP3 or WAV` -> `/video-to-audio/`

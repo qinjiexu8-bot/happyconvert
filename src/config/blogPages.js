@@ -858,5 +858,287 @@ export const BLOG_PAGES = [
         ]
       }
     ]
+  },
+  {
+    path: "/blog/convert-video-to-gif-online/",
+    isArticle: true,
+    contentStandardVersion: 1,
+    title: {
+      en: "How to Convert Video to GIF Online Without Watermark",
+      zh: "如何在线把视频转 GIF：免费、无水印、适合聊天分享"
+    },
+    description: {
+      en: "Turn a short video into a GIF online with practical FPS, width, and duration settings. Learn why short clips work better and how to avoid oversized GIF files.",
+      zh: "把短视频在线转成 GIF，并合理设置帧率、宽度和时长。本文说明为什么短片更适合，以及如何避免 GIF 文件过大。"
+    },
+    category: { en: "GIF Guides", zh: "GIF 教程" },
+    readTime: { en: "6 min read", zh: "6 分钟阅读" },
+    date: { en: "July 30, 2026", zh: "2026年7月30日" },
+    toolLink: "/video-to-gif/",
+    toolName: { en: "Video to GIF Converter", zh: "视频转 GIF 工具" },
+    faqs: [
+      {
+        q: {
+          en: "What video length works best for GIF conversion?",
+          zh: "多长的视频最适合转 GIF？"
+        },
+        a: {
+          en: "Short clips work best. I usually start with 2 to 6 seconds for chat reactions or product micro-demos, then reduce width or FPS if the GIF is still too large.",
+          zh: "短片最合适。我通常从 2 到 6 秒开始做聊天动图或产品小演示；如果文件仍然太大，再降低宽度或帧率。"
+        }
+      },
+      {
+        q: {
+          en: "Why is my GIF larger than the original video?",
+          zh: "为什么 GIF 可能比原视频还大？"
+        },
+        a: {
+          en: "GIF is an old animation format and does not compress motion as efficiently as MP4 or WebM. A high-FPS, wide GIF can grow quickly even when the source video is small.",
+          zh: "GIF 是较老的动图格式，对运动画面的压缩效率不如 MP4 或 WebM。高帧率、宽尺寸 GIF 很容易变大，即使原视频并不大。"
+        }
+      }
+    ],
+    content: [
+      {
+        h2: {
+          en: "The short answer: make the clip shorter before raising quality",
+          zh: "先说结论：先缩短片段，再提高质量"
+        },
+        p: [
+          {
+            en: "The easiest way to convert video to GIF online is not to push every quality slider upward. Start by choosing a short section of the video. A 3-second reaction clip is much easier to share than a 20-second GIF, even if both use the same width and FPS.",
+            zh: "在线视频转 GIF 最有效的方法，不是把所有质量参数都拉高，而是先选择一小段视频。3 秒反应动图比 20 秒 GIF 更容易分享，即使它们使用相同宽度和帧率。"
+          },
+          {
+            en: "In HappyConvert, the GIF job runs locally in the browser with WebAssembly. That keeps the workflow private, but it also means your browser memory and CPU matter. I would test a short slice first before converting a longer clip.",
+            zh: "在 HappyConvert 里，GIF 任务通过 WebAssembly 在浏览器本地运行。这让流程更私密，但也意味着浏览器内存和 CPU 会影响体验。我建议先用短片段测试，再处理更长内容。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "HappyConvert settings for video to GIF",
+          zh: "HappyConvert 里的视频转 GIF 设置"
+        },
+        image: {
+          src: "/blog/video-to-gif-settings.png",
+          alt: {
+            en: "HappyConvert video to GIF page showing selection range and GIF settings",
+            zh: "HappyConvert 视频转 GIF 页面，展示片段范围和 GIF 设置"
+          },
+          caption: {
+            en: "The GIF page starts with a selection range because duration is usually the biggest file-size lever.",
+            zh: "GIF 页面优先展示片段范围，因为时长通常是影响体积最大的参数。"
+          }
+        },
+        list: [
+          {
+            en: "Open the video to GIF converter and load your MP4, MOV, or WebM file.",
+            zh: "打开视频转 GIF 工具，导入 MP4、MOV 或 WebM 文件。"
+          },
+          {
+            en: "Set the selection range to the moment you actually need.",
+            zh: "把选择范围设到真正需要的片段。"
+          },
+          {
+            en: "Use 10-12 FPS for chat stickers and 15 FPS when the motion needs to feel smoother.",
+            zh: "聊天动图可以先试 10-12 FPS；如果动作需要更流畅，再试 15 FPS。"
+          },
+          {
+            en: "Keep width around 320px to 480px for lightweight sharing.",
+            zh: "轻量分享时，宽度建议从 320px 到 480px 之间开始。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "What I check before downloading a GIF",
+          zh: "下载 GIF 前我会检查什么"
+        },
+        p: [
+          {
+            en: "First, I check whether the GIF still communicates the point with fewer seconds. Most GIFs are used as reactions, previews, or tiny demos; they rarely need the full context of the original video.",
+            zh: "第一步，我会看能不能用更短时长表达同一个意思。大多数 GIF 是反应图、预览图或小演示，很少需要保留原视频的完整上下文。"
+          },
+          {
+            en: "Second, I check text readability. If captions or UI text are important, reducing width too far will make the GIF useless. In that case, shorten duration before lowering width again.",
+            zh: "第二步，我会看文字是否还能读。如果字幕或界面文字重要，宽度降太低会让 GIF 没法用。这时应优先缩短时长，而不是继续降低宽度。"
+          }
+        ],
+        callout: {
+          en: "For GIFs, duration usually matters more than small quality tweaks. Cut the clip first, then adjust FPS and width.",
+          zh: "做 GIF 时，时长通常比细微画质参数更重要。先剪短，再调帧率和宽度。"
+        }
+      },
+      {
+        h2: {
+          en: "Video to GIF FAQ",
+          zh: "视频转 GIF FAQ"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Should I use GIF or WebM for a website animation?",
+              zh: "网站动效应该用 GIF 还是 WebM？"
+            },
+            a: {
+              en: "Use GIF when you need simple compatibility in chats or docs. Use WebM or MP4 for website animations when file size and playback quality matter more.",
+              zh: "聊天或文档里需要简单兼容时用 GIF。网站动效如果更在意体积和播放质量，通常应考虑 WebM 或 MP4。"
+            }
+          },
+          {
+            q: {
+              en: "Will HappyConvert upload my video while making a GIF?",
+              zh: "HappyConvert 做 GIF 时会上传视频吗？"
+            },
+            a: {
+              en: "The GIF conversion is designed to run in your browser. The practical tradeoff is that long or high-resolution clips can stress local memory.",
+              zh: "GIF 转换设计为在浏览器里运行。实际取舍是，长视频或高分辨率片段会更占本机内存。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: "/blog/extract-audio-from-mp4-mp3-wav/",
+    isArticle: true,
+    contentStandardVersion: 1,
+    title: {
+      en: "How to Extract Audio from MP4 as MP3 or WAV",
+      zh: "如何从 MP4 提取音频：导出 MP3 或 WAV"
+    },
+    description: {
+      en: "Extract audio from an MP4 video as MP3 or WAV in your browser. Learn which format to choose, when WAV is worth it, and why audio extraction is lighter than video conversion.",
+      zh: "在浏览器里从 MP4 提取音频，并导出为 MP3 或 WAV。本文说明格式选择、什么时候值得用 WAV，以及为什么提取音频通常比视频转码更轻。"
+    },
+    category: { en: "Audio Guides", zh: "音频教程" },
+    readTime: { en: "6 min read", zh: "6 分钟阅读" },
+    date: { en: "July 30, 2026", zh: "2026年7月30日" },
+    toolLink: "/video-to-audio/",
+    toolName: { en: "Video to Audio Converter", zh: "视频转音频工具" },
+    faqs: [
+      {
+        q: {
+          en: "Should I export MP3 or WAV from an MP4?",
+          zh: "从 MP4 提取音频应该选 MP3 还是 WAV？"
+        },
+        a: {
+          en: "Use MP3 for sharing, listening, and small files. Use WAV when you plan to edit the audio again in a podcast, music, or video editing workflow.",
+          zh: "分享、收听、控制体积时选 MP3。后续还要做播客、音乐或视频剪辑处理时，选 WAV 更合适。"
+        }
+      },
+      {
+        q: {
+          en: "Is extracting audio faster than converting video?",
+          zh: "提取音频会比视频转码更快吗？"
+        },
+        a: {
+          en: "Usually yes. Audio extraction avoids rebuilding video frames, so it is much lighter than a full MP4 to WebM style re-encode.",
+          zh: "通常是的。音频提取不需要重建视频帧，所以比完整 MP4 转 WebM 这类重编码任务轻很多。"
+        }
+      }
+    ],
+    content: [
+      {
+        h2: {
+          en: "The short answer: choose MP3 for sharing, WAV for editing",
+          zh: "先说结论：分享用 MP3，后期编辑用 WAV"
+        },
+        p: [
+          {
+            en: "If you just need the sound from an MP4 video, export MP3. It is small, easy to send, and works in almost every player. If you are pulling audio for a podcast edit, voice cleanup, or timeline editing, choose WAV so the next editing step has more room.",
+            zh: "如果你只是需要 MP4 里的声音，导出 MP3 就够了。它体积小、容易发送、几乎所有播放器都能打开。如果你要做播客剪辑、语音降噪或时间线后期，选 WAV 会给下一步编辑留出更多空间。"
+          },
+          {
+            en: "In HappyConvert, video-to-audio processing runs locally in the browser. Compared with full video conversion, it is usually lighter because the tool can ignore the video frames and focus on the audio stream.",
+            zh: "在 HappyConvert 里，视频转音频同样在浏览器本地处理。相比完整视频转换，它通常更轻，因为工具可以忽略视频画面，专注处理音频流。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "HappyConvert settings for MP4 to MP3 or WAV",
+          zh: "HappyConvert 里的 MP4 转 MP3/WAV 设置"
+        },
+        image: {
+          src: "/blog/extract-audio-mp3-wav-settings.png",
+          alt: {
+            en: "HappyConvert video to audio page for exporting MP3 or WAV from MP4",
+            zh: "HappyConvert 视频转音频页面，用于从 MP4 导出 MP3 或 WAV"
+          },
+          caption: {
+            en: "The audio page is built for one job: load a video, choose MP3 or WAV, and export the audio track locally.",
+            zh: "音频页面只解决一个任务：导入视频，选择 MP3 或 WAV，在本地导出音轨。"
+          }
+        },
+        list: [
+          {
+            en: "Open the video to audio converter and load your MP4 file.",
+            zh: "打开视频转音频工具，导入 MP4 文件。"
+          },
+          {
+            en: "Choose MP3 when you need a smaller file for sharing or listening.",
+            zh: "如果需要更小体积用于分享或收听，选择 MP3。"
+          },
+          {
+            en: "Choose WAV when you plan to edit, clean up, or mix the audio later.",
+            zh: "如果后续要编辑、降噪或混音，选择 WAV。"
+          },
+          {
+            en: "Export a short sample if the source is a long meeting or lecture.",
+            zh: "如果源文件是长会议或长课程，先导出一小段样本确认设置。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "When audio extraction can still take time",
+          zh: "什么时候音频提取仍然会花时间"
+        },
+        p: [
+          {
+            en: "Audio extraction is lighter than video conversion, but long files still need browser memory. A 90-minute meeting recording has to be read into the browser sandbox, processed, and written back as an output file.",
+            zh: "音频提取比视频转码轻，但长文件仍然需要浏览器内存。一个 90 分钟会议录屏仍要被读入浏览器沙盒、处理，再写成输出文件。"
+          },
+          {
+            en: "If the browser tab feels slow, the first thing I do is close other heavy tabs and test a shorter selection. That usually tells you whether the issue is the file itself or the chosen output format.",
+            zh: "如果浏览器标签页变慢，我会先关闭其他重页面，并测试较短片段。这样通常能判断问题来自文件本身，还是来自输出格式选择。"
+          }
+        ],
+        callout: {
+          en: "MP3 is the practical default. WAV is the editing format. Pick based on what happens after the export.",
+          zh: "MP3 是实用默认选择，WAV 是后期编辑格式。根据导出之后要做什么来选。"
+        }
+      },
+      {
+        h2: {
+          en: "Extract audio from MP4 FAQ",
+          zh: "从 MP4 提取音频 FAQ"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Will MP3 sound worse than WAV?",
+              zh: "MP3 听起来会比 WAV 差吗？"
+            },
+            a: {
+              en: "MP3 is compressed, while WAV keeps uncompressed audio data. For casual listening the difference may be small; for editing, WAV gives you more flexibility.",
+              zh: "MP3 是压缩格式，WAV 保留未压缩音频数据。日常收听差异可能不明显；用于后期编辑时，WAV 更灵活。"
+            }
+          },
+          {
+            q: {
+              en: "Can I extract audio from MOV or WebM too?",
+              zh: "MOV 或 WebM 也能提取音频吗？"
+            },
+            a: {
+              en: "Yes for common files supported by the browser-side FFmpeg engine. If a rare codec fails, try converting the source to MP4 first.",
+              zh: "常见文件通常可以，前提是浏览器端 FFmpeg 引擎能识别该编码。如果遇到少见编码失败，可以先把源文件转为 MP4。"
+            }
+          }
+        ]
+      }
+    ]
   }
 ];
