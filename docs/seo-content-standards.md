@@ -1,6 +1,6 @@
 # HappyConvert SEO Content Standards
 
-Last updated: 2026-07-29
+Last updated: 2026-07-30
 
 This document is the publishing gate for HappyConvert blog content. A draft is not allowed into `src/config/blogPages.js` unless it passes the checklist below.
 
@@ -26,7 +26,8 @@ Avoid broad topics:
 - One primary problem per article.
 - One primary keyword and 2-4 related long-tail variants.
 - Direct answer in the first 100 words.
-- At least one real HappyConvert screenshot.
+- Standard v1: at least one real HappyConvert screenshot.
+- Standard v2: screenshot is optional when the article has concrete product context, settings, tradeoffs, and troubleshooting notes.
 - At least one first-hand note from our product behavior, such as browser memory limits, WebM encoding speed, or local WASM loading.
 - One clear internal link target via `toolLink`.
 - FAQ section with practical failure cases or decision questions.
@@ -58,6 +59,21 @@ Preferred style:
 - Every screenshot needs an `alt` and a short `caption`.
 - Screenshot text should reinforce a step, setting, or limitation.
 
+## Standard v2: No-Image Article Rules
+
+Use v2 for long-tail articles where a screenshot would not add much value. These articles must still feel written from the actual product, not from a generic AI outline.
+
+Required:
+
+- `contentStandardVersion: 2`
+- One matching tool link.
+- At least one practical settings section or decision table.
+- At least one local-processing limitation, for example browser memory, CPU, WebAssembly loading, codec support, or large-file speed.
+- FAQ with at least two real user questions.
+- Clear next step pointing to one HappyConvert tool.
+
+Do not use v2 to publish generic comparison content. A v2 article still needs to mention how the reader would handle the problem inside HappyConvert.
+
 ## Quality Gate
 
 Before publishing, every article must pass:
@@ -65,7 +81,8 @@ Before publishing, every article must pass:
 - [ ] Primary keyword appears naturally in title, description, intro, and at least one H2.
 - [ ] The article answers the query within the first 100 words.
 - [ ] The article has exactly one primary tool CTA.
-- [ ] At least one screenshot exists and has alt text.
+- [ ] Standard v1 has at least one screenshot with alt text.
+- [ ] Standard v2 has concrete product settings, limitations, and troubleshooting notes.
 - [ ] At least one section contains product-specific experience or limitation.
 - [ ] FAQ exists and answers real objections or failure modes.
 - [ ] No unsupported claims such as unlimited file size, always instant, or zero quality loss.
@@ -82,3 +99,8 @@ Before publishing, every article must pass:
 
 1. `How to Convert Video to GIF Online Without Watermark` -> `/video-to-gif/`
 2. `How to Extract Audio from MP4 as MP3 or WAV` -> `/video-to-audio/`
+
+## Third Batch Topics
+
+1. `MOV vs MP4: Which Format Should You Use?` -> `/convert-video/`
+2. `How to Make a Video Smaller Without Losing Too Much Quality` -> `/compress-video/`

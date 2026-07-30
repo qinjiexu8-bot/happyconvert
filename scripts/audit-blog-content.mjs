@@ -65,18 +65,26 @@ const hasFaq = (article) =>
   (article.faqs && article.faqs.length >= 2) ||
   (article.content || []).some((section) => section.faqs && section.faqs.length >= 2);
 
+const hasPracticalSection = (article) =>
+  (article.content || []).some((section) => section.list?.length >= 3 || section.callout);
+
 const failures = [];
 
-const auditedArticles = BLOG_PAGES.filter((page) => page.isArticle && page.contentStandardVersion === 1);
+const auditedArticles = BLOG_PAGES.filter((page) => page.isArticle && [1, 2].includes(page.contentStandardVersion));
 
 for (const article of auditedArticles) {
   const label = article.path;
   const text = articleText(article);
 
   if (!article.toolLink) failures.push(`${label}: missing toolLink`);
-  if (!hasScreenshot(article)) failures.push(`${label}: missing valid screenshot image with alt and caption`);
+  if (article.contentStandardVersion === 1 && !hasScreenshot(article)) {
+    failures.push(`${label}: missing valid screenshot image with alt and caption`);
+  }
+  if (article.contentStandardVersion === 2 && !hasPracticalSection(article)) {
+    failures.push(`${label}: standard-v2 needs a practical list or callout section`);
+  }
   if (!hasFaq(article)) failures.push(`${label}: missing FAQ section`);
-  if (!/browser|WebAssembly|WASM|memory|device|local|浏览器|本地|内存/.test(text)) {
+  if (!/browser|WebAssembly|WASM|memory|device|local|CPU|codec|FFmpeg|浏览器|本地|内存|编码|设备/.test(text)) {
     failures.push(`${label}: missing product-specific local/browser limitation context`);
   }
 
@@ -91,4 +99,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Blog content audit passed for ${auditedArticles.length} standard-v1 articles.`);
+console.log(`Blog content audit passed for ${auditedArticles.length} standard-v1/v2 articles.`);

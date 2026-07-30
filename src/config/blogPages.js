@@ -1140,5 +1140,305 @@ export const BLOG_PAGES = [
         ]
       }
     ]
+  },
+  {
+    path: "/blog/mov-vs-mp4-which-format/",
+    isArticle: true,
+    contentStandardVersion: 2,
+    title: {
+      en: "MOV vs MP4: Which Format Should You Use?",
+      zh: "MOV 和 MP4 怎么选：什么时候需要转换格式"
+    },
+    description: {
+      en: "MOV vs MP4 explained for iPhone videos, Windows sharing, editing, and web upload. Learn when to keep MOV and when to convert MOV to MP4 in the browser.",
+      zh: "面向 iPhone 视频、Windows 分享、剪辑和网页上传，说明 MOV 和 MP4 的区别：什么时候保留 MOV，什么时候在浏览器里转成 MP4。"
+    },
+    category: { en: "Format Guides", zh: "格式指南" },
+    readTime: { en: "7 min read", zh: "7 分钟阅读" },
+    date: { en: "July 30, 2026", zh: "2026年7月30日" },
+    toolLink: "/convert-video/",
+    toolName: { en: "Video Converter", zh: "视频转换工具" },
+    faqs: [
+      {
+        q: {
+          en: "Should I convert iPhone MOV to MP4?",
+          zh: "iPhone 拍的 MOV 需要转成 MP4 吗？"
+        },
+        a: {
+          en: "Convert iPhone MOV to MP4 when the receiver uses Windows, an older editor, or a website that rejects MOV. Keep MOV if your editing app accepts it and you want to avoid another encode.",
+          zh: "如果接收方用 Windows、旧版剪辑软件，或上传平台不接受 MOV，就转 MP4。如果你的剪辑软件能直接读取 MOV，并且不想多做一次编码，就保留 MOV。"
+        }
+      },
+      {
+        q: {
+          en: "Is MP4 always smaller than MOV?",
+          zh: "MP4 一定比 MOV 小吗？"
+        },
+        a: {
+          en: "No. File size depends more on codec, resolution, bitrate, frame rate, and duration than the container name. MP4 can be smaller, larger, or nearly the same size as MOV.",
+          zh: "不一定。文件大小更多取决于编码、分辨率、码率、帧率和时长，而不是容器名字。MP4 可能更小，也可能更大，甚至和 MOV 差不多。"
+        }
+      }
+    ],
+    content: [
+      {
+        h2: {
+          en: "The short answer: use MP4 for sharing, keep MOV for editing when it works",
+          zh: "先说结论：分享优先 MP4，能剪就保留 MOV"
+        },
+        p: [
+          {
+            en: "The MOV vs MP4 decision is mostly about compatibility, not quality. MP4 is usually the safer format for sending files, uploading to websites, and playing on Windows. MOV is common from iPhone and QuickTime workflows, and it can be fine when your editor already supports it.",
+            zh: "MOV 和 MP4 怎么选，核心不是画质，而是兼容性。MP4 通常更适合发送文件、上传网站、在 Windows 上播放。MOV 常见于 iPhone 和 QuickTime 流程；如果你的剪辑软件能正常读取，它也完全可以继续用。"
+          },
+          {
+            en: "In HappyConvert, the practical path is simple: only convert MOV to MP4 when you have a compatibility problem. The conversion runs in the browser through a local FFmpeg/WebAssembly engine, so a large 4K iPhone video will be limited by your device memory and CPU.",
+            zh: "在 HappyConvert 里，实用做法很简单：只有遇到兼容问题时，才把 MOV 转成 MP4。转换通过本地 FFmpeg/WebAssembly 引擎在浏览器里运行，所以较大的 4K iPhone 视频会受到设备内存和 CPU 的影响。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "When MP4 is the better choice",
+          zh: "什么时候 MP4 更合适"
+        },
+        list: [
+          {
+            en: "You need to send the video to someone on Windows and do not know which player they use.",
+            zh: "你要把视频发给 Windows 用户，而且不确定对方用什么播放器。"
+          },
+          {
+            en: "A website, LMS, CMS, marketplace, or support form rejects MOV uploads.",
+            zh: "网站、课程系统、内容后台、平台或客服表单不接受 MOV 上传。"
+          },
+          {
+            en: "You want a safer playback format for documentation, product demos, or customer handoff.",
+            zh: "你需要一个更稳妥的播放格式，用于文档、产品演示或交付给客户。"
+          },
+          {
+            en: "Your source is an iPhone MOV file and the receiver does not need the original editing workflow.",
+            zh: "源文件是 iPhone MOV，而接收方不需要继续沿用原始剪辑流程。"
+          }
+        ],
+        callout: {
+          en: "For broad sharing, MP4 with H.264 video and AAC audio is the default I would try first.",
+          zh: "面向广泛分享时，我会优先尝试 H.264 视频加 AAC 音频的 MP4。"
+        }
+      },
+      {
+        h2: {
+          en: "When you should keep MOV",
+          zh: "什么时候应该保留 MOV"
+        },
+        p: [
+          {
+            en: "Do not convert just because the file says .mov. If Final Cut Pro, DaVinci Resolve, Premiere Pro, or your phone backup workflow already handles the file, another encode can add time and may change the file size without solving a real problem.",
+            zh: "不要因为扩展名是 .mov 就一定转换。如果 Final Cut Pro、DaVinci Resolve、Premiere Pro 或你的手机备份流程已经能处理这个文件，多做一次编码只会增加时间，也可能改变文件体积，却没有解决真实问题。"
+          },
+          {
+            en: "This is especially true for long 4K or HDR clips. Browser-side conversion is convenient for quick jobs, but very large source files can make the tab slow or fail if the device runs out of memory.",
+            zh: "长时间 4K 或 HDR 片段尤其如此。浏览器端转换适合快速处理任务，但特别大的源文件会让标签页变慢；如果设备内存不够，也可能失败。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "How I would convert MOV to MP4 in HappyConvert",
+          zh: "我会怎样在 HappyConvert 里把 MOV 转 MP4"
+        },
+        list: [
+          {
+            en: "Open the video converter and load the MOV file directly in the browser.",
+            zh: "打开视频转换工具，在浏览器里直接导入 MOV 文件。"
+          },
+          {
+            en: "Choose MP4 as the target container.",
+            zh: "目标容器选择 MP4。"
+          },
+          {
+            en: "Use H.264 for the video codec when compatibility matters more than aggressive compression.",
+            zh: "如果兼容性比极限压缩更重要，视频编码选择 H.264。"
+          },
+          {
+            en: "Test a short clip first when the source is a long 4K recording.",
+            zh: "如果源文件是较长的 4K 录制，先用短片段测试。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "MOV vs MP4 FAQ",
+          zh: "MOV 和 MP4 常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Does converting MOV to MP4 improve quality?",
+              zh: "MOV 转 MP4 会提升画质吗？"
+            },
+            a: {
+              en: "Usually no. Changing the container does not create new detail. Convert MOV to MP4 for compatibility, smaller delivery settings, or easier upload, not because it will make the source sharper.",
+              zh: "通常不会。改变容器不会凭空增加细节。MOV 转 MP4 主要是为了解决兼容、交付体积或上传问题，不是为了让原素材变清晰。"
+            }
+          },
+          {
+            q: {
+              en: "Why does my iPhone record MOV instead of MP4?",
+              zh: "为什么 iPhone 会录成 MOV 而不是 MP4？"
+            },
+            a: {
+              en: "Apple workflows often use MOV because it fits QuickTime and editing pipelines well. The file can still contain modern codecs, so the extension alone does not tell you the full story.",
+              zh: "Apple 流程常使用 MOV，因为它和 QuickTime 及剪辑管线配合较好。MOV 里面也可能包含现代编码，所以不能只看扩展名判断全部情况。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: "/blog/make-video-smaller-without-losing-quality/",
+    isArticle: true,
+    contentStandardVersion: 2,
+    title: {
+      en: "How to Make a Video Smaller Without Losing Too Much Quality",
+      zh: "如何压小视频，同时尽量保留清晰度"
+    },
+    description: {
+      en: "Make a video smaller without wrecking the image. Learn what to trim first, when to lower resolution, and which HappyConvert settings to test before exporting.",
+      zh: "把视频压小，但尽量不破坏画面。本文说明先剪哪里、什么时候降低分辨率，以及在 HappyConvert 里应该先测试哪些设置。"
+    },
+    category: { en: "Compression Guides", zh: "压缩教程" },
+    readTime: { en: "8 min read", zh: "8 分钟阅读" },
+    date: { en: "July 30, 2026", zh: "2026年7月30日" },
+    toolLink: "/compress-video/",
+    toolName: { en: "Video Compressor", zh: "视频压缩工具" },
+    faqs: [
+      {
+        q: {
+          en: "What is the safest way to reduce video file size?",
+          zh: "压小视频最稳妥的方法是什么？"
+        },
+        a: {
+          en: "Trim unused seconds first, then reduce resolution only if the file is still too large. Codec and bitrate changes help, but cutting duration usually gives the cleanest reduction.",
+          zh: "先剪掉不需要的时长；如果仍然太大，再降低分辨率。编码和码率调整也有帮助，但减少时长通常是最干净的体积下降方式。"
+        }
+      },
+      {
+        q: {
+          en: "Why did my compressed video still look blurry?",
+          zh: "为什么压缩后视频还是糊了？"
+        },
+        a: {
+          en: "Blur usually comes from pushing bitrate or resolution too low for the scene. Fast motion, screen recordings with text, and dark footage need more data than simple talking-head clips.",
+          zh: "变糊通常是因为码率或分辨率降得太低。快速运动、有文字的录屏、暗光画面，比普通口播视频需要更多数据。"
+        }
+      }
+    ],
+    content: [
+      {
+        h2: {
+          en: "The short answer: remove time before removing pixels",
+          zh: "先说结论：先减少时长，再减少像素"
+        },
+        p: [
+          {
+            en: "If you want to make a video smaller without losing too much quality, start by trimming the parts nobody needs. Removing 20 seconds from a 60-second clip is cleaner than forcing the full minute through harsh compression.",
+            zh: "如果你想把视频压小，同时尽量保留清晰度，先剪掉没人需要看的部分。把 60 秒视频删掉 20 秒，通常比对完整 60 秒做很重的压缩更干净。"
+          },
+          {
+            en: "HappyConvert handles compression locally in the browser. That is useful when you do not want to upload private footage, but it also means large files depend on your device memory, CPU, and browser stability.",
+            zh: "HappyConvert 的压缩在浏览器本地完成。这适合不想上传私密素材的场景，但大文件会受到设备内存、CPU 和浏览器稳定性的影响。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "The compression order I would use",
+          zh: "我建议的压缩顺序"
+        },
+        list: [
+          {
+            en: "Trim the beginning and ending first. Intros, dead air, and repeated takes are pure file size.",
+            zh: "先剪开头和结尾。片头、空白等待、重复拍摄都会直接增加体积。"
+          },
+          {
+            en: "Keep the original resolution if text readability matters, especially for screen recordings.",
+            zh: "如果画面里有文字，尤其是录屏，尽量先保留原分辨率。"
+          },
+          {
+            en: "Drop from 1080p to 720p when the video is mostly people, scenery, or social sharing footage.",
+            zh: "如果内容主要是人物、风景或社交平台分享素材，可以考虑从 1080p 降到 720p。"
+          },
+          {
+            en: "Use a short sample export before processing a long file.",
+            zh: "处理长视频前，先导出一个短样本。"
+          }
+        ],
+        callout: {
+          en: "For a screen recording with small UI text, I would lower bitrate carefully before reducing resolution.",
+          zh: "如果是带小号界面文字的录屏，我会先谨慎降低码率，而不是先降分辨率。"
+        }
+      },
+      {
+        h2: {
+          en: "What settings matter most in a browser compressor",
+          zh: "浏览器压缩工具里最重要的参数"
+        },
+        p: [
+          {
+            en: "Duration, resolution, codec, bitrate, and frame rate decide most of the final size. Duration is the easiest win. Resolution is the next big lever. Codec choice matters too, but it can increase processing time because the browser has to encode the video locally.",
+            zh: "最终体积主要由时长、分辨率、编码、码率和帧率决定。时长是最容易优化的部分；分辨率是第二个大杠杆。编码选择也重要，但可能增加处理时间，因为浏览器需要在本地重新编码视频。"
+          },
+          {
+            en: "For normal sharing, MP4 is the safer output. WebM can create smaller web-friendly files in some cases, but MP4 is easier when you are sending the result to clients, classmates, or coworkers who may use different devices.",
+            zh: "普通分享时，MP4 通常是更稳妥的输出。WebM 在某些场景下能做出更适合网页的较小文件，但如果要发给客户、同学或同事，MP4 更容易被不同设备打开。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "When a few hundred megabytes is the wrong job for the browser",
+          zh: "什么时候几百 MB 视频不适合浏览器处理"
+        },
+        p: [
+          {
+            en: "Browser-side compression is good for quick clips and privacy-sensitive files. It is not the most comfortable path for a few hundred megabytes of 4K footage, long meetings, or high-frame-rate recordings.",
+            zh: "浏览器端压缩适合快速片段和隐私敏感文件。几百 MB 的 4K 素材、长会议录制或高帧率录屏，并不是最舒服的浏览器任务。"
+          },
+          {
+            en: "If a job takes several minutes for a 13 MB video, a few hundred megabytes can take much longer on the same machine. In that case, I would either trim first, use a shorter export range, or move the heavy batch job to a desktop FFmpeg workflow.",
+            zh: "如果同一台机器处理 13 MB 视频已经需要几分钟，那么几百 MB 视频可能会花更久。这种情况下，我会先裁剪时长、只导出必要片段，或者把重批量任务交给桌面 FFmpeg 流程。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Make video smaller FAQ",
+          zh: "视频压缩常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Should I use MP4 or WebM to make a smaller video?",
+              zh: "压小视频应该选 MP4 还是 WebM？"
+            },
+            a: {
+              en: "Use MP4 when broad compatibility matters. Try WebM when the video is mainly for a website or browser-based use, and you can spend more time testing playback and encode speed.",
+              zh: "需要广泛兼容时选 MP4。视频主要用于网页或浏览器场景，并且愿意测试播放兼容和编码速度时，可以尝试 WebM。"
+            }
+          },
+          {
+            q: {
+              en: "Can I compress video without changing resolution?",
+              zh: "可以不改分辨率只压缩视频吗？"
+            },
+            a: {
+              en: "Yes. You can keep resolution and reduce bitrate or change codec. This is often better for screen recordings where small text must stay readable.",
+              zh: "可以。你可以保留分辨率，只降低码率或调整编码。对于需要保留小字清晰度的录屏，这通常更合适。"
+            }
+          }
+        ]
+      }
+    ]
   }
 ];
