@@ -374,4 +374,39 @@ const notFoundHtml = renderPageHtml(
 
 fs.writeFileSync(path.join(distDir, "404.html"), notFoundHtml);
 
-console.log(`Prerendered ${sitemapUrls.length} localized SEO pages and sitemap.xml`);
+// IndexNow Key File & Automated Ping
+const indexNowKey = "c29a8f3e5b7d4c1e9a2b4f6d8e0c2a4b";
+const indexNowFileName = `${indexNowKey}.txt`;
+fs.writeFileSync(path.join(distDir, indexNowFileName), indexNowKey);
+
+const allUrls = Array.from(new Set(sitemapUrls.map(({ config, lang }) => absoluteUrl(config.path, lang))));
+
+const submitIndexNow = async () => {
+  const payload = {
+    host: "happyconvert.app",
+    key: indexNowKey,
+    keyLocation: `${siteUrl}/${indexNowFileName}`,
+    urlList: allUrls
+  };
+
+  try {
+    const res = await fetch("https://api.indexnow.org/indexnow", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify(payload)
+    });
+    if (res.ok || res.status === 202) {
+      console.log(`[IndexNow] Successfully submitted ${allUrls.length} URLs to Bing/IndexNow (Status: ${res.status})`);
+    } else {
+      console.warn(`[IndexNow] Ping returned status ${res.status}`);
+    }
+  } catch (err) {
+    console.warn(`[IndexNow] Network ping skipped/failed: ${err.message}`);
+  }
+};
+
+await submitIndexNow();
+
+console.log(`Prerendered ${sitemapUrls.length} localized SEO pages, sitemap.xml, and IndexNow key.`);
