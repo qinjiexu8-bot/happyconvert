@@ -1440,5 +1440,449 @@ export const BLOG_PAGES = [
         ]
       }
     ]
+  },
+  {
+    path: "/blog/convert-webm-to-mp4-for-iphone/",
+    isArticle: true,
+    contentStandardVersion: 2,
+    title: {
+      en: "How to Convert WebM to MP4 for iPhone and QuickTime",
+      zh: "如何把 WebM 转成 iPhone 和 QuickTime 能播放的 MP4"
+    },
+    description: {
+      en: "Convert WebM to MP4 for iPhone and QuickTime with H.264 and AAC. Learn the right HappyConvert settings and fix common Apple playback failures.",
+      zh: "把 WebM 转成 iPhone、iPad、QuickTime 和 Apple 应用更容易播放的 MP4。本文说明 HappyConvert 中的 H.264 与 AAC 设置、为什么需要重新编码，以及常见播放失败的处理方法。"
+    },
+    category: { en: "Format Guides", zh: "格式指南" },
+    readTime: { en: "7 min read", zh: "7 分钟阅读" },
+    date: { en: "July 31, 2026", zh: "2026年7月31日" },
+    toolLink: "/convert-video/",
+    toolName: { en: "Video Converter", zh: "视频转换工具" },
+    faqs: [
+      {
+        q: {
+          en: "Why will my WebM video not play on iPhone?",
+          zh: "为什么 WebM 视频在 iPhone 上不能播放？"
+        },
+        a: {
+          en: "The app opening the file may not support the WebM container, VP8 video, or Vorbis audio used by that file. Converting it to MP4 with H.264 video and AAC audio usually provides broader Apple app compatibility.",
+          zh: "打开文件的应用可能不支持 WebM 容器，或不支持文件里的 VP8 视频和 Vorbis 音频。转成使用 H.264 视频和 AAC 音频的 MP4，通常更容易兼容 Apple 设备上的常见应用。"
+        }
+      },
+      {
+        q: {
+          en: "Can I rename .webm to .mp4 instead of converting it?",
+          zh: "可以直接把 .webm 后缀改成 .mp4 吗？"
+        },
+        a: {
+          en: "No. Renaming only changes the filename. It does not replace the WebM container or convert VP8 and Vorbis streams into codecs expected inside an MP4 file.",
+          zh: "不可以。改后缀只改变文件名，不会替换 WebM 容器，也不会把 VP8 和 Vorbis 数据转换成 MP4 常用的编码。"
+        }
+      }
+    ],
+    content: [
+      {
+        h2: {
+          en: "The short answer: export MP4 with H.264 video and AAC audio",
+          zh: "先说结论：导出 H.264 视频加 AAC 音频的 MP4"
+        },
+        p: [
+          {
+            en: "To convert WebM to MP4 for iPhone or QuickTime, choose MP4 as the target container, H.264 as the video codec, and AAC as the audio codec. This combination is a safer handoff format for Photos, Messages, presentation apps, and older Apple workflows than a WebM file containing VP8 and Vorbis.",
+            zh: "要把 WebM 转成 iPhone 或 QuickTime 更容易播放的格式，目标容器选择 MP4，视频编码选择 H.264，音频编码选择 AAC。与包含 VP8 和 Vorbis 的 WebM 相比，这个组合更适合交给照片、信息、演示软件和较旧的 Apple 工作流。"
+          },
+          {
+            en: "HappyConvert runs that conversion locally through FFmpeg WebAssembly. The file is not sent to a conversion queue, but the tab must hold the input and output in memory. A long 1080p or 4K WebM can therefore take several minutes and may fail on a device with limited RAM.",
+            zh: "HappyConvert 通过 FFmpeg WebAssembly 在浏览器本地完成转换。文件不会进入云端转换队列，但浏览器标签页需要在内存里保存输入和输出。较长的 1080p 或 4K WebM 因此可能需要数分钟，在内存较小的设备上也可能失败。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Why changing the file extension does not fix WebM playback",
+          zh: "为什么修改文件后缀不能解决 WebM 播放问题"
+        },
+        p: [
+          {
+            en: "WebM and MP4 are containers. A container describes how video, audio, timing, and metadata are packaged, while the codecs describe how the picture and sound are compressed. A typical WebM may contain VP8 video and Vorbis audio; the MP4 output used here contains H.264 video and AAC audio.",
+            zh: "WebM 和 MP4 都是容器。容器规定视频、音频、时间信息和元数据怎样封装，编码则决定画面和声音怎样压缩。常见 WebM 可能包含 VP8 视频和 Vorbis 音频；本文建议的 MP4 输出则包含 H.264 视频和 AAC 音频。"
+          },
+          {
+            en: "Changing `clip.webm` to `clip.mp4` leaves every byte of the original media unchanged. Some apps inspect those bytes instead of trusting the extension, so the renamed file still fails. A real conversion decodes the WebM streams and encodes compatible streams into a new MP4 container.",
+            zh: "把 `clip.webm` 改名为 `clip.mp4`，不会改变媒体数据里的任何字节。有些应用会检查文件内容，而不是只相信后缀，所以改名后的文件仍然打不开。真正的转换会解码 WebM 数据，再把兼容的数据编码进新的 MP4 容器。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "WebM to MP4 settings I use in HappyConvert",
+          zh: "我在 HappyConvert 中使用的 WebM 转 MP4 设置"
+        },
+        list: [
+          {
+            en: "Load the WebM file in the Video Converter and wait for its duration and preview to appear.",
+            zh: "在视频转换工具中载入 WebM，等待时长和预览正常显示。"
+          },
+          {
+            en: "Choose MP4 as the Target Container.",
+            zh: "目标容器选择 MP4。"
+          },
+          {
+            en: "Choose H.264 for Video Codec instead of Copy when the source uses VP8 or VP9.",
+            zh: "源文件使用 VP8 或 VP9 时，视频编码选择 H.264，不要选择 Copy。"
+          },
+          {
+            en: "Choose AAC for Audio Codec instead of copying Vorbis audio into MP4.",
+            zh: "音频编码选择 AAC，不要把 Vorbis 音频直接复制进 MP4。"
+          },
+          {
+            en: "Process a short test file first if the source is long, high-resolution, or important.",
+            zh: "源文件较长、分辨率较高或内容重要时，先处理一个短测试文件。"
+          }
+        ],
+        callout: {
+          en: "Do not use codec Copy as the default fix for Apple playback. Copy is fast, but incompatible VP8 or Vorbis streams remain incompatible after remuxing.",
+          zh: "不要把编码 Copy 当作解决 Apple 播放问题的默认选项。Copy 虽然快，但不兼容的 VP8 或 Vorbis 数据在重新封装后依旧可能不兼容。"
+        }
+      },
+      {
+        h2: {
+          en: "What changes after converting WebM to MP4",
+          zh: "WebM 转 MP4 后会发生哪些变化"
+        },
+        p: [
+          {
+            en: "The pixel dimensions and duration can stay the same, but the video is encoded again. That means the output is not a byte-for-byte copy. Its file size may be smaller or larger depending on source bitrate, scene motion, resolution, and the H.264 settings used by the converter.",
+            zh: "画面尺寸和时长可以保持不变，但视频会重新编码。因此，输出文件不是原文件的逐字节复制。最终体积可能变小，也可能变大，取决于源文件码率、画面运动、分辨率和转换器使用的 H.264 参数。"
+          },
+          {
+            en: "For a compatibility job, I check playback before comparing file size. Open the exported MP4 on the actual iPhone, iPad, Mac, or target app. Check the first frame, seek near the middle, confirm that sound is present, and play the final five seconds.",
+            zh: "兼容性转换完成后，我会先检查播放，再比较文件大小。用实际的 iPhone、iPad、Mac 或目标应用打开导出的 MP4，检查第一帧、跳转到中间位置、确认声音存在，并播放最后 5 秒。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "When codec copy works and why it is risky here",
+          zh: "编码复制什么时候可用，为什么这里有风险"
+        },
+        p: [
+          {
+            en: "Codec copy avoids decoding and re-encoding. FFmpeg takes the existing compressed streams and places them in another compatible container, so the job is much faster and does not introduce another generation of video compression. It is useful when the source streams are already legal and well supported in the target container.",
+            zh: "编码复制会跳过解码和重新编码。FFmpeg 直接把现有压缩数据放进另一个兼容容器，因此速度快得多，也不会增加一代视频压缩。只有源数据本身符合目标容器要求，并且目标设备支持这些编码时，这种方式才适合。"
+          },
+          {
+            en: "That condition usually does not hold for a typical WebM-to-iPhone job. VP8 and Vorbis were chosen for the WebM ecosystem, not as the broadest combination for MP4 playback in Apple apps. A copied stream may make FFmpeg reject the output, produce an unusual MP4, or leave the original playback problem unsolved.",
+            zh: "典型的 WebM 转 iPhone 任务通常不满足这个条件。VP8 和 Vorbis 面向 WebM 生态，并不是 Apple 应用中最通用的 MP4 组合。直接复制可能导致 FFmpeg 拒绝输出、生成不常见的 MP4，或者让原来的播放问题继续存在。"
+          },
+          {
+            en: "For this specific goal, I accept the extra processing time and use H.264 plus AAC. If speed is more important than Apple compatibility, keeping the original WebM is more honest than creating an MP4 whose internal codecs still behave like the source.",
+            zh: "针对这个具体目标，我会接受额外处理时间，使用 H.264 加 AAC。如果速度比 Apple 兼容性更重要，保留原 WebM 反而更合理，而不是生成一个内部编码仍和源文件相同的 MP4。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "A five-point playback check before deleting the WebM",
+          zh: "删除 WebM 源文件前的五项播放检查"
+        },
+        list: [
+          {
+            en: "Compare the duration of the exported MP4 with the WebM source.",
+            zh: "比较导出 MP4 与 WebM 源文件的时长。"
+          },
+          {
+            en: "Play the first and final five seconds to catch truncated output.",
+            zh: "播放开头和结尾各 5 秒，检查输出是否被截断。"
+          },
+          {
+            en: "Seek to two points in the middle and confirm that playback resumes.",
+            zh: "跳转到中间两个位置，确认视频能继续播放。"
+          },
+          {
+            en: "Listen with headphones if missing or distorted audio would matter.",
+            zh: "如果音频很重要，用耳机检查是否缺失或失真。"
+          },
+          {
+            en: "Transfer the MP4 to the actual Apple device or app instead of testing only in the same desktop browser.",
+            zh: "把 MP4 传到实际 Apple 设备或目标应用，不要只在同一个桌面浏览器里测试。"
+          }
+        ],
+        callout: {
+          en: "Keep the original WebM until the MP4 passes the real destination test. A successful browser preview proves that a file was created; it does not prove every receiving app will accept it.",
+          zh: "在 MP4 通过真实目标环境测试前保留 WebM 源文件。浏览器预览成功只能证明文件已经生成，不能证明每个接收应用都会接受它。"
+        }
+      },
+      {
+        h2: {
+          en: "If the browser conversion is slow or stops",
+          zh: "浏览器转换很慢或停止时怎么办"
+        },
+        list: [
+          {
+            en: "Close memory-heavy tabs before loading a large WebM.",
+            zh: "载入大 WebM 前，关闭占用内存较多的其他标签页。"
+          },
+          {
+            en: "Keep the browser tab active while FFmpeg WebAssembly is encoding.",
+            zh: "FFmpeg WebAssembly 编码期间，尽量保持当前标签页处于活动状态。"
+          },
+          {
+            en: "Try a shorter source clip to confirm the codec settings before processing the full video.",
+            zh: "先用更短的源片段确认编码设置，再处理完整视频。"
+          },
+          {
+            en: "For several hundred megabytes of high-resolution footage, use desktop FFmpeg if browser memory or processing time becomes impractical.",
+            zh: "如果是几百 MB 的高分辨率素材，浏览器内存或处理时间不再合适时，改用桌面 FFmpeg。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "WebM to MP4 for iPhone FAQ",
+          zh: "WebM 转 iPhone MP4 常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Will converting WebM to MP4 reduce quality?",
+              zh: "WebM 转 MP4 会降低画质吗？"
+            },
+            a: {
+              en: "Re-encoding can change image quality because the frames are compressed again. H.264 with a reasonable quality setting usually preserves a useful result, but conversion cannot add detail that is missing from the WebM source.",
+              zh: "重新编码会再次压缩画面，因此可能改变画质。合理质量设置下的 H.264 通常能保留可用效果，但转换不能补回 WebM 源文件里已经不存在的细节。"
+            }
+          },
+          {
+            q: {
+              en: "Why is the MP4 larger than the WebM?",
+              zh: "为什么转出的 MP4 比 WebM 更大？"
+            },
+            a: {
+              en: "The two files may use different codecs and bitrates. File size is not determined by the extension alone. A compatibility-focused H.264 encode can be larger than a tightly compressed WebM source.",
+              zh: "两个文件可能使用不同的编码和码率。文件大小不是由后缀单独决定的。以兼容性为优先的 H.264 输出，可能比高度压缩的 WebM 源文件更大。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: "/blog/crop-black-bars-from-video-online/",
+    isArticle: true,
+    contentStandardVersion: 2,
+    title: {
+      en: "How to Crop Black Bars from a Video Online",
+      zh: "如何在线裁掉视频上下或左右黑边"
+    },
+    description: {
+      en: "Crop black bars from MP4, MOV, or WebM online. Identify letterboxing, calculate crop dimensions, avoid stretching, and export with HappyConvert.",
+      zh: "在浏览器里裁掉 MP4、MOV 或 WebM 视频的上下、左右黑边。本文说明如何识别黑边、设置裁切尺寸、避免画面拉伸，并用 HappyConvert 导出。"
+    },
+    category: { en: "Cropping Guides", zh: "画面裁切" },
+    readTime: { en: "8 min read", zh: "8 分钟阅读" },
+    date: { en: "July 31, 2026", zh: "2026年7月31日" },
+    toolLink: "/crop-video/",
+    toolName: { en: "Video Cropper", zh: "视频画面裁切工具" },
+    faqs: [
+      {
+        q: {
+          en: "Can I remove black bars without stretching the video?",
+          zh: "裁掉黑边时可以不拉伸画面吗？"
+        },
+        a: {
+          en: "Yes. Crop only the rows or columns occupied by the bars and keep the remaining picture at its natural proportions. Cropping removes pixels; stretching changes their shape.",
+          zh: "可以。只裁掉黑边占用的行或列，保留中间画面的自然比例。裁切是删除像素，拉伸则会改变像素呈现的形状，两者不是一回事。"
+        }
+      },
+      {
+        q: {
+          en: "Why did black bars appear after I uploaded the video elsewhere?",
+          zh: "为什么视频上传到其他平台后又出现黑边？"
+        },
+        a: {
+          en: "The platform or player may be fitting your video into a different aspect-ratio frame. Bars generated by the player are not part of the source pixels and cannot be removed by cropping the original file.",
+          zh: "平台或播放器可能把视频放进了不同宽高比的播放框。播放器临时生成的黑边不属于源视频像素，因此裁切原文件也无法控制这种黑边。"
+        }
+      }
+    ],
+    content: [
+      {
+        h2: {
+          en: "The short answer: crop the bars, do not stretch the picture",
+          zh: "先说结论：裁掉黑边，不要拉伸画面"
+        },
+        p: [
+          {
+            en: "To crop black bars from a video online, first confirm that the bars are baked into the video itself. Then reduce the crop height for bars at the top and bottom, or reduce the crop width for bars on the left and right. Center the crop so the actual picture remains balanced.",
+            zh: "要在线裁掉视频黑边，先确认黑边已经写进视频画面本身。上下有黑边时减少裁切高度，左右有黑边时减少裁切宽度，再把裁切区域居中，让实际画面保持平衡。"
+          },
+          {
+            en: "HappyConvert performs this crop locally in the browser and exports a new MP4. Because cropping changes the frame dimensions, FFmpeg WebAssembly must re-encode the video. Processing time depends on duration, resolution, CPU speed, and available browser memory.",
+            zh: "HappyConvert 在浏览器本地完成裁切，并导出新的 MP4。因为裁切改变了画面尺寸，FFmpeg WebAssembly 必须重新编码视频。处理时间取决于时长、分辨率、CPU 速度和浏览器可用内存。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Are the black bars inside the file or added by the player?",
+          zh: "黑边在文件里面，还是播放器临时加的"
+        },
+        p: [
+          {
+            en: "Pause the video and capture a frame or inspect it in more than one player. If the same black pixels appear in the exported frame and every player, they are probably part of the file. This is common when a widescreen film is exported inside a 16:9 frame or a vertical phone clip is saved inside a horizontal canvas.",
+            zh: "暂停视频并截取一帧，或者用多个播放器检查。如果导出的画面和每个播放器里都出现相同的黑色像素，黑边大概率属于文件本身。宽银幕内容被导出进 16:9 画布，或竖屏手机视频被保存进横屏画布时，经常出现这种情况。"
+          },
+          {
+            en: "If the bars change when you resize the player window, they may be player padding. Cropping the file cannot force every website to use the same player shape. In that case, match the destination platform's aspect ratio instead of cutting pixels blindly.",
+            zh: "如果调整播放器窗口后黑边随之变化，它们可能只是播放器留白。裁切文件无法强制所有网站使用相同形状的播放器。这种情况下，应匹配目标平台的宽高比，而不是盲目删除像素。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "How to calculate a centered crop for black bars",
+          zh: "怎样计算居中的黑边裁切区域"
+        },
+        p: [
+          {
+            en: "Start with the source width and height shown after loading the file. For a 1920 × 1080 video with 140-pixel bars at both the top and bottom, the visible height is 1080 - 140 - 140 = 800 pixels. Use a crop of 1920 × 800 with X at 0 and Y at 140.",
+            zh: "先查看文件载入后显示的源宽度和高度。例如一个 1920 × 1080 视频，上下各有 140 像素黑边，可见高度就是 1080 - 140 - 140 = 800 像素。此时裁切尺寸设为 1920 × 800，X 设为 0，Y 设为 140。"
+          },
+          {
+            en: "For a 1920 × 1080 video with 240-pixel bars on both sides, the visible width is 1920 - 240 - 240 = 1440 pixels. Use 1440 × 1080 with X at 240 and Y at 0. Use even-numbered dimensions where possible because common H.264 pixel formats behave more reliably with even width and height.",
+            zh: "如果一个 1920 × 1080 视频左右各有 240 像素黑边，可见宽度就是 1920 - 240 - 240 = 1440 像素。裁切尺寸设为 1440 × 1080，X 设为 240，Y 设为 0。宽高尽量使用偶数，因为常见 H.264 像素格式处理偶数尺寸时更稳定。"
+          }
+        ],
+        callout: {
+          en: "Formula for equal bars: new size = source size - first bar - second bar; the crop offset equals the top or left bar thickness.",
+          zh: "等宽黑边公式：新尺寸 = 源尺寸 - 第一条黑边 - 第二条黑边；裁切偏移量就是顶部或左侧黑边的厚度。"
+        }
+      },
+      {
+        h2: {
+          en: "Cropping, resizing, and changing aspect ratio are different jobs",
+          zh: "裁切、缩放和改变宽高比是三种不同操作"
+        },
+        p: [
+          {
+            en: "Cropping removes rows or columns from the frame. If you crop 140 pixels from the top and 140 from the bottom of a 1920 × 1080 source, the result is 1920 × 800. The people and objects in the remaining area keep their original shape because the pixel geometry has not been stretched.",
+            zh: "裁切会从画面中删除像素行或像素列。如果从 1920 × 1080 源视频的顶部和底部各裁掉 140 像素，结果就是 1920 × 800。保留区域里的人物和物体不会变形，因为像素几何关系没有被拉伸。"
+          },
+          {
+            en: "Resizing changes the number of pixels in the remaining frame. It can be useful after cropping when a website requires a maximum width, but it is a separate decision. Stretching a 1920 × 800 crop back to 1920 × 1080 changes the proportions and makes the picture look too tall.",
+            zh: "缩放会改变保留画面的像素数量。裁切后，如果网站限制最大宽度，缩放可能有用，但这是另一个决定。把 1920 × 800 强行拉回 1920 × 1080 会改变比例，让画面显得过高。"
+          },
+          {
+            en: "Changing aspect ratio may involve cropping, padding, or both. A 2.40:1 movie frame does not become a natural 16:9 image just because the output box says 16:9. To fill that frame without bars, you must accept losing some picture at the left and right edges.",
+            zh: "改变宽高比可能涉及裁切、补边，或者两者同时发生。2.40:1 的电影画面不会因为输出框写着 16:9 就自然变成 16:9。如果要在没有黑边的情况下填满画框，就必须接受左右画面被裁掉一部分。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Steps to crop black bars in HappyConvert",
+          zh: "在 HappyConvert 中裁掉黑边的步骤"
+        },
+        list: [
+          {
+            en: "Open the Video Cropper and load the MP4, MOV, or WebM file.",
+            zh: "打开视频画面裁切工具，载入 MP4、MOV 或 WebM 文件。"
+          },
+          {
+            en: "Choose Custom crop instead of forcing 16:9, 9:16, or 1:1.",
+            zh: "选择自定义裁切，不要强制套用 16:9、9:16 或 1:1。"
+          },
+          {
+            en: "Enter the new width and height, then set X and Y offsets to place the crop over the real picture.",
+            zh: "输入新的宽度和高度，再设置 X、Y 偏移，让裁切区域覆盖真实画面。"
+          },
+          {
+            en: "Preview the frame and check faces, subtitles, logos, and edge details before processing.",
+            zh: "处理前预览画面，检查人物、字幕、标志和边缘细节是否被误裁。"
+          },
+          {
+            en: "Export the MP4 and inspect the beginning, middle, and end because bar thickness can change in edited footage.",
+            zh: "导出 MP4 后检查开头、中间和结尾，因为经过剪辑的素材可能在不同片段出现不同厚度的黑边。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "How I test a crop across the whole timeline",
+          zh: "我怎样检查整条时间线上的裁切结果"
+        },
+        p: [
+          {
+            en: "A crop that looks correct on the opening frame can still fail later. Edited videos may combine screen recordings, camera footage, title cards, and end screens with different layouts. I check at roughly 0%, 25%, 50%, 75%, and the final five seconds before committing to one fixed crop.",
+            zh: "开头画面看起来正确的裁切，后面仍然可能出错。经过剪辑的视频可能混合录屏、相机素材、标题卡和片尾，它们的布局并不相同。我会检查大约 0%、25%、50%、75% 位置和最后 5 秒，再决定是否使用一个固定裁切。"
+          },
+          {
+            en: "Subtitles need special attention because they often sit close to the lower bar. A subtitle may be absent from the preview frame but appear later. Logos, speaker labels, game HUD elements, and timestamps can also occupy the edges that look empty at first.",
+            zh: "字幕需要特别注意，因为它们经常贴近下方黑边。预览帧里可能没有字幕，但后面会出现。标志、人物标签、游戏界面元素和时间戳，也可能占用开头看似空白的边缘。"
+          },
+          {
+            en: "If bar thickness changes between scenes, one browser crop cannot adapt automatically. Split the source into sections with consistent framing, crop those sections separately, or use a desktop editor with keyframed crop controls. This takes longer, but it prevents one scene's fix from damaging another.",
+            zh: "如果不同场景的黑边厚度会变化，一个浏览器裁切参数无法自动适应。可以先按画面一致的区段拆分素材，再分别裁切；也可以使用支持裁切关键帧的桌面剪辑软件。虽然步骤更多，但能避免修好一个场景却破坏另一个场景。"
+          }
+        ],
+        callout: {
+          en: "The safest fixed crop is the one that works at the most crowded edge frame, not the cleanest frame you happen to see first.",
+          zh: "最稳妥的固定裁切，应以边缘内容最拥挤的画面为准，而不是以最先看到的干净画面为准。"
+        }
+      },
+      {
+        h2: {
+          en: "Common mistakes after removing black bars",
+          zh: "裁掉黑边后常见的错误"
+        },
+        list: [
+          {
+            en: "Cropping too tightly and cutting subtitles that only appear later in the video.",
+            zh: "裁得太紧，误删了只在视频后半段出现的字幕。"
+          },
+          {
+            en: "Stretching the cropped frame back to the old dimensions and making people look wider or taller.",
+            zh: "把裁完的画面强行拉回原尺寸，导致人物变宽或变高。"
+          },
+          {
+            en: "Assuming every black edge is removable when some padding is created by the destination player.",
+            zh: "认为所有黑边都能裁掉，但其中一部分其实由目标播放器产生。"
+          },
+          {
+            en: "Processing a large 4K file before testing the crop on a short sample.",
+            zh: "没有先用短样本测试，就直接处理大型 4K 文件。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Crop black bars FAQ",
+          zh: "视频黑边裁切常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Does cropping black bars reduce video quality?",
+              zh: "裁掉黑边会降低视频画质吗？"
+            },
+            a: {
+              en: "Cropping removes the bar pixels, but exporting requires a new H.264 encode in HappyConvert. The visible composition can remain sharp, although any re-encode may change fine detail slightly.",
+              zh: "裁切会删除黑边像素，但在 HappyConvert 中导出需要重新进行 H.264 编码。可见画面可以保持清晰，但任何重新编码都可能轻微改变细节。"
+            }
+          },
+          {
+            q: {
+              en: "Can one crop setting remove bars from the whole video?",
+              zh: "一个裁切参数能去掉整段视频的黑边吗？"
+            },
+            a: {
+              en: "Only when the bar position and thickness stay constant. If the video combines clips with different aspect ratios, one fixed crop may cut real content or leave bars in some scenes.",
+              zh: "只有黑边位置和厚度始终不变时才可以。如果视频混合了不同宽高比的片段，一个固定裁切可能误删真实内容，也可能在部分场景残留黑边。"
+            }
+          }
+        ]
+      }
+    ]
   }
 ];
