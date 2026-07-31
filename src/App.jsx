@@ -9,6 +9,17 @@ import { BLOG_PAGES } from "./config/blogPages.js";
 
 const FFMPEG_CORE_BASE_URL = "/ffmpeg";
 const FFMPEG_LOAD_TIMEOUT_MS = 45000;
+const BLOG_PAGE_SIZE = 10;
+
+const getSortedBlogArticles = () =>
+  BLOG_PAGES
+    .map((page, index) => ({ page, index }))
+    .filter(({ page }) => page.isArticle)
+    .sort((a, b) => {
+      const dateDifference = Date.parse(b.page.date.en) - Date.parse(a.page.date.en);
+      return dateDifference || b.index - a.index;
+    })
+    .map(({ page }) => page);
 
 // Helper to extract clean tool/page path from URL (stripping /zh or /en prefix)
 const getCleanPathFromUrl = (pathname) => {
@@ -194,9 +205,17 @@ export default function App() {
 
   // Console Visibility State
   const [showLogs, setShowLogs] = useState(false);
+  const [visibleBlogCount, setVisibleBlogCount] = useState(BLOG_PAGE_SIZE);
+  const sortedBlogArticles = useMemo(() => getSortedBlogArticles(), []);
 
   // Latest Generated Output State
   const [latestOutput, setLatestOutput] = useState(null);
+
+  useEffect(() => {
+    if (activePageConfig.isBlogIndex) {
+      setVisibleBlogCount(BLOG_PAGE_SIZE);
+    }
+  }, [activePageConfig.isBlogIndex, lang]);
   
   // 1. Tool Options: Trim
   const [startTimeSec, setStartTimeSec] = useState(0);
@@ -1905,8 +1924,8 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="blog-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "28px", marginBottom: "60px" }}>
-                {BLOG_PAGES.filter(p => p.isArticle).map((art) => {
+              <div id="blog-article-grid" className="blog-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "28px", marginBottom: "32px" }}>
+                {sortedBlogArticles.slice(0, visibleBlogCount).map((art) => {
                   const locArt = localizedPage(art, lang);
                   return (
                     <div 
@@ -1954,6 +1973,20 @@ export default function App() {
                   );
                 })}
               </div>
+              {visibleBlogCount < sortedBlogArticles.length && (
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: "60px" }}>
+                  <button
+                    type="button"
+                    className="studio-btn studio-btn-primary"
+                    onClick={() => setVisibleBlogCount((count) => Math.min(count + BLOG_PAGE_SIZE, sortedBlogArticles.length))}
+                    aria-expanded={visibleBlogCount >= sortedBlogArticles.length}
+                    aria-controls="blog-article-grid"
+                    style={{ minWidth: "180px", padding: "11px 24px" }}
+                  >
+                    {lang === "zh" ? "查看更多文章" : "Load More Articles"}
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="blog-article-view" style={{ backgroundColor: "var(--bg-surface)", border: "1px solid var(--border-color)", borderRadius: "var(--radius-lg)", padding: "48px", boxShadow: "var(--shadow-md)", marginBottom: "60px" }}>

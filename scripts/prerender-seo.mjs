@@ -216,6 +216,26 @@ const renderStaticContent = (config, page, lang) => {
       : "";
     return `<section><h2>${escapeHtml(section.h2 || "")}</h2>${paragraphs}${list}</section>`;
   }).join("") || "";
+  const blogArticleLinks = config.isBlogIndex
+    ? BLOG_PAGES
+        .map((blogPage, index) => ({ blogPage, index }))
+        .filter(({ blogPage }) => blogPage.isArticle)
+        .sort((a, b) => {
+          const dateDifference = Date.parse(b.blogPage.date.en) - Date.parse(a.blogPage.date.en);
+          return dateDifference || b.index - a.index;
+        })
+        .map(({ blogPage }) => {
+          const localizedArticle = localizedPage(blogPage, lang);
+          return `
+            <article>
+              <h2><a href="${localizedPath(blogPage.path, lang)}">${escapeHtml(localizedArticle.title)}</a></h2>
+              <p>${escapeHtml(conservativeCopy(localizedArticle.description, lang))}</p>
+              <p>${escapeHtml(localizedArticle.date || "")}</p>
+            </article>
+          `;
+        })
+        .join("")
+    : "";
 
   return `
     <main class="seo-static" aria-label="${escapeHtml(page.title)}">
@@ -227,6 +247,7 @@ const renderStaticContent = (config, page, lang) => {
       </section>
       ${heading ? `<section><h2>${escapeHtml(heading)}</h2><p>${escapeHtml(conservativeCopy(page.description, lang))}</p></section>` : ""}
       ${articleSections}
+      ${blogArticleLinks ? `<section aria-label="${escapeHtml(lang === "zh" ? "全部文章" : "All articles")}">${blogArticleLinks}</section>` : ""}
       ${faqs.length ? `
         <section>
           <h2>${escapeHtml(lang === "zh" ? "常见问题" : "Frequently Asked Questions")}</h2>
