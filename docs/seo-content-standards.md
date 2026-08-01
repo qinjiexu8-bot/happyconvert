@@ -1,6 +1,6 @@
 # HappyConvert SEO Content Standards
 
-Last updated: 2026-07-31
+Last updated: 2026-08-01
 
 This document is the publishing gate for HappyConvert blog content. A draft is not allowed into `src/config/blogPages.js` unless it passes the checklist below.
 
@@ -109,3 +109,8 @@ Before publishing, every article must pass:
 
 1. `How to Convert WebM to MP4 for iPhone and QuickTime` -> `/convert-video/`
 2. `How to Crop Black Bars from a Video Online` -> `/crop-video/`
+
+## Fifth Batch Topics
+
+1. `How to Convert MKV to MP4 for TV and Mobile Playback` -> `/convert-video/`
+2. `How to Reduce Video Resolution to 720p Online` -> `/compress-video/`

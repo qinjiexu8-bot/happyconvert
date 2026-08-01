@@ -1884,5 +1884,481 @@ export const BLOG_PAGES = [
         ]
       }
     ]
+  },
+  {
+    path: "/blog/convert-mkv-to-mp4-for-tv-mobile/",
+    isArticle: true,
+    contentStandardVersion: 2,
+    title: {
+      en: "How to Convert MKV to MP4 for TV and Mobile Playback",
+      zh: "如何把 MKV 转成电视和手机更容易播放的 MP4"
+    },
+    description: {
+      en: "Convert MKV to MP4 for TV, phone, tablet, or browser playback. Choose H.264 and AAC in HappyConvert and avoid subtitle, audio, and codec surprises in practice.",
+      zh: "把 MKV 转成电视、手机、平板和浏览器更容易播放的 MP4。本文说明 HappyConvert 的 H.264 与 AAC 设置，以及字幕、音轨和编码兼容问题。"
+    },
+    category: { en: "Format Guides", zh: "格式指南" },
+    readTime: { en: "8 min read", zh: "8 分钟阅读" },
+    date: { en: "August 1, 2026", zh: "2026年8月1日" },
+    toolLink: "/convert-video/",
+    toolName: { en: "Video Converter", zh: "视频转换工具" },
+    faqs: [
+      {
+        q: {
+          en: "Why does an MKV file play on my computer but not my TV?",
+          zh: "为什么 MKV 在电脑上能播放，在电视上却打不开？"
+        },
+        a: {
+          en: "Your computer player may support more containers and codecs than the TV. The TV can reject the MKV container, its video codec, its audio codec, or a particular profile even when the file itself is valid.",
+          zh: "电脑播放器支持的容器和编码通常比电视更多。即使文件本身没有损坏，电视也可能不支持 MKV 容器、其中的视频编码、音频编码或某个具体编码规格。"
+        }
+      },
+      {
+        q: {
+          en: "Can I convert MKV to MP4 without changing video quality?",
+          zh: "MKV 转 MP4 可以完全不改变画质吗？"
+        },
+        a: {
+          en: "Only when the existing streams can be copied into MP4 and the destination device supports them. For broad TV and mobile compatibility, re-encoding to H.264 and AAC is safer but compresses the media again.",
+          zh: "只有现有音视频流可以直接放进 MP4，并且目标设备支持这些编码时才有可能。为了获得更广泛的电视和手机兼容性，重新编码为 H.264 与 AAC 更稳妥，但会再次压缩媒体。"
+        }
+      },
+      {
+        q: {
+          en: "Will MKV subtitles remain in the MP4?",
+          zh: "MKV 里的字幕会保留到 MP4 中吗？"
+        },
+        a: {
+          en: "Do not assume they will. MKV can contain subtitle formats, chapters, fonts, attachments, and several audio tracks that a simple browser conversion may not map into the new MP4.",
+          zh: "不要默认会保留。MKV 可以包含字幕、章节、字体、附件和多条音轨，简单的浏览器转换不一定会把这些内容映射到新的 MP4 中。"
+        }
+      }
+    ],
+    content: [
+      {
+        h2: {
+          en: "The short answer: use MP4 with H.264 video and AAC audio",
+          zh: "先说结论：使用 H.264 视频加 AAC 音频的 MP4"
+        },
+        p: [
+          {
+            en: "To convert MKV to MP4 for TV and mobile playback, select MP4 as the target container, H.264 as the video codec, and AAC as the audio codec. This combination is more predictable across smart TVs, phones, tablets, browsers, messaging apps, and presentation software than an MKV with an unknown mix of streams.",
+            zh: "要把 MKV 转成电视和手机更容易播放的格式，目标容器选择 MP4，视频编码选择 H.264，音频编码选择 AAC。与内部音视频组合不明的 MKV 相比，这个组合在智能电视、手机、平板、浏览器、聊天软件和演示软件中更容易兼容。"
+          },
+          {
+            en: "HappyConvert performs the conversion in the browser with FFmpeg WebAssembly. That avoids a cloud upload, but the work uses your device CPU and browser memory. Long 4K files and multi-gigabyte movies are poor browser jobs; test a short clip before committing to a large conversion.",
+            zh: "HappyConvert 使用 FFmpeg WebAssembly 在浏览器中完成转换，不需要先上传到云端，但计算会使用设备 CPU 和浏览器内存。较长的 4K 文件和数 GB 电影不适合浏览器处理；转换大文件前应先测试短片段。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "MKV is a container, not one video codec",
+          zh: "MKV 是容器，不是某一种视频编码"
+        },
+        p: [
+          {
+            en: "Two files ending in `.mkv` can behave completely differently. One may contain H.264 video and AAC audio, while another contains HEVC video, DTS audio, two commentary tracks, subtitles, chapters, and font attachments. The filename extension tells you the container but not whether a destination device supports everything inside it.",
+            zh: "两个同样以 `.mkv` 结尾的文件，实际表现可能完全不同。一个可能包含 H.264 视频和 AAC 音频，另一个则包含 HEVC 视频、DTS 音频、两条评论音轨、字幕、章节和字体附件。扩展名只说明容器，不能说明目标设备是否支持里面的全部内容。"
+          },
+          {
+            en: "This explains the common situation where VLC plays the file but a television reports an unsupported format. VLC includes broad software decoders. A TV often relies on a smaller set of hardware-supported combinations, USB playback rules, and firmware-specific limits.",
+            zh: "这就解释了为什么 VLC 可以播放文件，而电视却提示格式不支持。VLC 内置了范围很广的软件解码器；电视通常依赖更有限的硬件编码组合、USB 播放规则和特定固件限制。"
+          }
+        ],
+        callout: {
+          en: "Changing `.mkv` to `.mp4` in the filename does not change the container or codecs. A receiving device that inspects the file will still see the original MKV data.",
+          zh: "直接把文件名中的 `.mkv` 改成 `.mp4`，不会改变容器和编码。会检查文件内容的设备仍然能看到原始 MKV 数据。"
+        }
+      },
+      {
+        h2: {
+          en: "How to convert MKV to MP4 with HappyConvert settings",
+          zh: "我会在 HappyConvert 中选择的 MKV 转 MP4 参数"
+        },
+        list: [
+          {
+            en: "Load the MKV in the Video Converter and confirm that the preview, duration, and audio are detected.",
+            zh: "在视频转换工具中载入 MKV，确认预览、时长和声音都能被识别。"
+          },
+          {
+            en: "Choose MP4 as the Target Container.",
+            zh: "目标容器选择 MP4。"
+          },
+          {
+            en: "Choose H.264 for Video Codec when compatibility is the reason for converting.",
+            zh: "如果转换目的是解决兼容问题，视频编码选择 H.264。"
+          },
+          {
+            en: "Choose AAC for Audio Codec instead of copying an unknown MKV audio stream.",
+            zh: "音频编码选择 AAC，不要直接复制未知的 MKV 音轨。"
+          },
+          {
+            en: "Export a one- or two-minute sample and test it on the actual TV or phone before processing the full file.",
+            zh: "先导出 1 到 2 分钟样本，在实际电视或手机上测试后再处理完整文件。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "When codec copy is useful and when it defeats the goal",
+          zh: "什么时候适合编码复制，什么时候反而失去转换意义"
+        },
+        p: [
+          {
+            en: "Codec copy is a remux: FFmpeg moves compressed streams into a new container without decoding every frame. It can finish much faster and avoids another video encode. It works when the MKV already contains streams that MP4 accepts and the destination device supports those exact streams.",
+            zh: "编码复制属于重新封装：FFmpeg 不逐帧解码，而是把现有压缩数据放入新容器。它通常快得多，也避免再次编码视频。前提是 MKV 中的音视频流可以被 MP4 接受，并且目标设备支持这些具体编码。"
+          },
+          {
+            en: "That is not a safe default when the TV already rejected the source. Copying H.265, an unusual audio codec, or an unsupported profile into another container may preserve the same playback failure. For a compatibility repair, H.264 and AAC trade extra processing time for a more conventional output.",
+            zh: "如果电视已经拒绝源文件，编码复制就不是稳妥的默认方案。把 H.265、少见音频编码或不支持的规格复制进另一个容器，可能保留同样的播放问题。为了修复兼容性，H.264 与 AAC 用更多处理时间换取更常见的输出组合。"
+          },
+          {
+            en: "I use copy only after checking the source codecs and knowing the target accepts them. If those facts are unknown, I would rather make a short H.264/AAC test than wait for a full-length remux that still fails on the television.",
+            zh: "只有确认源编码，并知道目标设备支持时，我才会使用复制。如果这些信息未知，我宁愿先做一个短 H.264/AAC 测试，也不愿等待完整重新封装后才发现电视依旧无法播放。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Check subtitles, extra audio tracks, chapters, and attachments",
+          zh: "检查字幕、额外音轨、章节和附件"
+        },
+        p: [
+          {
+            en: "MKV is popular partly because it can package complex media. A single file may carry several languages, forced subtitles, commentary, chapter markers, cover art, and fonts used by styled subtitles. A simple MP4 conversion aimed at one playable video and one audio track is not an archive migration.",
+            zh: "MKV 受欢迎的原因之一，是它能封装复杂媒体。一个文件可能携带多种语言、强制字幕、评论音轨、章节标记、封面和字幕使用的字体。以一条可播放视频和一条音轨为目标的简单 MP4 转换，并不等于完整迁移存档。"
+          },
+          {
+            en: "Before converting, note which language track is playing and whether subtitles are essential. After export, verify the audio language and subtitle behavior. If preserving every stream matters, use desktop FFmpeg or a media tool that exposes stream mapping instead of treating the browser output as a complete replacement.",
+            zh: "转换前要记下正在播放的语言音轨，并确认字幕是否不可缺少。导出后检查音频语言和字幕表现。如果必须保留所有流，应使用桌面 FFmpeg 或能显示流映射的媒体工具，不要把浏览器输出当成完整替代品。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "What to expect from file size and image quality",
+          zh: "文件体积和画质会怎样变化"
+        },
+        p: [
+          {
+            en: "MP4 is not automatically smaller than MKV. Container overhead is usually not the main factor; duration, resolution, frame rate, source codec, bitrate, and the new H.264 settings matter more. A heavily compressed HEVC source can produce a larger H.264 MP4 even though the new file is easier to play.",
+            zh: "MP4 不会自动比 MKV 小。容器开销通常不是主要因素；时长、分辨率、帧率、源编码、码率和新的 H.264 参数影响更大。一个高度压缩的 HEVC 源文件转成 H.264 后，MP4 可能更大，但更容易播放。"
+          },
+          {
+            en: "Re-encoding also cannot restore detail missing from the source. Judge the result on moving faces, dark gradients, subtitles, and fast camera motion rather than only comparing the first paused frame. Keep the MKV until the MP4 passes playback and content checks.",
+            zh: "重新编码也无法恢复源文件中已经丢失的细节。检查结果时，应观察运动中的人脸、暗部渐变、字幕和快速镜头，而不是只比较暂停的第一帧。在 MP4 通过播放和内容检查前，应保留 MKV 源文件。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "If MKV conversion is slow, silent, or fails",
+          zh: "MKV 转换很慢、没有声音或失败时怎么办"
+        },
+        list: [
+          {
+            en: "Close memory-heavy tabs and keep the HappyConvert tab active during processing.",
+            zh: "关闭占用内存较多的标签页，并在处理期间保持 HappyConvert 标签页活动。"
+          },
+          {
+            en: "Try a short segment to separate codec compatibility problems from file-size problems.",
+            zh: "先尝试短片段，区分编码兼容问题和文件体积问题。"
+          },
+          {
+            en: "Use H.264 plus AAC when the preview works but the copied MP4 does not play on the target.",
+            zh: "预览正常但复制得到的 MP4 无法在目标设备播放时，改用 H.264 加 AAC。"
+          },
+          {
+            en: "Use desktop FFmpeg for very large files, batch conversions, subtitle preservation, or several audio tracks.",
+            zh: "对于超大文件、批量转换、字幕保留或多条音轨，使用桌面 FFmpeg。"
+          }
+        ],
+        callout: {
+          en: "A successful download is not the final test. Play the beginning, seek to the middle, play the final ten seconds, and listen for the expected language track on the real destination device.",
+          zh: "成功下载不代表检查完成。请在真实目标设备上播放开头、跳转到中间、播放最后 10 秒，并确认音轨语言正确。"
+        }
+      },
+      {
+        h2: {
+          en: "MKV to MP4 playback FAQ",
+          zh: "MKV 转 MP4 播放常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "What is the safest MP4 combination for an older TV?",
+              zh: "老电视更稳妥的 MP4 组合是什么？"
+            },
+            a: {
+              en: "H.264 video and AAC audio are a practical first test, but television limits vary by model, resolution, frame rate, profile, and USB file system. Test a short sample on the exact television.",
+              zh: "H.264 视频加 AAC 音频是实用的第一选择，但电视限制会因型号、分辨率、帧率、编码规格和 USB 文件系统而变化。应在具体电视上测试短样本。"
+            }
+          },
+          {
+            q: {
+              en: "Why is the converted MP4 larger?",
+              zh: "为什么转换后的 MP4 更大？"
+            },
+            a: {
+              en: "The new H.264 encode may use more data than the source codec. The extension does not determine size, and broader compatibility can require a less storage-efficient encoding choice.",
+              zh: "新的 H.264 编码可能比源编码使用更多数据。扩展名不决定文件大小，更广泛的兼容性有时需要牺牲一部分存储效率。"
+            }
+          },
+          {
+            q: {
+              en: "Should I delete the original MKV after conversion?",
+              zh: "转换后应该删除原 MKV 吗？"
+            },
+            a: {
+              en: "Not until you verify duration, audio language, subtitles, seeking, and the final seconds on the destination device. The MKV may also contain tracks or metadata that the MP4 output does not preserve.",
+              zh: "先不要。应先在目标设备上确认时长、音频语言、字幕、跳转和结尾播放。MKV 还可能包含 MP4 输出没有保留的音轨或元数据。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: "/blog/reduce-video-resolution-to-720p-online/",
+    isArticle: true,
+    contentStandardVersion: 2,
+    title: {
+      en: "How to Reduce Video Resolution to 720p Online",
+      zh: "如何在线把视频分辨率降低到 720p"
+    },
+    description: {
+      en: "Reduce video resolution to 720p online with HappyConvert. Learn what 1280px width means, which quality preset to use, and how browser limits affect 4K files.",
+      zh: "使用 HappyConvert 在线把视频分辨率降低到 720p。了解 1280 像素宽的含义、质量档位选择，以及浏览器限制对 4K 文件的影响。"
+    },
+    category: { en: "Compression Guides", zh: "压缩教程" },
+    readTime: { en: "8 min read", zh: "8 分钟阅读" },
+    date: { en: "August 1, 2026", zh: "2026年8月1日" },
+    toolLink: "/compress-video/",
+    toolName: { en: "Video Compressor", zh: "视频压缩工具" },
+    faqs: [
+      {
+        q: {
+          en: "What resolution is 720p for a 16:9 video?",
+          zh: "16:9 视频的 720p 分辨率是多少？"
+        },
+        a: {
+          en: "For standard 16:9 landscape video, 720p is 1280 × 720 pixels. HappyConvert's 720p option sets width to 1280 pixels and calculates an even-numbered height that preserves the source aspect ratio.",
+          zh: "标准 16:9 横屏视频的 720p 是 1280 × 720 像素。HappyConvert 的 720p 选项把宽度设为 1280 像素，再计算保持源宽高比的偶数高度。"
+        }
+      },
+      {
+        q: {
+          en: "Will lowering 4K video to 720p make the file smaller?",
+          zh: "把 4K 视频降低到 720p 会让文件变小吗？"
+        },
+        a: {
+          en: "Usually, because each frame contains far fewer pixels and HappyConvert re-encodes it. Final size still depends on duration, frame rate, scene complexity, audio, and the selected compression quality.",
+          zh: "通常会，因为每帧像素数量大幅减少，而且 HappyConvert 会重新编码。最终体积仍取决于时长、帧率、画面复杂度、音频和所选压缩质量。"
+        }
+      },
+      {
+        q: {
+          en: "Does 720p mean 720 pixels high for vertical video?",
+          zh: "竖屏视频选择 720p 后也是 720 像素高吗？"
+        },
+        a: {
+          en: "Not in HappyConvert's current scaler. The option means 1280 pixels wide with proportional height. A portrait source therefore remains portrait and can be taller than 720 pixels.",
+          zh: "当前 HappyConvert 缩放器不是这样。这个选项表示宽度为 1280 像素、高度按比例计算。竖屏源视频仍会保持竖屏，高度可能超过 720 像素。"
+        }
+      }
+    ],
+    content: [
+      {
+        h2: {
+          en: "The short answer: choose 720p HD (1280w) and test Balanced quality",
+          zh: "先说结论：选择 720p HD（1280 宽），先测试平衡质量"
+        },
+        p: [
+          {
+            en: "To reduce video resolution to 720p online in HappyConvert, load the file in the Video Compressor, choose `720p HD (1280w)` under resolution, and start with Balanced quality. A standard 16:9 landscape source becomes 1280 × 720 while other aspect ratios keep their shape and receive a proportional even-numbered height.",
+            zh: "要在 HappyConvert 中在线把视频分辨率降到 720p，先在视频压缩工具中载入文件，在分辨率中选择 `720p HD（1280 宽）`，质量先从平衡档开始。标准 16:9 横屏源文件会变成 1280 × 720，其他宽高比则保持形状，并得到按比例计算的偶数高度。"
+          },
+          {
+            en: "The conversion runs locally through FFmpeg WebAssembly and outputs H.264 video with AAC audio in an MP4 container. Large 4K inputs use substantial browser memory and CPU time, so process a short sample before committing to a long recording.",
+            zh: "转换通过 FFmpeg WebAssembly 在浏览器本地运行，输出 MP4 容器中的 H.264 视频和 AAC 音频。大型 4K 输入会消耗较多浏览器内存和 CPU 时间，因此处理长录制前应先测试短样本。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "What HappyConvert's 720p option actually does",
+          zh: "HappyConvert 的 720p 选项实际做了什么"
+        },
+        p: [
+          {
+            en: "The current scale filter sets output width to 1280 pixels and lets FFmpeg calculate the height while preserving aspect ratio. It also asks for an even height because common H.264 pixel formats work more reliably with even dimensions. This is why a 1920 × 1080 source becomes 1280 × 720.",
+            zh: "当前缩放滤镜把输出宽度设为 1280 像素，让 FFmpeg 在保持宽高比的前提下计算高度。同时它会要求高度为偶数，因为常见 H.264 像素格式处理偶数尺寸更稳定。因此，1920 × 1080 源文件会变成 1280 × 720。"
+          },
+          {
+            en: "A 2560 × 1440 landscape source also becomes 1280 × 720 because both are 16:9. A 1920 × 1200 source is 16:10, so its proportional output is 1280 × 800. The preset does not crop the frame or force every video into 16:9.",
+            zh: "2560 × 1440 横屏源文件同样会变成 1280 × 720，因为两者都是 16:9。1920 × 1200 是 16:10，所以按比例输出为 1280 × 800。这个预设不会裁切画面，也不会强制所有视频变成 16:9。"
+          },
+          {
+            en: "This distinction matters for vertical phone recordings. A 1080 × 1920 portrait file is already narrower than 1280 pixels, so selecting a fixed 1280 width can upscale it rather than reduce it. For that source, keep original resolution or use a smaller width only when the preview and output meet your goal.",
+            zh: "这个区别对竖屏手机录制很重要。1080 × 1920 的竖屏文件宽度本来就小于 1280 像素，选择固定 1280 宽可能放大而不是缩小。对于这种源文件，可以保留原分辨率，或者只有在预览和输出符合目标时才使用更小宽度。"
+          }
+        ],
+        callout: {
+          en: "The label says 720p for familiar landscape use, but the implementation is more accurately described as 1280 pixels wide with aspect ratio preserved.",
+          zh: "界面用 720p 表达常见横屏用途，但更准确的实现描述是：宽度 1280 像素，并保持源宽高比。"
+        }
+      },
+      {
+        h2: {
+          en: "When reducing resolution is the right choice",
+          zh: "什么时候应该降低分辨率"
+        },
+        list: [
+          {
+            en: "A 4K or 1440p clip is mainly being shared in chat, email, a support ticket, or a small web player.",
+            zh: "4K 或 1440p 片段主要用于聊天、邮件、客服工单或较小的网页播放器。"
+          },
+          {
+            en: "The destination screen or embed never displays the source at full resolution.",
+            zh: "目标屏幕或嵌入区域从来不会以源文件完整分辨率显示。"
+          },
+          {
+            en: "Upload time and storage matter more than preserving pixels that viewers cannot see.",
+            zh: "上传时间和存储空间，比保留观众看不到的像素更重要。"
+          },
+          {
+            en: "The source contains normal camera footage rather than tiny text, code, spreadsheets, or detailed interface recordings.",
+            zh: "源内容是普通相机画面，而不是小字、代码、表格或细节密集的界面录屏。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "When I would keep the original resolution",
+          zh: "什么时候我会保留原分辨率"
+        },
+        p: [
+          {
+            en: "Screen recordings are the first exception. Small UI labels that are readable at 1920 pixels wide may soften after scaling to 1280. If the viewer must inspect code, menus, chart labels, or spreadsheet cells, test a representative section before reducing the full recording.",
+            zh: "录屏是第一个例外。宽度 1920 像素时清晰可读的小号界面文字，缩到 1280 后可能变软。如果观众需要查看代码、菜单、图表标签或表格单元格，应先测试具有代表性的片段。"
+          },
+          {
+            en: "Cropping later is another reason to retain pixels. If an editor will zoom into one quarter of the frame, a 720p delivery copy leaves less detail for that crop. Keep the high-resolution original as the master and create a separate 720p sharing copy.",
+            zh: "后续还要裁切，也是保留像素的理由。如果剪辑师会放大画面的四分之一区域，720p 交付副本留给裁切的细节更少。应保留高分辨率原片作为母版，再创建单独的 720p 分享副本。"
+          },
+          {
+            en: "Do not overwrite the source while testing. A smaller delivery file and an original master solve different problems, and browser compression cannot recreate detail removed during scaling.",
+            zh: "测试时不要覆盖源文件。较小的交付文件和原始母版解决的是不同问题，浏览器压缩无法恢复缩放时删除的细节。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "720p compression settings I would test first",
+          zh: "我会优先测试的 720p 压缩设置"
+        },
+        list: [
+          {
+            en: "Resolution: 720p HD (1280w) for a 16:9 landscape source.",
+            zh: "分辨率：对于 16:9 横屏源文件，选择 720p HD（1280 宽）。"
+          },
+          {
+            en: "Quality: Balanced for the first sample; use High Quality when text or fine texture looks too soft.",
+            zh: "质量：第一个样本选择平衡档；如果文字或细密纹理过软，改用高画质。"
+          },
+          {
+            en: "Preset: Very Fast for a practical first run; Medium can spend more CPU time looking for compression efficiency.",
+            zh: "速度预设：第一次使用 Very Fast；Medium 会投入更多 CPU 时间寻找压缩效率。"
+          },
+          {
+            en: "Sample: choose 30 to 60 seconds containing motion, faces, text, and dark areas rather than an easy static intro.",
+            zh: "样本：选择包含运动、人脸、文字和暗部的 30 到 60 秒，不要只测试简单的静态片头。"
+          },
+          {
+            en: "Output check: compare dimensions, duration, audio, seeking, and the final file size before processing the full source.",
+            zh: "输出检查：处理完整源文件前，比较尺寸、时长、声音、跳转和最终体积。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Resolution, quality, and encoding speed are separate controls",
+          zh: "分辨率、质量和编码速度是三个不同控制项"
+        },
+        p: [
+          {
+            en: "Resolution controls how many pixels each frame contains. Quality controls how aggressively H.264 compresses those pixels. The encoding preset controls how much computation FFmpeg spends during the search for an efficient representation; it is not a playback-speed setting.",
+            zh: "分辨率控制每帧包含多少像素，质量控制 H.264 对这些像素压缩得多激进，编码速度预设控制 FFmpeg 为寻找高效表达投入多少计算量；它不是视频播放速度设置。"
+          },
+          {
+            en: "Lowering resolution can produce a large size reduction, but it does not guarantee a particular megabyte target. A 60-second talking-head clip, a 60-second game recording, and a 60-second waterfall can produce different sizes at the same controls because their motion and texture differ.",
+            zh: "降低分辨率可以明显减少体积，但不能保证固定的 MB 目标。60 秒口播、60 秒游戏录屏和 60 秒瀑布画面，即使使用同样设置，输出体积也可能不同，因为运动和纹理复杂度不同。"
+          },
+          {
+            en: "This is why I compare a representative sample instead of trusting a percentage badge. If the sample is too soft, raise quality. If it is still too large, trim unused duration before dropping from 720p to 480p.",
+            zh: "因此，我会比较具有代表性的样本，而不是只相信百分比标签。如果样本过软，就提高质量；如果仍然太大，先剪掉无用时长，再考虑从 720p 降到 480p。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Browser limits for 4K and long recordings",
+          zh: "4K 和长录制的浏览器限制"
+        },
+        p: [
+          {
+            en: "Downscaling 4K is computational work, not merely changing metadata. FFmpeg decodes large source frames, resizes them, encodes new H.264 frames, and writes a second file while the browser still holds working data. CPU speed, RAM, thermal throttling, source duration, and frame rate all affect completion time.",
+            zh: "把 4K 降采样不是简单修改元数据。FFmpeg 要解码大型源帧、缩放、编码新的 H.264 帧，并在浏览器仍保存工作数据时写入第二个文件。CPU 速度、内存、温度降频、源时长和帧率都会影响完成时间。"
+          },
+          {
+            en: "Close other heavy tabs and keep the page active. If a short sample succeeds but the full file stops, browser memory pressure is a likely cause. Several hundred megabytes of long 4K footage may be better handled by desktop FFmpeg, especially when the machine has limited memory.",
+            zh: "关闭其他重型标签页，并保持页面活动。如果短样本成功但完整文件停止，浏览器内存压力很可能是原因。数百 MB 的长 4K 素材更适合桌面 FFmpeg，尤其是在机器内存有限时。"
+          }
+        ],
+        callout: {
+          en: "Start with the hardest 30 to 60 seconds, not the first minute by habit. Fast motion, leaves, water, confetti, smoke, and small text reveal compression problems sooner.",
+          zh: "应优先测试最难处理的 30 到 60 秒，而不是习惯性选择第一分钟。快速运动、树叶、水面、彩纸、烟雾和小字更容易提前暴露压缩问题。"
+        }
+      },
+      {
+        h2: {
+          en: "Reduce video resolution to 720p FAQ",
+          zh: "视频降低到 720p 常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Is 720p good enough for email and messaging?",
+              zh: "720p 适合邮件和聊天发送吗？"
+            },
+            a: {
+              en: "It is often a reasonable delivery resolution for ordinary camera footage viewed in a small player. File-size limits still depend on duration and compression, so test the exported megabytes rather than assuming resolution alone will meet the limit.",
+              zh: "对于在小播放器中观看的普通相机画面，720p 通常是合理的交付分辨率。文件限制仍取决于时长和压缩，因此要检查导出的实际 MB，而不是认为分辨率一定能满足限制。"
+            }
+          },
+          {
+            q: {
+              en: "Should I choose 720p or 480p?",
+              zh: "应该选择 720p 还是 480p？"
+            },
+            a: {
+              en: "Start with 720p when faces, subtitles, or moderate detail matter. Use 480p only when the 720p file remains too large and the smaller result is still readable on the destination screen.",
+              zh: "人物、字幕或中等细节重要时先用 720p。只有当 720p 文件仍然太大，并且更小结果在目标屏幕上仍然可读时，再使用 480p。"
+            }
+          },
+          {
+            q: {
+              en: "Can lowering resolution improve a blurry source?",
+              zh: "降低分辨率能让模糊的源视频变清晰吗？"
+            },
+            a: {
+              en: "No. Downscaling can make compression artifacts less noticeable at a smaller display size, but it cannot create missing focus or detail. Keep expectations tied to what exists in the source.",
+              zh: "不能。降采样可能让压缩瑕疵在较小显示尺寸下不那么明显，但无法创造原本缺失的对焦和细节。应根据源文件已有内容判断效果。"
+            }
+          }
+        ]
+      }
+    ]
   }
 ];
