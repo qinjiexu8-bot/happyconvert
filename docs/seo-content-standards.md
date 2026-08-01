@@ -114,3 +114,8 @@ Before publishing, every article must pass:
 
 1. `How to Convert MKV to MP4 for TV and Mobile Playback` -> `/convert-video/`
 2. `How to Reduce Video Resolution to 720p Online` -> `/compress-video/`
+
+## Sixth Batch Topics
+
+1. `How to Compress Screen Recordings Without Blurry Text` -> `/compress-video/`
+2. `How to Extract WAV Audio from Video for Editing` -> `/video-to-audio/`

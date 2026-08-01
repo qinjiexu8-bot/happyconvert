@@ -2360,5 +2360,685 @@ export const BLOG_PAGES = [
         ]
       }
     ]
+  },
+  {
+    path: "/blog/compress-screen-recording-without-blurry-text/",
+    isArticle: true,
+    contentStandardVersion: 2,
+    title: {
+      en: "How to Compress Screen Recordings Without Blurry Text",
+      zh: "如何压缩屏幕录制，同时避免文字变模糊"
+    },
+    description: {
+      en: "Compress screen recordings without blurry text. Learn which HappyConvert resolution, quality, and speed settings protect code, menus, slides, and UI labels.",
+      zh: "压缩屏幕录制，同时尽量避免文字变模糊。了解 HappyConvert 中哪些分辨率、质量和速度设置更适合代码、菜单、幻灯片和小号界面文字。"
+    },
+    category: { en: "Compression Guides", zh: "压缩教程" },
+    readTime: { en: "12 min read", zh: "12 分钟阅读" },
+    date: { en: "August 1, 2026", zh: "2026年8月1日" },
+    toolLink: "/compress-video/",
+    toolName: { en: "Video Compressor", zh: "视频压缩工具" },
+    faqs: [
+      {
+        q: {
+          en: "Why does text look blurry after compressing a screen recording?",
+          zh: "为什么屏幕录制压缩后文字会变模糊？"
+        },
+        a: {
+          en: "Text becomes blurry when resolution or bitrate is too low for sharp high-contrast edges. Scaling, repeated encoding, browser zoom during recording, and fine colored text can make the problem more visible.",
+          zh: "当分辨率或码率不足以保留锐利的高对比边缘时，文字会变模糊。缩放、重复编码、录制时的浏览器缩放，以及细小的彩色文字都会让问题更明显。"
+        }
+      },
+      {
+        q: {
+          en: "Should I keep the original resolution for a screen recording?",
+          zh: "压缩录屏时应该保留原分辨率吗？"
+        },
+        a: {
+          en: "Start with the original resolution when viewers must read code, spreadsheets, or small interface labels. Test 1280-pixel width only after checking that the smallest important text remains readable.",
+          zh: "如果观众需要阅读代码、表格或小号界面标签，应先保留原分辨率。只有确认最小的重要文字仍然可读后，再测试 1280 像素宽输出。"
+        }
+      },
+      {
+        q: {
+          en: "Which HappyConvert quality setting is best for screen recordings?",
+          zh: "HappyConvert 哪个质量档更适合屏幕录制？"
+        },
+        a: {
+          en: "High Quality is the safer first test for dense text and detailed interfaces. Balanced can work for larger UI elements and presentation slides, but compare a difficult sample before processing the full recording.",
+          zh: "对于密集文字和细节丰富的界面，高画质是更稳妥的首次测试。较大的界面元素和演示幻灯片可以尝试平衡档，但处理完整录制前要比较困难片段。"
+        }
+      }
+    ],
+    content: [
+      {
+        h2: {
+          en: "The short answer: preserve pixels before chasing a smaller file",
+          zh: "先说结论：先保住像素，再追求更小体积"
+        },
+        p: [
+          {
+            en: "To compress screen recordings without blurry text, begin with the original resolution and High Quality in HappyConvert. Export a 30- to 60-second sample that contains the smallest code, menu labels, spreadsheet cells, or slide notes viewers must read. If that sample is clear, try Balanced quality; reduce resolution only after quality alone is not enough.",
+            zh: "要压缩屏幕录制并避免文字变模糊，先在 HappyConvert 中保留原分辨率并选择高画质。导出一个 30 到 60 秒样本，里面要包含观众必须阅读的最小代码、菜单标签、表格单元格或幻灯片备注。如果样本清晰，再尝试平衡质量；只有单纯调整质量仍不足以减小体积时，才降低分辨率。"
+          },
+          {
+            en: "This order differs from ordinary camera footage. A face or landscape can remain understandable after substantial scaling, while a 12-pixel UI label can cross from readable to useless after one resize. HappyConvert encodes locally with FFmpeg WebAssembly, so your CPU and browser memory determine how comfortable a long high-resolution job will be.",
+            zh: "这个顺序和普通相机素材不同。人物或风景经过明显缩放后仍能被理解，而一个 12 像素高的界面标签只缩放一次，就可能从可读变成无法使用。HappyConvert 使用 FFmpeg WebAssembly 在本地编码，因此 CPU 和浏览器内存决定长时间高分辨率任务是否顺利。"
+          }
+        ],
+        callout: {
+          en: "For screen recordings, judge the smallest important text at normal playback size. A file is not successful merely because it is much smaller.",
+          zh: "对于屏幕录制，应在正常播放尺寸下判断最小的重要文字。文件变小很多，并不代表压缩成功。"
+        }
+      },
+      {
+        h2: {
+          en: "Why screen-recording text breaks before the rest of the picture",
+          zh: "为什么录屏文字比其他画面更早劣化"
+        },
+        p: [
+          {
+            en: "Video codecs are designed to spend fewer bits on details that are hard to notice in motion. Screen recordings contain the opposite kind of image: large flat backgrounds interrupted by thin, stationary, high-contrast edges. Letters, cursor outlines, grid lines, and icons may be only one or two source pixels thick, so a small change can alter their shape.",
+            zh: "视频编码器会减少人眼在运动中不容易察觉的细节。屏幕录制恰好相反：大面积平坦背景上分布着细而静止的高对比边缘。字母、光标轮廓、表格线和图标可能只有一到两个源像素宽，因此很小的变化也会改变它们的形状。"
+          },
+          {
+            en: "Chroma subsampling also matters. Common H.264 delivery video stores color detail at a lower resolution than brightness detail. Black text on white usually survives better than small red or blue text on a dark background. Syntax highlighting, warning badges, colored spreadsheet cells, and thin chart lines can therefore look softer than plain monochrome text.",
+            zh: "色度抽样也会产生影响。常见 H.264 交付视频保存颜色细节的分辨率低于亮度细节。白底黑字通常比暗色背景上的小红字或小蓝字更容易保留。语法高亮、警告徽章、彩色表格单元格和细图表线条，因此可能比单色文字更早变软。"
+          },
+          {
+            en: "A paused frame can hide the practical problem. Viewers scroll, windows animate, and the cursor moves across text. Compression artifacts may flicker around those edges during motion even when one screenshot appears acceptable. That is why a real playback sample is more useful than comparing isolated still images.",
+            zh: "暂停帧可能掩盖实际问题。观众会看到滚动、窗口动画和光标穿过文字。即使某张截图看起来可以接受，压缩瑕疵也可能在运动时围绕这些边缘闪烁。因此，真实播放样本比只比较静态图片更有价值。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Record with compression in mind before you export",
+          zh: "录制阶段就为后续压缩做好准备"
+        },
+        p: [
+          {
+            en: "The cleanest compression starts before HappyConvert. Increase the application font size enough that the smallest important label is comfortably readable in the raw recording. For a coding tutorial, hide sidebars that are not discussed and enlarge the editor. For a spreadsheet demo, zoom the sheet instead of expecting viewers to inspect dozens of tiny columns.",
+            zh: "最容易压缩的录屏，从进入 HappyConvert 之前就开始准备。把应用字体调大，让最小的重要标签在原始录制中也能轻松阅读。录制代码教程时，隐藏不会讲解的侧栏并放大编辑器；录制表格演示时，放大工作表，而不是让观众查看几十列小字。"
+          },
+          {
+            en: "Capture only the display area you need. Recording a 3840 × 2160 desktop to show one 900-pixel-wide browser panel wastes pixels on empty wallpaper, docks, and unrelated windows. A tighter capture region gives the useful interface more of the available frame and can reduce the need for aggressive post-recording scaling.",
+            zh: "只录制真正需要的显示区域。为了展示一个 900 像素宽的浏览器面板，却录下整个 3840 × 2160 桌面，会把像素浪费在空白壁纸、程序坞和无关窗口上。更紧凑的捕获区域能让有用界面占据更多画面，也能减少后期激进缩放的需求。"
+          },
+          {
+            en: "Avoid unnecessary digital zoom during editing. Every resize asks a resampling filter to invent a new pixel grid. If the recording is scaled down, enlarged, and scaled down again, letter edges are filtered repeatedly before the final video encode. Keep one high-quality master and derive delivery copies from that master.",
+            zh: "剪辑时避免不必要的数字缩放。每次缩放都要求重采样滤镜生成新的像素网格。如果录屏先缩小、再放大、然后再次缩小，文字边缘会在最终编码前被反复过滤。应保留一个高质量母版，并从母版生成不同交付副本。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "HappyConvert settings for a text-heavy screen recording",
+          zh: "文字密集型录屏的 HappyConvert 设置"
+        },
+        list: [
+          {
+            en: "Resolution: choose Original first when code, formulas, terminal output, or small menu text must remain readable.",
+            zh: "分辨率：代码、公式、终端输出或小号菜单文字必须可读时，先选择原分辨率。"
+          },
+          {
+            en: "Quality: start with High Quality, then compare Balanced on the same difficult 30- to 60-second segment.",
+            zh: "质量：先使用高画质，再用同一个困难的 30 到 60 秒片段比较平衡档。"
+          },
+          {
+            en: "Encoding preset: use Very Fast for the first practical test; try Medium only when extra CPU time is acceptable.",
+            zh: "编码速度：第一次实际测试使用 Very Fast；只有可以接受更多 CPU 时间时再尝试 Medium。"
+          },
+          {
+            en: "Resolution fallback: test 720p HD (1280w) after the original-resolution output is still too large.",
+            zh: "分辨率备选：原分辨率输出仍然太大时，再测试 720p HD（1280 宽）。"
+          },
+          {
+            en: "Output: inspect the MP4 at 100% player zoom and at the size viewers will actually use.",
+            zh: "输出检查：在播放器 100% 缩放和观众实际使用的尺寸下查看 MP4。"
+          }
+        ],
+        callout: {
+          en: "Do not change quality, resolution, and preset at the same time during testing. Change one control, compare the same segment, and keep the cause of each difference visible.",
+          zh: "测试时不要同时改变质量、分辨率和速度预设。每次只改变一个控制项，比较同一个片段，才能知道差异来自哪里。"
+        }
+      },
+      {
+        h2: {
+          en: "Original resolution versus 1280-pixel width",
+          zh: "原分辨率与 1280 像素宽应该怎样选择"
+        },
+        p: [
+          {
+            en: "Keeping original resolution preserves the source pixel grid, but it does not mean the output is uncompressed. HappyConvert still re-encodes the video with H.264. The advantage is that a 1920-pixel-wide interface remains 1920 pixels wide instead of asking the scaler to map every letter onto a smaller grid.",
+            zh: "保留原分辨率只是保留源像素网格，并不意味着输出没有压缩。HappyConvert 仍会使用 H.264 重新编码。它的优势在于，一个 1920 像素宽的界面仍保持 1920 像素宽，不需要缩放器把每个字母重新映射到更小网格。"
+          },
+          {
+            en: "The 720p option sets width to 1280 pixels and preserves aspect ratio. A 1920 × 1080 source becomes 1280 × 720, reducing the number of pixels per frame by about 56%. That can substantially reduce the work and output size, but a 10-pixel-high source label becomes roughly 7 pixels high before compression artifacts are considered.",
+            zh: "720p 选项把宽度设为 1280 像素并保持宽高比。1920 × 1080 源文件会变成 1280 × 720，每帧像素数量减少约 56%。这能明显减少计算和输出体积，但一个在源文件中高 10 像素的标签，在考虑压缩瑕疵前就只剩大约 7 像素高。"
+          },
+          {
+            en: "For presentation slides with 28-point headings, that tradeoff may be acceptable. For a terminal at 12-point type or a spreadsheet at 80% zoom, it may not be. Use the smallest important text as the decision point, not the nominal resolution or the overall file-size reduction.",
+            zh: "对于使用 28 磅标题的演示幻灯片，这种取舍可能可以接受。对于 12 磅终端字体或 80% 缩放的表格，它可能就不合适。应以最小的重要文字作为决策点，而不是只看标称分辨率或总体体积下降。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Quality level and encoding preset solve different problems",
+          zh: "质量档位和编码速度解决不同问题"
+        },
+        p: [
+          {
+            en: "The quality level controls how much visual information H.264 is allowed to discard. Higher quality generally keeps cleaner edges and subtle gradients but produces a larger file. Balanced spends fewer bits and can work well when interface elements are large, motion is limited, and the destination player is small.",
+            zh: "质量档位控制 H.264 可以丢弃多少视觉信息。更高质量通常能保留更干净的边缘和细微渐变，但文件更大。当界面元素较大、运动较少且目标播放器较小时，平衡档可能已经足够。"
+          },
+          {
+            en: "The encoding preset controls how much CPU effort the encoder spends looking for efficient ways to represent the picture. Medium can improve compression efficiency compared with faster presets, but it does not turn a low-quality setting into a high-quality one. It also increases browser processing time, which matters on laptops that become hot or throttle their CPU.",
+            zh: "编码速度预设控制编码器投入多少 CPU 计算来寻找更高效的画面表达。与更快预设相比，Medium 可能提高压缩效率，但不会把低质量设置变成高质量。它还会增加浏览器处理时间，这对容易发热或 CPU 降频的笔记本很重要。"
+          },
+          {
+            en: "For a first pass, I prefer High Quality plus Very Fast because it isolates the risk I care about: text clarity. After the output is readable, I test Balanced or Medium separately. This sequence gives useful evidence instead of guessing which combination caused a blurry result.",
+            zh: "第一次测试时，我更倾向于高画质加 Very Fast，因为它优先控制我真正关心的风险：文字清晰度。确认输出可读后，再分别测试平衡质量或 Medium。这个顺序能提供有用证据，而不是猜测哪个组合导致文字模糊。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Choose a difficult sample, not a convenient sample",
+          zh: "选择困难样本，而不是方便的样本"
+        },
+        p: [
+          {
+            en: "A static title card is a poor compression test for a 45-minute software tutorial. Find the section with the smallest text, fastest scrolling, several overlapping windows, syntax highlighting, or a moving chart. Include a mouse movement and a window transition because motion changes how bits are allocated between frames.",
+            zh: "静态标题卡不适合用来测试 45 分钟的软件教程。应找到文字最小、滚动最快、窗口重叠最多、带语法高亮或动态图表的片段。样本中还应包含鼠标移动和窗口切换，因为运动会改变帧之间的码率分配。"
+          },
+          {
+            en: "Thirty to sixty seconds is usually enough to compare settings without waiting for the full recording. Keep the source range identical for every export. Name results by the control you changed, such as `original-high-veryfast.mp4` and `1280-balanced-veryfast.mp4`, so comparisons do not depend on memory.",
+            zh: "30 到 60 秒通常足以比较设置，不需要等待完整录制。每次导出都使用相同源范围。按改变的控制项命名结果，例如 `original-high-veryfast.mp4` 和 `1280-balanced-veryfast.mp4`，避免依靠记忆比较。"
+          },
+          {
+            en: "View each sample in motion, pause on dense text, and seek back and forth. Check whether the cursor remains defined, one-pixel grid lines disappear, colored characters bleed into the background, or scrolling produces a temporary smear. These failures are more informative than a single percentage reduction.",
+            zh: "播放每个样本，暂停在密集文字处，并来回跳转。检查光标是否清楚、单像素表格线是否消失、彩色字符是否渗入背景，以及滚动时是否出现短暂拖影。这些失败现象比单个压缩百分比更有信息价值。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Different screen recordings need different compromises",
+          zh: "不同类型的屏幕录制需要不同取舍"
+        },
+        p: [
+          {
+            en: "Code and terminal recordings are the least forgiving. Preserve original resolution unless the editor font was deliberately enlarged before recording. Dark themes with colored syntax deserve attention because small blue, red, and purple characters can soften differently from white text.",
+            zh: "代码和终端录制最不宽容。除非录制前已经主动放大编辑器字体，否则应保留原分辨率。深色主题中的彩色语法需要特别注意，因为小号蓝色、红色和紫色字符可能比白字更容易变软。"
+          },
+          {
+            en: "Spreadsheet and dashboard recordings depend on whether viewers need exact values or only the overall trend. If cell contents must be read, crop unused toolbars and enlarge the sheet before recording. If the video only explains a chart shape, 1280-pixel width and Balanced quality may be sufficient after testing.",
+            zh: "表格和仪表盘录制取决于观众是否需要读取精确数值，还是只需要理解总体趋势。如果必须阅读单元格内容，应在录制前裁掉无用工具栏并放大表格；如果只讲解图表形状，测试后可能可以使用 1280 宽和平衡质量。"
+          },
+          {
+            en: "Presentation slides are often easier because fonts are larger and layouts are simpler. However, thin diagrams, footnotes, and embedded screenshots can still fail. Video calls are different again: faces and camera noise may dominate file size, while small shared-screen text remains the acceptance test.",
+            zh: "演示幻灯片通常更容易压缩，因为字体更大、布局更简单。不过，细线图、脚注和嵌入截图仍可能出问题。视频会议又不同：人脸和相机噪点可能主导文件体积，但共享屏幕中的小字仍然是验收标准。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Trim before making text harder to read",
+          zh: "先剪掉无用时长，不要先牺牲文字"
+        },
+        p: [
+          {
+            en: "Duration is the cleanest source of file-size reduction because removing unused seconds does not blur the frames you keep. Cut waiting for applications to open, repeated attempts, long pauses, setup mistakes, and the silent minute before a meeting begins. A 20% shorter recording removes roughly 20% of the timeline that would otherwise need encoding.",
+            zh: "缩短时长是最干净的体积优化，因为删除无用秒数不会模糊保留的画面。可以剪掉等待应用打开、重复操作、长时间停顿、设置错误，以及会议开始前的静默一分钟。录制时长减少 20%，就意味着大约 20% 的时间线不再需要编码。"
+          },
+          {
+            en: "This is usually preferable to dropping from 1920 to 1280 pixels solely to meet an attachment target. Remove dead time first, compress at a readable quality second, and only then reduce resolution. The sequence protects information instead of spending quality on content nobody needs.",
+            zh: "与仅为了满足附件限制而把宽度从 1920 降到 1280 相比，先剪无用时长通常更合理。第一步删除空白，第二步以可读质量压缩，最后才降低分辨率。这个顺序保护真正的信息，而不是把画质浪费在没人需要的内容上。"
+          },
+          {
+            en: "HappyConvert separates cutting and compression into different tools, so use a two-step workflow when needed. Export the useful time range, load that result into the compressor, and keep the original recording until the final delivery file has been checked.",
+            zh: "HappyConvert 把剪切和压缩分成不同工具，因此需要时可以使用两步流程。先导出有用时间范围，再把结果载入压缩工具；在最终交付文件通过检查前，保留原始录制。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Browser limits for long, high-resolution screen recordings",
+          zh: "长时间高分辨率录屏的浏览器限制"
+        },
+        p: [
+          {
+            en: "Local browser processing removes upload time but does not remove encoding work. FFmpeg WebAssembly must decode the source, hold working data in memory, encode H.264 frames, encode AAC audio, and write a new MP4. A 60-minute 4K screen recording can be uncomfortable even when its compressed source file is not unusually large.",
+            zh: "浏览器本地处理省去了上传时间，但不会消除编码计算。FFmpeg WebAssembly 必须解码源文件、在内存中保存工作数据、编码 H.264 帧、编码 AAC 音频并写入新 MP4。即使源文件压缩体积不算特别大，60 分钟 4K 录屏也可能让浏览器处理得很吃力。"
+          },
+          {
+            en: "Close other memory-heavy tabs, connect a laptop to power, and keep the HappyConvert page active. If a 60-second sample works but the complete job stops, browser memory pressure, thermal throttling, or the much longer encode time may be responsible rather than the chosen text-quality setting.",
+            zh: "关闭其他占用内存较多的标签页，为笔记本连接电源，并保持 HappyConvert 页面活动。如果 60 秒样本成功但完整任务停止，原因可能是浏览器内存压力、温度降频或更长编码时间，而不一定是文字质量设置。"
+          },
+          {
+            en: "For several hundred megabytes, long 4K captures, or a batch of lessons, desktop FFmpeg is the more dependable workflow. Browser compression is most comfortable for short to moderate files where privacy and avoiding an upload are valuable.",
+            zh: "对于数百 MB、长时间 4K 捕获或一批课程，桌面 FFmpeg 是更可靠的工作流。浏览器压缩更适合较短到中等大小的文件，尤其是重视隐私并希望避免上传时。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "A practical text-clarity review before delivery",
+          zh: "交付前的文字清晰度检查"
+        },
+        list: [
+          {
+            en: "Confirm the output dimensions and make sure an accidental upscale or excessive downscale did not occur.",
+            zh: "确认输出尺寸，确保没有意外放大或过度缩小。"
+          },
+          {
+            en: "Play the densest text section at normal player size, not only full screen.",
+            zh: "在正常播放器尺寸下播放文字最密集片段，不要只看全屏。"
+          },
+          {
+            en: "Pause on code, formulas, table values, footnotes, and colored warning text.",
+            zh: "暂停检查代码、公式、表格数值、脚注和彩色警告文字。"
+          },
+          {
+            en: "Watch scrolling and cursor movement for edge shimmer, smearing, or disappearing grid lines.",
+            zh: "观察滚动和光标移动时是否出现边缘闪烁、拖影或表格线消失。"
+          },
+          {
+            en: "Check the beginning, middle, and final ten seconds for duration, audio, and playback errors.",
+            zh: "检查开头、中间和最后 10 秒的时长、声音和播放错误。"
+          },
+          {
+            en: "Keep the high-quality source until the delivery copy passes review on the destination device.",
+            zh: "在交付副本通过目标设备检查前，保留高质量源文件。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Compress screen recordings without blurry text FAQ",
+          zh: "录屏压缩不糊字常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Is 720p enough for a software tutorial?",
+              zh: "720p 足够用于软件教程吗？"
+            },
+            a: {
+              en: "It can be enough when the interface was recorded with large fonts and a focused capture area. It may be inadequate for full-desktop recordings with small code, spreadsheets, or several panels. Test the smallest required text.",
+              zh: "如果录制时使用大字体和紧凑捕获区域，720p 可能足够。对于包含小号代码、表格或多个面板的全桌面录制，它可能不够。应测试最小的必要文字。"
+            }
+          },
+          {
+            q: {
+              en: "Why is my compressed recording still large at original resolution?",
+              zh: "为什么保留原分辨率后文件仍然很大？"
+            },
+            a: {
+              en: "Resolution is only one factor. Duration, frame rate, motion, camera overlays, animated backgrounds, and the selected quality also affect size. Trim unused time before reducing text resolution.",
+              zh: "分辨率只是一个因素。时长、帧率、运动、摄像头叠加、动态背景和所选质量也影响体积。降低文字分辨率前，应先剪掉无用时长。"
+            }
+          },
+          {
+            q: {
+              en: "Can compression make already blurry text sharp?",
+              zh: "压缩能让原本模糊的文字变清晰吗？"
+            },
+            a: {
+              en: "No. Compression can preserve or discard information but cannot recreate letter edges missing from the source. Re-record with larger fonts or a tighter capture area when the original is unreadable.",
+              zh: "不能。压缩可以保留或丢弃信息，但无法重建源文件中缺失的文字边缘。如果原录制不可读，应使用更大字体或更紧凑的捕获区域重新录制。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: "/blog/extract-wav-audio-from-video-for-editing/",
+    isArticle: true,
+    contentStandardVersion: 2,
+    title: {
+      en: "How to Extract WAV Audio from Video for Editing",
+      zh: "如何从视频中提取 WAV 音频用于剪辑"
+    },
+    description: {
+      en: "Extract WAV audio from video for editing with HappyConvert. Learn when PCM WAV helps, how large files become, which time range to export, and what to verify.",
+      zh: "使用 HappyConvert 从视频中提取 WAV 音频用于剪辑。了解 PCM WAV 的适用场景、文件体积、时间范围设置，以及导出后的检查方法。"
+    },
+    category: { en: "Audio Guides", zh: "音频教程" },
+    readTime: { en: "12 min read", zh: "12 分钟阅读" },
+    date: { en: "August 1, 2026", zh: "2026年8月1日" },
+    toolLink: "/video-to-audio/",
+    toolName: { en: "Video to Audio Converter", zh: "视频转音频工具" },
+    faqs: [
+      {
+        q: {
+          en: "Should I extract WAV or MP3 from a video for editing?",
+          zh: "从视频提取音频用于剪辑，应该选 WAV 还是 MP3？"
+        },
+        a: {
+          en: "Choose WAV when the audio will be edited, cleaned, mixed, transcribed, or encoded again. Choose MP3 when compact size and casual listening matter more than preserving a straightforward editing source.",
+          zh: "音频还要剪辑、降噪、混音、转写或再次编码时选择 WAV。更重视体积和普通收听，而不是保留直接编辑的源文件时选择 MP3。"
+        }
+      },
+      {
+        q: {
+          en: "Does extracting WAV improve the sound quality?",
+          zh: "提取成 WAV 会提升音质吗？"
+        },
+        a: {
+          en: "No. WAV prevents another lossy audio encode in HappyConvert, but it cannot restore detail already removed from AAC, MP3, or another compressed track inside the video.",
+          zh: "不会。WAV 可以避免 HappyConvert 再进行一次有损音频编码，但无法恢复视频内部 AAC、MP3 或其他压缩音轨已经删除的细节。"
+        }
+      },
+      {
+        q: {
+          en: "Why is the extracted WAV much larger than the video's audio track?",
+          zh: "为什么提取出的 WAV 比视频中的音轨大很多？"
+        },
+        a: {
+          en: "HappyConvert writes uncompressed 16-bit PCM audio. Its size depends mainly on sample rate, bit depth, channel count, and duration, while AAC or MP3 audio stores a compressed representation.",
+          zh: "HappyConvert 写入未压缩的 16 位 PCM 音频。它的体积主要由采样率、位深、声道数和时长决定，而 AAC 或 MP3 音轨保存的是压缩后的表示。"
+        }
+      }
+    ],
+    content: [
+      {
+        h2: {
+          en: "The short answer: choose WAV when the next step is editing",
+          zh: "先说结论：下一步要编辑，就选择 WAV"
+        },
+        p: [
+          {
+            en: "To extract WAV audio from video for editing, load the video in HappyConvert's Video to Audio tool, choose WAV, set the start and end times you actually need, and process the file. HappyConvert writes PCM audio locally in the browser, giving an editor a simple uncompressed track without creating another MP3 generation.",
+            zh: "要从视频中提取 WAV 音频用于剪辑，在 HappyConvert 的视频转音频工具中载入视频，选择 WAV，设置真正需要的开始和结束时间，然后处理文件。HappyConvert 在浏览器本地写入 PCM 音频，为剪辑软件提供简单的未压缩音轨，不会再生成一代 MP3。"
+          },
+          {
+            en: "WAV is useful for dialogue cleanup, podcast editing, transcription, sound design, archival handoff, and importing audio into a timeline that will later be exported again. It is not a way to make compressed source audio sound better. Its advantage is a predictable editing format and the absence of another lossy encode during extraction.",
+            zh: "WAV 适合对白清理、播客剪辑、转写、声音设计、存档交接，以及导入之后还会再次导出的时间线。它不能让已经压缩的源音频变得更好。它的优势是编辑格式明确，并且在提取阶段避免再次有损编码。"
+          }
+        ],
+        callout: {
+          en: "Use WAV as a working file, not proof of higher source quality. The video track determines what sound information exists before extraction.",
+          zh: "把 WAV 当作工作文件，不要把它当作源音质更高的证明。提取前实际存在多少声音信息，由视频内部的音轨决定。"
+        }
+      },
+      {
+        h2: {
+          en: "What HappyConvert puts inside the WAV file",
+          zh: "HappyConvert 在 WAV 文件中写入了什么"
+        },
+        p: [
+          {
+            en: "WAV is a container that can hold several kinds of audio, but HappyConvert's current extraction command writes signed 16-bit little-endian PCM. PCM represents each audio sample directly rather than using perceptual compression. This makes the output straightforward for editors, audio workstations, transcription tools, and waveform analysis.",
+            zh: "WAV 是可以容纳多种音频的容器，但 HappyConvert 当前的提取命令写入有符号 16 位小端 PCM。PCM 直接表示每个音频采样，而不是使用感知压缩。这让输出更容易被剪辑软件、数字音频工作站、转写工具和波形分析程序处理。"
+          },
+          {
+            en: "The extractor does not advertise a new sample rate in the interface. FFmpeg generally follows the decoded input stream unless conversion requirements dictate otherwise. After export, inspect the WAV in the destination editor rather than assuming every source becomes 48 kHz stereo.",
+            zh: "提取界面没有提供新的采样率选项。除非转换要求另有规定，FFmpeg 通常会遵循解码后的输入音轨。导出后应在目标剪辑软件中检查 WAV，不要假设每个源文件都会变成 48 kHz 立体声。"
+          },
+          {
+            en: "This matters because phone video, screen capture, camera footage, and downloaded media can carry different sample rates and channel layouts. A mono voice note and a stereo camera track do not become equivalent simply because both are saved with a `.wav` extension.",
+            zh: "这一点很重要，因为手机视频、屏幕捕获、相机素材和下载媒体可能使用不同采样率和声道布局。单声道语音和立体声相机音轨，不会因为都保存为 `.wav` 就变成相同内容。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "WAV versus MP3 for an editing workflow",
+          zh: "剪辑工作流中 WAV 与 MP3 的区别"
+        },
+        p: [
+          {
+            en: "MP3 is designed for compact delivery. It removes audio information according to a perceptual model and stores the result at a much lower bitrate than PCM. That is useful for sending a review file, listening on a phone, or publishing a lightweight download.",
+            zh: "MP3 面向紧凑交付。它按照感知模型删除部分音频信息，并以远低于 PCM 的码率保存结果。这适合发送审听文件、手机收听或发布轻量下载。"
+          },
+          {
+            en: "WAV is easier to edit repeatedly because the extraction itself does not add another lossy compression stage. Cutting, fading, equalizing, denoising, normalizing, and mixing do not require an MP3 decoder to reconstruct an approximation before every render. The final project can still be exported to AAC, MP3, or another delivery format later.",
+            zh: "WAV 更适合反复编辑，因为提取本身不会增加另一层有损压缩。剪切、淡入淡出、均衡、降噪、响度调整和混音时，不需要先由 MP3 解码器重建近似信号。最终项目之后仍然可以导出为 AAC、MP3 或其他交付格式。"
+          },
+          {
+            en: "The tradeoff is storage. A one-hour WAV can be hundreds of megabytes, while a compressed audio file may be a small fraction of that. Choose WAV because the production workflow benefits from it, not because larger files are automatically better.",
+            zh: "代价是存储空间。一小时 WAV 可能达到数百 MB，而压缩音频可能只有它的一小部分。选择 WAV 应该是因为制作流程需要，而不是因为文件越大就自动越好。"
+          }
+        ],
+        callout: {
+          en: "Working format and delivery format do not need to match. Edit WAV, then export the finished program in the format required by the audience or platform.",
+          zh: "工作格式和交付格式不需要相同。可以用 WAV 编辑，再把成品导出为观众或平台要求的格式。"
+        }
+      },
+      {
+        h2: {
+          en: "How to extract WAV audio from video in HappyConvert",
+          zh: "如何在 HappyConvert 中从视频提取 WAV"
+        },
+        list: [
+          {
+            en: "Open the Video to Audio tool and load the MP4, MOV, WebM, or other supported video file.",
+            zh: "打开视频转音频工具，载入 MP4、MOV、WebM 或其他支持的视频文件。"
+          },
+          {
+            en: "Play the preview and confirm that the expected dialogue, music, or microphone track is audible.",
+            zh: "播放预览，确认能够听到预期的对白、音乐或麦克风音轨。"
+          },
+          {
+            en: "Set the start and end times to the section needed for editing instead of exporting unused silence or footage.",
+            zh: "把开始和结束时间设置为剪辑真正需要的区段，不要导出无用静音或画面对应的音频。"
+          },
+          {
+            en: "Choose WAV as the audio format. The MP3 bitrate control does not apply to PCM WAV.",
+            zh: "音频格式选择 WAV。MP3 码率控制不适用于 PCM WAV。"
+          },
+          {
+            en: "Start processing and keep the browser tab active while FFmpeg WebAssembly reads the source and writes the WAV.",
+            zh: "开始处理，并在 FFmpeg WebAssembly 读取源文件、写入 WAV 时保持浏览器标签页活动。"
+          },
+          {
+            en: "Download the result and verify duration, channels, synchronization reference, and the beginning and end before importing it into a project.",
+            zh: "下载结果，在导入项目之前确认时长、声道、同步参考以及开头和结尾。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Use the time range to avoid creating unnecessary WAV data",
+          zh: "利用时间范围避免生成无用 WAV 数据"
+        },
+        p: [
+          {
+            en: "PCM size grows almost linearly with duration, so trimming before extraction has a direct storage benefit. If a two-hour recording contains a 12-minute interview segment, exporting only those 12 minutes can save roughly 90% of the WAV duration compared with extracting the entire source.",
+            zh: "PCM 体积几乎随时长线性增长，因此提取前裁定时间范围可以直接节省存储。如果两小时录制中只有 12 分钟访谈需要使用，只导出这 12 分钟，与提取完整源文件相比，可以减少大约 90% 的 WAV 时长。"
+          },
+          {
+            en: "Leave a small amount of handle before and after the intended edit when another editor will refine the cut. Five to ten seconds of extra room can preserve breaths, room tone, transitions, and words that begin just before a visual cut. Do not trim so tightly that the next person cannot make a clean audio edit.",
+            zh: "如果之后还要由其他剪辑师精修，可以在目标区段前后各保留少量余量。额外 5 到 10 秒能保留呼吸声、环境底噪、转场，以及在画面切点前已经开始的词语。不要裁得太紧，以免后续无法做干净的音频编辑。"
+          },
+          {
+            en: "Write down the extraction start time if the WAV must be synchronized with the original video later. A WAV beginning at 00:23:15 is not automatically aware of that timeline position. The filename or project notes should carry the offset unless your downstream workflow embeds and reads timecode metadata.",
+            zh: "如果 WAV 之后需要与原视频重新同步，要记下提取开始时间。从 00:23:15 开始的 WAV 不会自动知道自己在原时间线中的位置。除非下游流程会嵌入并读取时间码元数据，否则应在文件名或项目备注中记录偏移。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Estimate WAV file size before exporting",
+          zh: "导出前怎样估算 WAV 文件体积"
+        },
+        p: [
+          {
+            en: "Uncompressed PCM size can be estimated from sample rate × bit depth × channel count × duration. For 48,000 samples per second, 16 bits per sample, and two channels, the raw rate is 1,536,000 bits per second. Dividing by eight gives 192,000 bytes per second before small container overhead.",
+            zh: "未压缩 PCM 体积可以用采样率 × 位深 × 声道数 × 时长估算。以每秒 48,000 个采样、每采样 16 位、两个声道为例，原始速率是每秒 1,536,000 位。除以 8 后约为每秒 192,000 字节，尚未计入少量容器开销。"
+          },
+          {
+            en: "At that rate, one minute is about 11.5 MB in decimal units, ten minutes about 115 MB, and one hour about 691 MB. A mono track is approximately half the stereo size. A 44.1 kHz source is somewhat smaller than the same channel layout at 48 kHz.",
+            zh: "按这个速率计算，十进制单位下一分钟约 11.5 MB，十分钟约 115 MB，一小时约 691 MB。单声道体积大约是立体声的一半。相同声道布局下，44.1 kHz 源文件会比 48 kHz 略小。"
+          },
+          {
+            en: "These are planning estimates, not a promise about every HappyConvert output. The actual sample rate and channel count depend on the decoded input and FFmpeg's output behavior. Check the exported file in your editor or media inspector before reserving storage for a large batch.",
+            zh: "这些数字用于规划，不代表每个 HappyConvert 输出都完全相同。实际采样率和声道数取决于解码后的输入和 FFmpeg 输出行为。为大型批次预留存储前，应在剪辑软件或媒体信息工具中检查导出文件。"
+          }
+        ],
+        callout: {
+          en: "If the calculated WAV is unnecessarily large, shorten the time range first. Switching to MP3 is a delivery decision, not the only way to control working storage.",
+          zh: "如果估算出的 WAV 大得没有必要，应先缩短时间范围。切换到 MP3 属于交付格式决定，并不是控制工作存储的唯一方法。"
+        }
+      },
+      {
+        h2: {
+          en: "WAV does not restore quality removed by the source codec",
+          zh: "WAV 无法恢复源编码已经删除的音质"
+        },
+        p: [
+          {
+            en: "Many videos contain AAC audio recorded by a phone, camera, meeting platform, or screen recorder. When HappyConvert extracts that track to PCM WAV, FFmpeg decodes the AAC samples and writes their decoded values without another perceptual encode. The WAV is larger, but it still represents what survived the original AAC recording.",
+            zh: "许多视频包含手机、相机、会议平台或录屏软件录制的 AAC 音频。HappyConvert 把它提取为 PCM WAV 时，FFmpeg 会解码 AAC 采样并写入解码后的数值，不再进行感知编码。WAV 变得更大，但它仍然只代表原始 AAC 录制中保留下来的内容。"
+          },
+          {
+            en: "If the source has clipping, room echo, keyboard noise, low microphone level, or aggressive noise suppression, changing containers cannot remove those problems. WAV gives audio software a stable working file for repair, but equalization, denoising, de-reverberation, and manual editing are separate steps.",
+            zh: "如果源文件存在爆音、房间混响、键盘噪声、麦克风电平过低或激进降噪，改变容器无法消除这些问题。WAV 为音频软件提供稳定的修复工作文件，但均衡、降噪、去混响和手工编辑属于后续步骤。"
+          },
+          {
+            en: "Repeatedly converting a poor source to larger formats does not create detail. Keep the original video because future tools may decode or process it differently, and because it remains the reference for synchronization and content verification.",
+            zh: "把较差的源文件反复转换为更大格式不会创造细节。应保留原视频，因为未来工具可能采用不同方式解码或处理它，而且原视频仍然是同步和内容核对的参考。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Prepare the WAV for a video editor or audio workstation",
+          zh: "为视频剪辑软件或音频工作站准备 WAV"
+        },
+        p: [
+          {
+            en: "Use a filename that identifies the source and time range, such as `interview-cam-a-00h23m15s-00h35m40s.wav`. This prevents a detached audio file from losing its context. Keep a note of the source filename, extraction date, start offset, and whether the track is mono or stereo.",
+            zh: "使用能识别源文件和时间范围的文件名，例如 `interview-cam-a-00h23m15s-00h35m40s.wav`，避免独立音频失去上下文。记录源文件名、提取日期、开始偏移，以及音轨是单声道还是立体声。"
+          },
+          {
+            en: "After import, compare the waveform start with a visible clap, cursor click, spoken word, or another synchronization marker in the video. Long recordings can expose clock drift between separately recorded devices, but extracting audio from the same video should preserve the video's own timing over the selected range.",
+            zh: "导入后，把波形开头与视频中可见的拍手、鼠标点击、说话词语或其他同步标记进行比较。长录制可能暴露不同设备之间的时钟漂移，但从同一个视频提取音频，应保留所选范围内视频自身的时间关系。"
+          },
+          {
+            en: "Do not normalize, denoise, or convert channels merely because a WAV was created. First inspect peaks, noise floor, dialogue level, and channel content in the destination application. A stereo file may contain the same microphone in both channels, different microphones, or one empty channel; those cases require different decisions.",
+            zh: "不要因为生成了 WAV 就立刻做响度归一、降噪或声道转换。先在目标应用中检查峰值、底噪、对白电平和声道内容。立体声文件可能在两个声道中包含同一麦克风、不同麦克风，或一个空声道，这些情况需要不同处理。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Multiple audio tracks and subtitles need separate attention",
+          zh: "多音轨和字幕需要单独处理"
+        },
+        p: [
+          {
+            en: "Some MP4 and MKV files contain several audio streams: camera sound, a clean recorder feed, commentary, another language, or accessibility audio. A simple browser preview may play one default stream, and the extraction command may select a default audio stream rather than offering a full stream-mapping panel.",
+            zh: "一些 MP4 和 MKV 文件包含多条音频流：相机声音、独立录音机干净音轨、评论音轨、另一种语言或无障碍描述。简单的浏览器预览可能只播放默认流，提取命令也可能选择默认音轨，而不是提供完整流映射面板。"
+          },
+          {
+            en: "Listen before processing and listen again after export. If the WAV contains the wrong language or microphone, HappyConvert's current simple workflow may not expose the selection you need. Use desktop FFmpeg or an editor that lists every stream and lets you map the required track explicitly.",
+            zh: "处理前先听，导出后再听。如果 WAV 包含错误的语言或麦克风，HappyConvert 当前的简单流程可能没有提供所需选择。此时应使用桌面 FFmpeg，或使用能够列出所有流并明确映射目标音轨的剪辑软件。"
+          },
+          {
+            en: "Subtitles are not audio and will not appear in the WAV. If a transcript depends on burned-in captions rather than spoken sound, audio extraction alone cannot recover that text. Preserve the video or export subtitle data through a separate workflow.",
+            zh: "字幕不是音频，不会出现在 WAV 中。如果转写内容依赖画面中烧录字幕，而不是实际语音，仅提取音频无法恢复这些文字。应保留视频，或通过单独流程导出字幕数据。"
+          }
+        ],
+        callout: {
+          en: "The correct format does not compensate for the wrong stream. Verify the speaker, language, and channel content before committing to a long export.",
+          zh: "格式正确不能弥补音轨选择错误。开始长时间导出前，要确认说话者、语言和声道内容。"
+        }
+      },
+      {
+        h2: {
+          en: "Browser performance and memory limits for WAV extraction",
+          zh: "WAV 提取的浏览器性能与内存限制"
+        },
+        p: [
+          {
+            en: "Audio extraction is usually lighter than video re-encoding because HappyConvert does not need to create new video frames. It still must read the source container, decode the chosen audio, hold working data, and write an uncompressed output. A long source plus a large WAV can create significant browser memory pressure.",
+            zh: "音频提取通常比视频重新编码轻，因为 HappyConvert 不需要生成新视频帧。但它仍然要读取源容器、解码所选音频、保存工作数据并写入未压缩输出。长源文件加上大型 WAV，仍可能产生明显的浏览器内存压力。"
+          },
+          {
+            en: "The source file size is not the only concern. A highly compressed two-hour video may be modest on disk while its extracted stereo PCM WAV approaches or exceeds a gigabyte depending on sample rate. Estimate the output and shorten the range before loading several similar jobs.",
+            zh: "源文件体积不是唯一问题。一个高度压缩的两小时视频在磁盘上可能不大，但提取出的立体声 PCM WAV 根据采样率可能接近或超过 1 GB。载入多个类似任务前，应估算输出并缩短范围。"
+          },
+          {
+            en: "Close heavy tabs, keep the page active, and avoid starting with the longest file. Test one or two minutes to confirm the selected audio and output behavior. For batch extraction, multi-gigabyte sources, or many hours of recordings, desktop FFmpeg is more dependable.",
+            zh: "关闭重型标签页，保持页面活动，不要一开始就处理最长文件。先测试一到两分钟，确认所选音频和输出行为。对于批量提取、数 GB 源文件或数小时录制，桌面 FFmpeg 更可靠。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "A WAV handoff checklist before editing",
+          zh: "进入剪辑前的 WAV 交接检查"
+        },
+        list: [
+          {
+            en: "Confirm that the exported duration matches the selected start and end range.",
+            zh: "确认导出时长与所选开始和结束范围一致。"
+          },
+          {
+            en: "Listen to the first and final ten seconds for clipped words or missing handles.",
+            zh: "听开头和结尾各 10 秒，检查是否截断词语或缺少余量。"
+          },
+          {
+            en: "Verify the expected speaker, language, microphone, and left/right channel content.",
+            zh: "确认说话者、语言、麦克风和左右声道内容符合预期。"
+          },
+          {
+            en: "Inspect sample rate, bit depth, and channel count in the destination editor.",
+            zh: "在目标剪辑软件中检查采样率、位深和声道数。"
+          },
+          {
+            en: "Record the source filename and timeline offset when synchronization will be required later.",
+            zh: "之后需要同步时，记录源文件名和时间线偏移。"
+          },
+          {
+            en: "Keep the source video until the WAV has been imported, synchronized, and backed up.",
+            zh: "在 WAV 完成导入、同步和备份前，保留源视频。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Extract WAV audio from video for editing FAQ",
+          zh: "视频提取 WAV 用于剪辑常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Can I extract only part of a video's audio as WAV?",
+              zh: "可以只把视频的一部分提取为 WAV 吗？"
+            },
+            a: {
+              en: "Yes. Set the start and end times before processing. Include a few seconds of extra audio on both sides when another editor may need room for fades, breaths, or a more precise cut.",
+              zh: "可以。处理前设置开始和结束时间。如果其他剪辑师还需要制作淡入淡出、保留呼吸或精确切点，应在两侧各留几秒额外音频。"
+            }
+          },
+          {
+            q: {
+              en: "Is 16-bit WAV sufficient for dialogue editing?",
+              zh: "16 位 WAV 足够用于对白剪辑吗？"
+            },
+            a: {
+              en: "It is a practical delivery and editing format for many video-derived dialogue tracks. It does not increase the precision of a compressed source, and specialized recording or mastering workflows may require different specifications.",
+              zh: "对于许多从视频获得的对白音轨，16 位 WAV 是实用的交付和编辑格式。它不会增加压缩源的精度，专业录音或母带流程也可能要求其他规格。"
+            }
+          },
+          {
+            q: {
+              en: "Why is there no sound in the exported WAV?",
+              zh: "为什么导出的 WAV 没有声音？"
+            },
+            a: {
+              en: "Check that the source preview contains audio in the selected range and that the expected track is the default stream. Also test the WAV in another player. Multi-track files may require explicit stream selection in desktop software.",
+              zh: "检查源文件在所选范围内是否能预览声音，以及预期音轨是否为默认流；还可以用另一个播放器测试 WAV。多音轨文件可能需要桌面软件明确选择流。"
+            }
+          }
+        ]
+      }
+    ]
   }
 ];
