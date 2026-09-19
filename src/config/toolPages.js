@@ -80,10 +80,27 @@ export const DEFAULT_PAGE = {
   ]
 };
 
+/**
+ * Tool navigation categories.
+ *
+ * The header dropdown renders eight tools; stacked as one flat list they read as
+ * a wall of text. These three groups split them by what the user is trying to
+ * do — change the content (edit), change the container (convert), or keep less
+ * of it (shrink). Order here is the render order in the dropdown; the order of
+ * tools *inside* a group follows TOOL_PAGES, so the flagship converter still
+ * leads its group.
+ */
+export const TOOL_CATEGORIES = [
+  { id: "edit", label: { en: "Edit & Combine", zh: "剪辑与合成" } },
+  { id: "convert", label: { en: "Format Conversion", zh: "格式转换" } },
+  { id: "shrink", label: { en: "Extract & Compress", zh: "提取与压缩" } }
+];
+
 export const TOOL_PAGES = [
   {
     path: "/convert-video/",
     toolId: "Convert",
+    toolCategory: "convert",
     title: {
       en: "Convert Video Online - Free MP4 Converter Online (No Watermark)",
       zh: "在线视频格式转换 - 免费 MP4/MOV/MKV 视频转换器（推荐1GB以内）"
@@ -172,6 +189,7 @@ export const TOOL_PAGES = [
   {
     path: "/cut-video/",
     toolId: "Trim",
+    toolCategory: "edit",
     title: {
       en: "Cut Video Online - Free MP4 Cutter Online & Video Trimmer",
       zh: "在线剪切视频 - 免费 MP4 视频裁剪与剪辑器"
@@ -250,6 +268,7 @@ export const TOOL_PAGES = [
   {
     path: "/compress-video/",
     toolId: "Compress",
+    toolCategory: "shrink",
     title: {
       en: "Compress Video Online - Free Video Size Reducer (No Watermark)",
       zh: "在线压缩视频 - 免费减小视频文件体积"
@@ -338,6 +357,7 @@ export const TOOL_PAGES = [
   {
     path: "/video-to-gif/",
     toolId: "GIF",
+    toolCategory: "convert",
     title: {
       en: "Free Online Video to GIF Converter - Make High FPS Animated GIFs",
       zh: "视频转 GIF 动图工具 - 在线高清动图制作免费无水印流畅不卡顿"
@@ -416,6 +436,7 @@ export const TOOL_PAGES = [
   {
     path: "/video-to-audio/",
     toolId: "Extract Audio",
+    toolCategory: "shrink",
     title: {
       en: "Video to Audio Converter Online - Extract MP3/WAV Free",
       zh: "视频转音频工具 - 免费导出高音质 MP3/WAV"
@@ -504,6 +525,7 @@ export const TOOL_PAGES = [
   {
     path: "/crop-video/",
     toolId: "Crop",
+    toolCategory: "edit",
     title: {
       en: "Free Online Crop Video - Resize 16:9, 9:16 for TikTok/Reels No Watermark",
       zh: "在线视频画面裁切 - 免费裁剪 16:9/9:16 适用抖音小红书无水印"
@@ -592,6 +614,7 @@ export const TOOL_PAGES = [
   {
     path: "/merge-video/",
     toolId: "Merge",
+    toolCategory: "edit",
     title: {
       en: "Merge Video Online - Free MP4 Joiner & Video Combiner",
       zh: "在线合并视频 - 免费 MP4 视频拼接与合并工具"
@@ -680,6 +703,7 @@ export const TOOL_PAGES = [
   {
     path: "/convert-audio/",
     toolId: "Audio",
+    toolCategory: "convert",
     title: {
       en: "Convert Audio Online - Free MP3, M4A, WAV, FLAC & OGG Converter",
       zh: "在线音频格式转换 - 免费 MP3/M4A/WAV/FLAC/OGG 转换器"
@@ -766,6 +790,23 @@ export const TOOL_PAGES = [
     ]
   }
 ];
+
+/**
+ * TOOL_PAGES grouped for the header dropdown, in TOOL_CATEGORIES order.
+ * Empty groups are dropped so a miscategorised or new tool can never render a
+ * dangling heading. Labels go through `conservativeCopy` for the same reason
+ * every other user-visible string does — one funnel, no build-time surprises.
+ */
+export function groupedToolPages(lang) {
+  const language = lang === "zh" ? "zh" : "en";
+  return TOOL_CATEGORIES
+    .map((category) => ({
+      id: category.id,
+      label: conservativeCopy(category.label[language], language),
+      pages: TOOL_PAGES.filter((page) => page.toolCategory === category.id)
+    }))
+    .filter((group) => group.pages.length > 0);
+}
 
 export const DOC_PAGES = [
   {

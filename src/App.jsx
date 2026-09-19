@@ -16,7 +16,7 @@ import {
   mergeStreamSignature
 } from "./lib/ffmpegCommands.js";
 import { TOOLS, TRANSLATIONS } from "./i18n/translations.js";
-import { DEFAULT_PAGE, TOOL_PAGES, getToolPageByPath, getToolPageByTool, localizedPage, normalizePath } from "./config/toolPages.js";
+import { DEFAULT_PAGE, TOOL_PAGES, getToolPageByPath, getToolPageByTool, groupedToolPages, localizedPage, normalizePath } from "./config/toolPages.js";
 import { BLOG_PAGES } from "./config/blogPages.js";
 
 const FFMPEG_CORE_BASE_URL = "/ffmpeg";
@@ -1532,38 +1532,46 @@ export default function App() {
             >
               🧰 {lang === "zh" ? "媒体工具" : "Tools"} <span className="arrow">▾</span>
             </button>
-            <div className={`nav-dropdown-menu ${isNavDropdownOpen ? "active" : ""}`}>
-              {TOOL_PAGES.map((page) => {
-                const item = localizedPage(page, lang);
-                const isActive = normalizePath(currentPath) === page.path || (page.toolId === "Convert" && normalizePath(currentPath) === "/");
-                return (
-                  <a
-                    key={page.path}
-                    href={page.path}
-                    className={`nav-dropdown-item ${isActive ? "active" : ""}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigateToTool(page.toolId);
-                      setIsNavDropdownOpen(false); // Close dropdown immediately
-                    }}
-                  >
-                    <span className="item-icon">
-                      {page.toolId === "Trim" && "✂️"}
-                      {page.toolId === "Compress" && "📉"}
-                      {page.toolId === "Convert" && "🔄"}
-                      {page.toolId === "GIF" && "🖼️"}
-                      {page.toolId === "Extract Audio" && "🎵"}
-                      {page.toolId === "Crop" && "📐"}
-                      {page.toolId === "Merge" && "🔗"}
-                      {page.toolId === "Audio" && "🎧"}
-                    </span>
-                    <div className="item-details">
-                      <strong>{item.title.split(" - ")[0]}</strong>
-                      <small>{item.intent}</small>
-                    </div>
-                  </a>
-                );
-              })}
+            <div
+              className={`nav-dropdown-menu ${isNavDropdownOpen ? "active" : ""}`}
+              aria-label={lang === "zh" ? "媒体工具分类" : "Media tool categories"}
+            >
+              {groupedToolPages(lang).map((group) => (
+                <div className="nav-dropdown-group" key={group.id}>
+                  <p className="nav-dropdown-group-label">{group.label}</p>
+                  {group.pages.map((page) => {
+                    const item = localizedPage(page, lang);
+                    const isActive = normalizePath(currentPath) === page.path || (page.toolId === "Convert" && normalizePath(currentPath) === "/");
+                    return (
+                      <a
+                        key={page.path}
+                        href={page.path}
+                        className={`nav-dropdown-item ${isActive ? "active" : ""}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigateToTool(page.toolId);
+                          setIsNavDropdownOpen(false); // Close dropdown immediately
+                        }}
+                      >
+                        <span className="item-icon">
+                          {page.toolId === "Trim" && "✂️"}
+                          {page.toolId === "Compress" && "📉"}
+                          {page.toolId === "Convert" && "🔄"}
+                          {page.toolId === "GIF" && "🖼️"}
+                          {page.toolId === "Extract Audio" && "🎵"}
+                          {page.toolId === "Crop" && "📐"}
+                          {page.toolId === "Merge" && "🔗"}
+                          {page.toolId === "Audio" && "🎧"}
+                        </span>
+                        <div className="item-details">
+                          <strong>{item.title.split(" - ")[0]}</strong>
+                          <small>{item.intent}</small>
+                        </div>
+                      </a>
+                    );
+                  })}
+                </div>
+              ))}
             </div>
           </div>
           <a className="header-nav-link" href="#" onClick={(e) => scrollToSection(".marketing-features-grid", e)}>
@@ -1674,38 +1682,40 @@ export default function App() {
               </button>
             </div>
 
-            <div className="mobile-nav-section">
-              <p>{lang === "zh" ? "媒体工具" : "Media tools"}</p>
-              <div className="mobile-tool-grid">
-                {TOOL_PAGES.map((page) => {
-                  const item = localizedPage(page, lang);
-                  return (
-                    <a
-                      key={page.path}
-                      href={buildLocalizedPath(page.path, lang)}
-                      className={`mobile-tool-link ${normalizePath(currentPath) === page.path ? "active" : ""}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigateToTool(page.toolId);
-                        setIsMobileMenuOpen(false);
-                      }}
-                    >
-                      <span>
-                        {page.toolId === "Trim" && "✂️"}
-                        {page.toolId === "Compress" && "📉"}
-                        {page.toolId === "Convert" && "🔄"}
-                        {page.toolId === "GIF" && "🖼️"}
-                        {page.toolId === "Extract Audio" && "🎵"}
-                        {page.toolId === "Crop" && "📐"}
-                        {page.toolId === "Merge" && "🔗"}
-                        {page.toolId === "Audio" && "🎧"}
-                      </span>
-                      <strong>{item.title.split(" - ")[0]}</strong>
-                    </a>
-                  );
-                })}
+            {groupedToolPages(lang).map((group) => (
+              <div className="mobile-nav-section" key={group.id}>
+                <p>{group.label}</p>
+                <div className="mobile-tool-grid">
+                  {group.pages.map((page) => {
+                    const item = localizedPage(page, lang);
+                    return (
+                      <a
+                        key={page.path}
+                        href={buildLocalizedPath(page.path, lang)}
+                        className={`mobile-tool-link ${normalizePath(currentPath) === page.path ? "active" : ""}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigateToTool(page.toolId);
+                          setIsMobileMenuOpen(false);
+                        }}
+                      >
+                        <span>
+                          {page.toolId === "Trim" && "✂️"}
+                          {page.toolId === "Compress" && "📉"}
+                          {page.toolId === "Convert" && "🔄"}
+                          {page.toolId === "GIF" && "🖼️"}
+                          {page.toolId === "Extract Audio" && "🎵"}
+                          {page.toolId === "Crop" && "📐"}
+                          {page.toolId === "Merge" && "🔗"}
+                          {page.toolId === "Audio" && "🎧"}
+                        </span>
+                        <strong>{item.title.split(" - ")[0]}</strong>
+                      </a>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            ))}
 
             <div className="mobile-nav-section">
               <p>{lang === "zh" ? "内容" : "Content"}</p>

@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { BLOG_PAGES } from "../src/config/blogPages.js";
-import { DEFAULT_PAGE, DOC_PAGES, TOOL_PAGES } from "../src/config/toolPages.js";
+import { DEFAULT_PAGE, DOC_PAGES, TOOL_CATEGORIES, TOOL_PAGES, groupedToolPages } from "../src/config/toolPages.js";
 import { COPY_RULES, conservativeCopy } from "../src/lib/conservativeCopy.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -197,6 +197,29 @@ if (!toolListFaq) {
   }
 }
 
+/* ------------------------------------------------- tool nav categories --- */
+// The header dropdown groups TOOL_PAGES by category. A tool added without a
+// category, or a category that matches nothing, is silently invisible in the
+// nav — a failure nobody notices until someone counts the menu items.
+const categoryIds = new Set(TOOL_CATEGORIES.map((category) => category.id));
+const uncategorised = TOOL_PAGES.filter((page) => !categoryIds.has(page.toolCategory));
+if (uncategorised.length) {
+  note(`nav dropdown: ${uncategorised.map((page) => page.path).join(", ")} have no valid toolCategory (allowed: ${[...categoryIds].join(", ")})`);
+}
+for (const category of TOOL_CATEGORIES) {
+  if (!category.label?.en || !category.label?.zh) {
+    note(`nav dropdown: category "${category.id}" is missing a bilingual label`);
+  }
+  if (!TOOL_PAGES.some((page) => page.toolCategory === category.id)) {
+    note(`nav dropdown: category "${category.id}" matches zero tools and would render nothing`);
+  }
+}
+const navRenderedCount = groupedToolPages("en").reduce((sum, group) => sum + group.pages.length, 0);
+if (navRenderedCount !== TOOL_PAGES.length) {
+  note(`nav dropdown: renders ${navRenderedCount} of ${TOOL_PAGES.length} tools`);
+}
+const navOrder = groupedToolPages("en").map((group) => `${group.label}: ${group.pages.map((page) => page.toolId).join(" / ")}`);
+
 /* ----------------------------------------------------------------- output --- */
 if (failures.length) {
   console.error(`Content audit failed with ${failures.length} problem(s):`);
@@ -209,6 +232,7 @@ console.log(
     "Content audit passed.",
     `  pages checked:    ${allPages.length} (homepage + ${TOOL_PAGES.length} tool pages + ${DOC_PAGES.length} doc pages + ${BLOG_PAGES.length} blog pages)`,
     `  articles checked: ${auditedArticles.length}`,
-    `  tool count gate:  ${toolCount} (badge + FAQ agree)`
+    `  tool count gate:  ${toolCount} (badge + FAQ agree)`,
+    `  nav dropdown:     ${navOrder.join(" | ")}`
   ].join("\n")
 );

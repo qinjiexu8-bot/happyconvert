@@ -54,6 +54,11 @@ function resolveLocalChromium() {
   await page.goto(BASE + "/convert-audio/", { waitUntil: "domcontentloaded" });
   await page.locator("#fileUploader").setInputFiles(sample);
 
+  // 控制台默认是收起的：`{showLogs && (...)}` 不成立时 .log-line 根本不在 DOM 里，
+  // 于是本脚本会一路等到超时、报「引擎未启动」——而引擎其实早就起来了。
+  // 必须先把开关打开，再开始读日志。
+  await page.locator(".show-logs-toggle input").check();
+
   const t0 = Date.now();
   let ready = false;
   while (Date.now() - t0 < WAIT_MS) {
