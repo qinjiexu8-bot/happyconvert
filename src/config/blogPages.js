@@ -14,6 +14,7 @@ export const BLOG_PAGES = [
   {
     path: "/blog/compress-video-for-discord/",
     isArticle: true,
+    contentStandardVersion: 2,
     title: {
       en: "How to Compress Video for Discord Under 25MB (Free & No Watermark)",
       zh: "如何把视频高质量压缩到 25MB 以内？完美适配 Discord / 钉钉 / 微信发帖教程"
@@ -55,13 +56,13 @@ export const BLOG_PAGES = [
             zh: "传统的视频压缩软件采用固定码率（CBR）进行压制，这带来了严重矛盾：画面静止的高端浪费了大量多余码率，而游戏激烈战斗或快速运动的画面却因码率不足出现严重马赛克。现代视频处理的真正解决方案是 CRF（Constant Rate Factor，固定画面质量因子）。"
           },
           {
-            en: "Our online compressor uses advanced FFmpeg CRF algorithms that dynamically analyze spatial and temporal motion frame-by-frame. It allocates high bitrate only where your eyes notice details, and aggressively strips redundant data in static backgrounds. Setting CRF to 28 (our 'Balanced' mode) typically shrinks 1080p video files by 60% to 80% with zero visible quality loss!",
-            zh: "无云剪内置的 CRF 智能算法会对每一帧画面的动态复杂度进行局部实时演算。它只在眼睛重点关注的细节丰富区域投入足量码率，而在平缓静止的背景中大幅剔除冗余数据。在实测中，选择 CRF 28「平衡模式」不仅能在肉眼无法分辨差异的清晰度下将 1080p 视频体积缩减 60% ~ 80%，更保证了文字与细节边缘的高锐利度！"
+            en: "Our online compressor uses FFmpeg CRF algorithms that analyze spatial and temporal motion frame by frame. It allocates a higher bitrate where detail is visible and strips redundant data in static backgrounds. Setting CRF to 28 (our 'Balanced' mode) commonly shrinks 1080p video files by roughly 60% to 80%; how visible the difference is depends on the source footage, so check the result before you delete the original.",
+            zh: "HappyConvert 内置的 CRF 算法会对每一帧画面的动态复杂度进行分析。它只在细节丰富的区域投入更高码率，而在平缓静止的背景中剔除冗余数据。实测中，选择 CRF 28「平衡模式」通常能把 1080p 视频体积缩减约 60% ~ 80%；差异是否明显取决于原始素材，建议对比确认后再删除原文件。"
           }
         ],
         callout: {
-          en: "💡 Pro Tip: For 4K or 2K videos recorded on iPhones or screen recorders, downscaling the resolution to 1080p or 720p while applying CRF 28 will instantly reduce a 300MB file to under 20MB!",
-          zh: "💡 专家提示：对于苹果 iPhone 或高帧率录屏软件拍摄的 4K/2K 巨型文件，在右侧选择 CRF 28 的同时将分辨率缩放到 1080p 或 720p，能瞬间把 300MB 的大文件压缩到 20MB 以内！"
+          en: "💡 Pro Tip: For 4K or 2K videos recorded on iPhones or screen recorders, downscaling the resolution to 1080p or 720p while applying CRF 28 usually cuts a 300MB file down to around 20MB.",
+          zh: "💡 专家提示：对于苹果 iPhone 或高帧率录屏软件拍摄的 4K/2K 大文件，在右侧选择 CRF 28 的同时把分辨率缩放到 1080p 或 720p，通常能把 300MB 的文件压缩到 20MB 左右。"
         }
       },
       {
@@ -72,7 +73,7 @@ export const BLOG_PAGES = [
         list: [
           {
             en: "Step 1: Open HappyConvert and drag your MP4, MOV, or WebM file directly into the local browser upload box. No registration or login is required.",
-            zh: "第一步：打开无云剪工作室，将您的 MP4、MOV 或 WebM 视频直接拖入左侧上传框。无需注册账号，打开网页即可立刻使用。"
+            zh: "第一步：打开HappyConvert，将您的 MP4、MOV 或 WebM 视频直接拖入左侧上传框。无需注册账号，打开网页即可立刻使用。"
           },
           {
             en: "Step 2: In the right-hand control deck, click the '⚖️ Balanced (CRF 28)' compression preset. This is optimized specifically for Discord, WeChat, and email attachments.",
@@ -95,8 +96,46 @@ export const BLOG_PAGES = [
             zh: "当您使用市面上传统的在线压缩工具时，您必须被迫将几百兆的视频缓慢上传到远程云端服务器。上传 500MB 文件不仅需要漫长的等待，还将您的商业机密或家庭隐私录像暴露在网络泄露风险之下，且往往导出时才发现有免费大小限制或烦人的品牌水印。"
           },
           {
-            en: "HappyConvert is powered by WebAssembly. Your videos are processed 100% inside your browser's sandboxed RAM. There are zero uploads, zero waiting queues, and practical limits based on your browser memory, and 100% data privacy. Try our compressor below right now!",
-            zh: "无云剪工作室采用独家 WebAssembly 引擎技术，视频数据 100% 在您本机的内存沙盒中流转运算。零文件上传、零网络延迟、受本机内存限制、绝对不加水印。立刻点击下方按键体验极速高质量压缩！"
+            en: "HappyConvert is powered by WebAssembly. Your videos are processed inside your browser's sandboxed memory, so there is no upload step and no queue. The real constraint is your device memory, and the files stay on your machine. Try our compressor below right now!",
+            zh: "HappyConvert 采用 WebAssembly 引擎技术，视频数据在您本机的浏览器内存沙盒中完成运算。不需要上传、不需要排队，实际可处理体积取决于设备内存，文件始终留在您的电脑上。立刻点击下方按键试用压缩工具！"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Discord 25MB compression FAQ",
+          zh: "Discord 25MB 压缩常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Can I be sure the exported file will be under Discord's upload limit?",
+              zh: "导出后一定能低于 Discord 的上传限制吗？"
+            },
+            a: {
+              en: "No single setting guarantees a byte target. Discord's limit depends on your account tier, and the same quality level produces different sizes for different footage. Check the exported file size before uploading, and lower the resolution or trim duration if you still need to go smaller.",
+              zh: "没有任何一个参数可以保证固定的字节数。Discord 的限制取决于账号等级，而同样的质量档位对不同素材会产出不同体积。上传前请先确认导出体积；如果还需要更小，再降低分辨率或剪掉无用时长。"
+            }
+          },
+          {
+            q: {
+              en: "Why do two videos get different sizes at the same compression setting?",
+              zh: "为什么同样设置下两段视频的压缩结果体积不同？"
+            },
+            a: {
+              en: "CRF targets perceived quality rather than a fixed size. Motion, texture and film grain all consume bitrate, so a 60-second game recording and a 60-second talking-head clip can differ a lot. If you need a hard cap, resolution scaling and trimming are more predictable than pushing CRF higher.",
+              zh: "CRF 追求的是观感质量，而不是固定体积。运动、纹理和噪点都会消耗码率，因此 60 秒游戏录屏和 60 秒口播的产出可能相差很多。如果需要硬性上限，缩放分辨率与裁剪时长比一味提高 CRF 更可控。"
+            }
+          },
+          {
+            q: {
+              en: "Is the compression done on Discord's servers?",
+              zh: "压缩是在 Discord 的服务器上完成的吗？"
+            },
+            a: {
+              en: "No. The encode runs in your own browser through the WebAssembly engine, using your CPU and memory. That means a long 1080p clip can take minutes, and a source that is too large for browser memory will fail rather than queue.",
+              zh: "不是。编码在您自己的浏览器中通过 WebAssembly 引擎完成，占用本机 CPU 与内存。因此较长的 1080p 视频可能需要几分钟，而超出浏览器内存的源文件会直接失败，而不是排队等待。"
+            }
           }
         ]
       }
@@ -105,6 +144,7 @@ export const BLOG_PAGES = [
   {
     path: "/blog/ffmpeg-wasm-vs-cloud-converters/",
     isArticle: true,
+    contentStandardVersion: 2,
     title: {
       en: "Why Local Browser Video Editing (FFmpeg WASM) is Safer & Faster Than Cloud Converters",
       zh: "为什么浏览器本地剪辑（FFmpeg WASM）比传统云端转换器更安全、更极速？"
@@ -147,17 +187,17 @@ export const BLOG_PAGES = [
           },
           {
             en: "At HappyConvert, we compiled the industry-standard FFmpeg multimedia framework into sandboxed WebAssembly instructions. When you visit our site, your browser loads this lightweight engine into local memory. Your web browser effectively transforms into a full-powered, offline-capable desktop video studio!",
-            zh: "在无云剪工作室，我们将全球工业标准的 FFmpeg 多媒体框架深度编译为严格沙盒化的 WebAssembly 指令集。当您打开本网页时，浏览器将这套轻量级引擎直接载入本机内存。您的网页浏览器瞬间升级为一个功能媲美桌面专业软件、且支持纯离线运行的多媒体工作室！"
+            zh: "在HappyConvert，我们将全球工业标准的 FFmpeg 多媒体框架深度编译为严格沙盒化的 WebAssembly 指令集。当您打开本网页时，浏览器将这套轻量级引擎直接载入本机内存。您的网页浏览器瞬间升级为一个功能媲美桌面专业软件、且支持纯离线运行的多媒体工作室！"
           }
         ],
         callout: {
-          en: "🔒 Complete Data Isolation: Because WebAssembly executes entirely inside your browser's memory sandbox, your raw video streams never leave your device. Once you close the tab, all memory blobs are destroyed instantly by your operating system.",
-          zh: "🔒 极强的隐私隔离：因为 WebAssembly 全程只在您本机的内存沙盒闭环执行，您的原始视频数据连一比特都不会向网络发送。关闭网页标签后，所有临时内存块都会被系统即时物理回收，绝对私密无痕。"
+          en: "🔒 Data Isolation: because WebAssembly executes entirely inside your browser's memory sandbox, your video streams stay on your device. Closing the tab releases the memory the browser was holding for them.",
+          zh: "🔒 隐私隔离：WebAssembly 全程只在您本机的内存沙盒中执行，视频数据留在您的设备上。关闭网页标签后，浏览器为它占用的内存会被释放。"
         }
       },
       {
         h2: {
-          en: "Why Client-Side Compute Enables Our '100% Free Forever' Promise",
+          en: "Why Client-Side Compute Keeps HappyConvert Free to Use",
           zh: "为什么客户端本地运算能支撑我们“免费使用、无水印”的承诺？"
         },
         p: [
@@ -167,7 +207,45 @@ export const BLOG_PAGES = [
           },
           {
             en: "We pass those infrastructure savings directly to users. HappyConvert stays free to use, without registration barriers, watermark overlays, or cloud queue times. Practical file size depends on your browser and device memory.",
-            zh: "我们将节约下来的全部服务器运维成本，100% 回馈给全球创作者。无云剪工作室承诺免费使用开放，不需要注册登录，不设文件大小上限，绝对不添加任何商业水印。立刻点击下方体验 WebAssembly 带来的极速转码革命！"
+            zh: "我们把省下来的服务器运维成本直接还给使用者：HappyConvert 免费开放使用，不需要注册登录，不加水印，也没有云端排队。实际可处理的文件大小取决于浏览器与设备内存。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "WASM vs cloud converters FAQ",
+          zh: "本地 WASM 与云端转换常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Is a browser WASM conversion always faster than a cloud converter?",
+              zh: "浏览器 WASM 转换一定比云端转换更快吗？"
+            },
+            a: {
+              en: "Not always. You skip the upload and download wait, but your own CPU still has to do the encoding. On a fast connection and a small file a cloud service can finish sooner; on a long queue or slow uplink the local run often wins. What never varies locally is that nobody else is ahead of you in a queue.",
+              zh: "不一定。您省掉了上传和下载的等待，但编码仍然要由本机 CPU 完成。网络很快、文件很小时，云端可能更快；而遇到长队列或上行带宽不足时，本地处理通常占优。本地唯一恒定的是：队列里没有别人排在您前面。"
+            }
+          },
+          {
+            q: {
+              en: "What actually limits a local conversion?",
+              zh: "本地转换的真正瓶颈是什么？"
+            },
+            a: {
+              en: "Browser memory and single-thread throughput. The engine is roughly a 30MB download the first time, and the input plus the decoded output have to fit in memory at the same time, so the practical ceiling sits far below what a server with many cores can handle.",
+              zh: "浏览器内存与单线程吞吐。首次使用需要下载约 30MB 的引擎，而输入文件和解码后的输出需要同时放进内存，因此实际上限远低于多核服务器能承担的水平。"
+            }
+          },
+          {
+            q: {
+              en: "Do I need a network connection after the first load?",
+              zh: "首次加载之后还需要联网吗？"
+            },
+            a: {
+              en: "No. The engine is cached by your browser, so later sessions start from local cache and processing continues to work without a connection. Very large or 4K sources can still exceed memory, which is a hardware limit rather than a network one.",
+              zh: "不需要。浏览器会缓存引擎文件，之后从本地缓存启动，断网状态下依然可以继续处理。但超大或 4K 素材仍可能超出内存，这属于硬件限制而非网络限制。"
+            }
           }
         ]
       }
@@ -176,12 +254,13 @@ export const BLOG_PAGES = [
   {
     path: "/blog/convert-mov-to-mp4-windows-mac/",
     isArticle: true,
+    contentStandardVersion: 2,
     title: {
-      en: "How to Convert iPhone MOV Videos to MP4 for Windows & Premiere Pro (Zero Loss)",
+      en: "How to Convert iPhone MOV Videos to MP4 for Windows & Premiere Pro",
       zh: "苹果 iPhone 拍摄的 MOV 视频在 Windows / PR 里打不开？一键无损转 MP4 教程"
     },
     description: {
-      en: "Fix Apple QuickTime MOV video codec compatibility issues on Windows PC. Convert MOV to MP4 instantly in your browser with zero quality loss or file size caps.",
+      en: "Fix Apple QuickTime MOV video codec compatibility issues on Windows PC. Convert MOV to MP4 in your browser with no watermark, no upload step, and no cloud queue.",
       zh: "解决苹果 iPhone 4K HDR 拍摄的 MOV 视频在 Windows 电脑、微信或剪辑软件中无法解码播放的问题。在浏览器本地免费一键无损转换 MP4。"
     },
     category: { en: "Troubleshooting", zh: "问题解答" },
@@ -214,10 +293,10 @@ export const BLOG_PAGES = [
         list: [
           {
             en: "Step 1: Open HappyConvert Video Converter in any modern web browser. No registration or software installation required.",
-            zh: "第一步：在电脑或手机上打开无云剪在线视频转换器。无需下载安装任何庞大的第三方软件，免注册登录。"
+            zh: "第一步：在电脑或手机上打开 HappyConvert 在线视频转换器。无需下载安装任何第三方软件，免注册登录。"
           },
           {
-            en: "Step 2: Upload your Apple MOV video file into the local workspace. Because processing is local, multi-gigabyte 4K ProRes files load instantly without waiting for network uploads.",
+            en: "Step 2: Upload your Apple MOV video file into the local workspace. Because processing is local, large 4K ProRes files start without waiting for a network upload to finish.",
             zh: "第二步：将您的 iPhone MOV 视频导入左侧工作区。由于是浏览器内存闭环读取，即使是几个吉字节（GB）的 4K 巨型文件也能瞬间导入，无需等待上传。"
           },
           {
@@ -225,8 +304,46 @@ export const BLOG_PAGES = [
             zh: "第三步：在右侧目标格式中，直接勾选通用兼容性最强的「MP4 (H.264 / AAC)」封装。"
           },
           {
-            en: "Step 4: Click '🚀 Run Editing Task'. Our local engine converts the container structure cleanly and downloads your universal MP4 file automatically!",
-            zh: "第四步：点击首屏「🚀 开始处理」。本地引擎会在几秒内为您高效转码并自动保存 100% 原生高清画质的通用 MP4 成片！"
+            en: "Step 4: Click '🚀 Run Editing Task'. The local engine rewrites the container and saves your MP4 file; a pure container rewrite is quick, while choosing H.264 re-encode takes longer as the clip gets longer.",
+            zh: "第四步：点击首屏「🚀 开始处理」。本地引擎会重建封装并保存 MP4 文件；只改封装通常很快，若选择重新编码 H.264，耗时会随视频长度增加。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "MOV to MP4 conversion FAQ",
+          zh: "MOV 转 MP4 常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Does converting MOV to MP4 reduce the video quality?",
+              zh: "MOV 转 MP4 会降低画质吗？"
+            },
+            a: {
+              en: "It depends on the codec option you pick. Choosing 'Direct Copy' only rewraps the existing video stream into an MP4 container, so nothing is re-compressed. Choosing H.264 re-encodes every frame, which is a lossy step — convenient, but not identical to the original.",
+              zh: "取决于您选择的编码选项。选择「直接拷贝」只是把原有的视频流重新封装进 MP4 容器，不会重新压缩；选择 H.264 则会对每一帧重新编码，这一步是有损的 — 兼容性更好，但与原文件不完全一致。"
+            }
+          },
+          {
+            q: {
+              en: "Why is the converted MP4 a different size from the original MOV?",
+              zh: "转换后的 MP4 体积为什么和原 MOV 不一样？"
+            },
+            a: {
+              en: "Container overhead differs between MOV and MP4, and if you re-encode with H.264 the bitrate changes with the CRF setting. With Direct Copy the video bitrate stays the same, so most of the size difference comes from the audio track and the container itself.",
+              zh: "MOV 与 MP4 的封装开销不同，而且如果使用 H.264 重新编码，码率会随 CRF 设置变化。使用直接拷贝时视频码率保持不变，因此体积差异主要来自音轨与封装本身。"
+            }
+          },
+          {
+            q: {
+              en: "Can I convert a long iPhone recording on my phone?",
+              zh: "可以在手机上转换较长的 iPhone 录像吗？"
+            },
+            a: {
+              en: "Short clips are fine, but mobile browsers have tighter memory limits than a desktop. A multi-minute 4K recording can exceed what the phone's browser can hold, so longer files are safer on a desktop browser with free RAM.",
+              zh: "短视频没有问题，但移动浏览器的内存上限通常比桌面更紧。几分钟的 4K 录像可能超出手机浏览器能承载的范围，因此较长的文件建议在内存充足的桌面浏览器上处理。"
+            }
           }
         ]
       }
@@ -235,13 +352,14 @@ export const BLOG_PAGES = [
   {
     path: "/blog/extract-mp3-audio-from-video/",
     isArticle: true,
+    contentStandardVersion: 2,
     title: {
-      en: "How to Extract 320kbps MP3 Audio from Any Video Online (Free & No Signup)",
+      en: "How to Extract 320kbps MP3 Audio from a Video Online (Free & No Signup)",
       zh: "如何免费从视频中提取 320kbps 高音质 MP3 与无损 WAV 音轨？（免注册无水印）"
     },
     description: {
       en: "The ultimate guide to ripping background music, voice notes, and podcast audio from MP4, MOV, and WebM videos using browser WebAssembly without watermarks.",
-      zh: "一键从 MP4、MOV、WebM 视频中分离并提取背景音乐 BGM、外语听力与播客台词，导出高保真 320kbps MP3 或母带级 WAV 音轨完整指南。"
+      zh: "一键从 MP4、MOV、WebM 视频中分离并提取背景音乐 BGM、外语听力与播客台词，也可以导出 320kbps MP3 或未压缩 WAV 音轨的完整指南。"
     },
     category: { en: "Audio Guides", zh: "音频技巧" },
     readTime: { en: "4 min read", zh: "4 分钟阅读" },
@@ -260,8 +378,8 @@ export const BLOG_PAGES = [
             zh: "无论您是想从 Zoom 视频会议录像中分离出纯语音播客的自媒体人，还是希望从美剧与外语短片中提取对白背单词的学生，亦或是渴望将抖音短视频里动听的背景音乐（BGM）保存为 MP3 的音乐爱好者，高品质音频提取都是高频必备需求。"
           },
           {
-            en: "Many online audio extractors bombards users with pop-up ads, insert artificial audio watermarks into the downloaded track, or limit MP3 exports to low-quality 128kbps bitrates. HappyConvert lets you extract pristine audio up to 320kbps studio quality completely free without registration.",
-            zh: "然而市面上许多音频提取网站不仅充斥着弹窗广告，有的还会在导出的声音里插入令人反感的广告提示音，或强制把 MP3 压缩成低劣的 128kbps 渣音质。无云剪工作室让您免费分离高达 320kbps 发烧级音质或母带级无损 WAV，全程纯净无广告提示音！"
+            en: "Many online audio extractors bombard users with pop-up ads, insert audio tags into the downloaded track, or cap MP3 exports at a low 128kbps bitrate. HappyConvert lets you export MP3 at up to 320kbps, or WAV when you want to keep the samples that are present in the source file, without an advertising tag.",
+            zh: "然而市面上许多音频提取网站不仅充斥着弹窗广告，有的还会在导出的声音里插入提示音，或把 MP3 导出限制在 128kbps 这种较低码率。HappyConvert 让您可以导出最高 320kbps 的 MP3，或者在需要保留源文件采样数据时导出 WAV，并且不会加上广告提示音。"
           }
         ]
       },
@@ -276,18 +394,56 @@ export const BLOG_PAGES = [
             zh: "在导出纯音轨时，选择正确的音频格式决定了您的收听与剪辑效率："
           },
           {
-            en: "1) MP3 (320kbps): MP3 is a universally compressed format that keeps file sizes extremely lightweight (roughly 2MB to 5MB per song). Our 320kbps setting represents the maximum quality ceiling for MP3 protocol, offering CD-quality listening that is perfect for car audio, WeChat sharing, and phone storage.",
-            zh: "1）MP3 (320kbps 发烧级)：MP3 是一种高精度的有损压缩封装，文件体积极为小巧（一首歌仅约 3MB~5MB）。我们提供的 320kbps 是 MP3 协议所支持的最高音质上限，日常听感媲美 CD 唱片，完美适合发微信、车机播放以及手机随身听。"
+            en: "1) MP3 (320kbps): MP3 is a compressed format that keeps files small (roughly 2MB to 5MB per song). Our 320kbps setting is the highest bitrate the MP3 format supports, which is convenient for car stereos, chat apps and phone storage — but MP3 is still a lossy format, so some detail is discarded during encoding.",
+            zh: "1）MP3 (320kbps)：MP3 是一种有损压缩格式，文件体积较小（一首歌约 2MB~5MB）。我们提供的 320kbps 是 MP3 格式支持的最高码率，适合车机播放、聊天软件分享和手机存储；但 MP3 仍然是有损格式，编码过程中会舍弃一部分细节。"
           },
           {
-            en: "2) Lossless WAV (PCM): WAV is an uncompressed studio master format that retains 100% of the original audio spectrum without any data loss. While files are much larger (roughly 40MB to 60MB per track), WAV is mandatory for music producers, podcast editors, and video editors importing tracks into Audacity, Logic Pro, Adobe Audition, or Premiere Pro.",
-            zh: "2）无损 WAV (PCM 原始声波)：WAV 是未经任何压缩剥离的母带级音频格式，保留了 100% 原声声场细节与超宽动态范围。虽然文件较大（一首歌约 40MB~60MB），但如果您需要把声音导入剪映、Audition、Logic Pro 或 PR 进行后期降噪与多轨调音，请务必选择 WAV 无损格式。"
+            en: "2) WAV (PCM): WAV stores uncompressed PCM audio, keeping every sample that is present in the file. Files are much larger (roughly 40MB to 60MB per track), which is why editors importing tracks into Audacity, Logic Pro, Adobe Audition or Premiere Pro prefer it: there is no additional generation loss while you work on it.",
+            zh: "2）WAV (PCM 原始波形)：WAV 存储的是未压缩的 PCM 音频，保留文件中现有的全部采样数据。文件明显更大（一首歌约 40MB~60MB），这也是剪辑师把它导入 Audition、Logic Pro 或 PR 做后期降噪与多轨调音时更愿意选择它的原因：在编辑过程中不会产生新的世代损失。"
           }
         ],
         callout: {
-          en: "🔒 100% Private & Secure: Your confidential voice notes, lectures, and corporate meeting videos are processed entirely inside your local browser memory. Zero bytes are uploaded to remote servers!",
-          zh: "🔒 100% 本地保密：您提取的内部会议纪要、商务讲座和个人隐私视频，仅在您电脑内存沙盒中进行声画分离。绝不上传网络服务器，绝无商业机密外泄可能！"
+          en: "🔒 Local by default: your confidential voice notes, lectures and corporate meeting videos are decoded inside your own browser memory. There is no upload step, so the file never has to be handed to a remote server.",
+          zh: "🔒 默认本地处理：您提取的内部会议纪要、商务讲座和个人隐私视频，只在您电脑的内存中完成声画分离。这里没有上传环节，文件不需要交给远端服务器。"
         }
+      },
+      {
+        h2: {
+          en: "MP3 audio extraction FAQ",
+          zh: "提取 MP3 音频常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Does exporting at 320kbps improve audio that was already low quality?",
+              zh: "把已经低音质的音频导出成 320kbps，会变好吗？"
+            },
+            a: {
+              en: "No. If the source track was encoded at 128kbps, the detail discarded back then is already gone. Exporting at 320kbps only avoids adding further loss during this step, and the file will be larger.",
+              zh: "不会。如果源音轨当初是按 128kbps 编码的，那时被舍弃的细节已经不可恢复。以 320kbps 导出只能避免在这一步再增加损失，代价是文件更大。"
+            }
+          },
+          {
+            q: {
+              en: "Should I pick MP3 or WAV for a track I plan to edit?",
+              zh: "如果之后还要剪辑，应该选 MP3 还是 WAV？"
+            },
+            a: {
+              en: "WAV for editing. It keeps every sample present in the file and avoids a second lossy encode when you export from your editor. MP3 is the better choice when the goal is a small file to send or listen to.",
+              zh: "剪辑用途请选 WAV。它保留文件中现有的全部采样数据，并且能避免您在剪辑软件里再次导出时又经历一次有损编码。如果目标只是发出去听或用小体积文件，MP3 更合适。"
+            }
+          },
+          {
+            q: {
+              en: "How long a video can I extract audio from?",
+              zh: "多长时间的视频可以提取音频？"
+            },
+            a: {
+              en: "There is no fixed limit. The real constraint is browser memory, because the source file and the decoded audio are held in RAM at the same time, so very long recordings are better handled on a desktop browser.",
+              zh: "工具没有写死时长上限。真正的约束是浏览器内存 — 源文件和解码后的音频需要同时放进内存，因此超长录音建议在桌面浏览器上处理。"
+            }
+          }
+        ]
       }
     ]
   },
@@ -3035,6 +3191,518 @@ export const BLOG_PAGES = [
             a: {
               en: "Check that the source preview contains audio in the selected range and that the expected track is the default stream. Also test the WAV in another player. Multi-track files may require explicit stream selection in desktop software.",
               zh: "检查源文件在所选范围内是否能预览声音，以及预期音轨是否为默认流；还可以用另一个播放器测试 WAV。多音轨文件可能需要桌面软件明确选择流。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: "/blog/merge-mp4-without-re-encoding/",
+    isArticle: true,
+    contentStandardVersion: 2,
+    title: {
+      en: "How to Merge MP4 Files Without Re-encoding",
+      zh: "如何在不重新编码的情况下合并 MP4 文件"
+    },
+    description: {
+      en: "Joining MP4 clips does not have to re-encode them. Here is when a stream-copy join works, which parameters have to match, and what to do when the clips differ.",
+      zh: "合并 MP4 片段并不一定要重新编码。本文说明流拷贝合并的适用条件、需要对齐哪些参数，以及片段参数不一致时该怎么处理。"
+    },
+    category: { en: "Tutorials", zh: "实战教程" },
+    readTime: { en: "7 min read", zh: "7 分钟阅读" },
+    date: { en: "September 18, 2026", zh: "2026年9月18日" },
+    toolLink: "/merge-video/",
+    toolName: { en: "Free Video Merger", zh: "免费在线视频合并工具" },
+    content: [
+      {
+        h2: {
+          en: "What 'merge without re-encoding' actually means",
+          zh: "「不重新编码的合并」到底指什么"
+        },
+        p: [
+          {
+            en: "An MP4 file is a container wrapping two compressed streams: one video, one audio. 'Merging without re-encoding' means the join copies the already-compressed packets from the end of clip A to the start of clip B and writes new container metadata around them. No frame is decoded, so no frame is re-compressed.",
+            zh: "MP4 文件是一个封装容器，里面装着两条已经压缩好的流：一条视频、一条音频。「不重新编码的合并」指的是把片段 A 的压缩数据包按顺序接到片段 B 前面，再为它们重写一份容器索引。整个过程不解码任何一帧，因此也不会对任何一帧重新压缩。"
+          },
+          {
+            en: "This is what FFmpeg calls stream copy, and it is the difference between a join that mostly moves bytes around and a join that has to decode and encode every frame again. The second one always costs more CPU time and always costs some quality, because H.264 and H.265 encoding are lossy processes.",
+            zh: "FFmpeg 把这个操作称为流拷贝。它和「逐帧解码后再编码」的合并有本质区别：后者必然消耗更多 CPU 时间，也必然带来画质损失，因为 H.264 和 H.265 编码本身都是有损过程。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "The five parameters that have to match",
+          zh: "必须对齐的五个参数"
+        },
+        list: [
+          {
+            en: "Video codec and profile: H.264 High profile at 1080p behaves differently from H.265 Main at 4K, and the packets cannot simply be placed next to each other.",
+            zh: "视频编码器与 Profile：1080p 的 H.264 High Profile 和 4K 的 H.265 Main 不能把数据包直接摆在一起。"
+          },
+          {
+            en: "Resolution: a mix of 1920x1080 and 1280x720 clips breaks the assumption that every frame has the same geometry.",
+            zh: "分辨率：混入 1920×1080 和 1280×720 两种片段，会打破「所有帧尺寸一致」这个前提。"
+          },
+          {
+            en: "Frame rate: 30fps and 60fps footage produce different timestamp intervals, which is where stuttering and duration drift come from.",
+            zh: "帧率：30fps 与 60fps 素材的时间戳间隔不同，这正是卡顿和时长漂移的来源。"
+          },
+          {
+            en: "Audio codec, sample rate and channel count: AAC at 44.1kHz stereo and AAC at 48kHz mono are not interchangeable in a raw packet join.",
+            zh: "音频编码、采样率与声道数：44.1kHz 立体声 AAC 和 48kHz 单声道 AAC 不能直接做数据包拼接。"
+          },
+          {
+            en: "Sample aspect ratio: phone footage is often stored with non-square pixels, so the same pixel count can display at a different aspect ratio.",
+            zh: "像素宽高比：手机素材常带非方形像素，因此相同的像素数可能显示成不同的画幅比例。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "A sensible order of operations",
+          zh: "一套稳妥的操作顺序"
+        },
+        list: [
+          {
+            en: "1. Queue the clips in the order you want them and check that order, because the join follows the list exactly.",
+            zh: "1. 按想要的顺序把片段加入队列，并确认这个顺序 —— 合并严格按列表执行。"
+          },
+          {
+            en: "2. Start with fast join. If every clip came from the same phone, the same camera or the same export preset, this path usually succeeds and barely touches your CPU.",
+            zh: "2. 先用快速合并。如果所有片段来自同一台手机、同一台相机或同一套导出预设，这条路通常能成功，而且几乎不占用 CPU。"
+          },
+          {
+            en: "3. Do not treat a finished job as proof that stream copy was valid. When the clips differ, ffmpeg sometimes exits with a success code and still writes a broken file: the muxer refuses to accept timestamps that go backwards, so the later clips' frames get dropped even though the container keeps reporting the first clip's resolution. If in doubt, switch to unified re-encode — it scales, pads and re-times every clip to the first one, which is the expensive part but also the reason it succeeds where stream copy cannot.",
+            zh: "3. 别把「跑完了」当作流拷贝成功的证据。片段规格不一致时，ffmpeg 有时会返回成功码却写出一个坏文件：muxer 不接受倒退的时间戳，于是后面片段的帧被丢弃，而容器仍然声明着第一个片段的分辨率。拿不准就改用统一重编码 —— 它会以第一个片段为基准对其余片段做缩放、补边和帧率对齐，这一步代价更高，也正是它能在流拷贝做不到的地方成功的原因。"
+          },
+          {
+            en: "4. Check the exported file on the device you actually care about, and check the join points rather than only the opening seconds.",
+            zh: "4. 在您真正要用的设备上检查导出文件，重点看衔接处，而不是只看开头几秒。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "What this costs you locally",
+          zh: "本地处理的实际代价"
+        },
+        callout: {
+          en: "Stream copy is cheap on CPU but not free on memory: the clips and the joined output all sit in your browser's RAM while the engine works. A handful of short clips merges comfortably; a stack of long 4K clips is better split into smaller batches on a desktop browser with free RAM.",
+          zh: "流拷贝对 CPU 很友好，但对内存并不免费：处理期间所有片段与合并结果都需要同时停留在浏览器内存里。几段短视频合并很轻松；如果是一堆很长的 4K 片段，建议在内存充足的桌面浏览器上分批处理。"
+        }
+      },
+      {
+        h2: {
+          en: "Merging without re-encoding FAQ",
+          zh: "不重新编码合并常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Will the joined file be exactly the same quality as the originals?",
+              zh: "合并后的文件画质和原片段完全一样吗？"
+            },
+            a: {
+              en: "For the video and audio streams, yes: stream copy moves the existing compressed data without re-compressing it. What does change is the container, which gets rebuilt with new index and timing tables, plus one thumbnail frame the player may show.",
+              zh: "对视频流和音频流来说是一样的：流拷贝只搬运已有的压缩数据，不重新压缩。真正变化的是封装本身 —— 索引与时间戳表会被重建，另外播放器可能会显示一个缩略图帧。"
+            }
+          },
+          {
+            q: {
+              en: "Will the join tell me when the clips do not match?",
+              zh: "片段规格不一致时，合并会告诉我吗？"
+            },
+            a: {
+              en: "Not always, and that is the trap. One of the five matching parameters being different does not guarantee an error message. Sometimes ffmpeg exits non-zero and the mismatch is obvious. Other times it reports success and the damage is subtler: the muxer drops the frames it cannot place on a monotonic timeline, so the joined file is shorter than the sum of its parts and the second half is missing or out of sync. A stream-copy join cannot resize, resample or re-time anything, so a mismatched clip has to go through the unified re-encode path to be correct — and checking the join point yourself is still the honest way to be sure.",
+              zh: "不一定，而这正是陷阱所在。五个对齐参数里有某一项不一致，并不保证会看到报错。有时 ffmpeg 返回非零退出码，问题一目了然；另一些时候它报告成功，而损坏更隐蔽：muxer 会丢弃无法放进单调时间线的帧，于是合并结果比各段之和更短，后半段要么缺失要么对不上。流拷贝无法缩放、重采样或调整时间基准，所以规格不同的片段必须走统一重编码才是正确的 —— 而自己检查一下衔接处，仍然是唯一诚实的确认方式。"
+            }
+          },
+          {
+            q: {
+              en: "Can I join clips that have different durations?",
+              zh: "时长不同的片段可以合并吗？"
+            },
+            a: {
+              en: "Yes. Duration does not have to match; the result is simply the sum of the segments. Only codec, resolution, frame rate, audio layout and aspect ratio have to agree for stream copy to work.",
+              zh: "可以。时长不需要一致，结果就是各段时长相加。流拷贝只要求编码、分辨率、帧率、音频布局和宽高比一致。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: "/blog/merge-clips-from-different-devices/",
+    isArticle: true,
+    contentStandardVersion: 2,
+    title: {
+      en: "Joining Clips From Different Devices: Why the Merge Fails and How to Fix It",
+      zh: "把不同设备拍的片段合并：为什么会失败，以及怎么解决"
+    },
+    description: {
+      en: "A stream-copy join breaks when clips come from different phones, cameras or screen recorders. Here is how to spot the mismatch before you merge and which fix to apply.",
+      zh: "当片段来自不同手机、相机或录屏软件时，流拷贝合并会失败。本文说明如何提前发现参数不一致，以及该采用哪种修复方式。"
+    },
+    category: { en: "Troubleshooting", zh: "问题解答" },
+    readTime: { en: "6 min read", zh: "6 分钟阅读" },
+    date: { en: "September 18, 2026", zh: "2026年9月18日" },
+    toolLink: "/merge-video/",
+    toolName: { en: "Free Video Merger", zh: "免费在线视频合并工具" },
+    content: [
+      {
+        h2: {
+          en: "Why the problem only appears when the sources differ",
+          zh: "为什么只有混用素材时才会出问题"
+        },
+        p: [
+          {
+            en: "Merging files from one single source is the easy case, because a phone or camera keeps the same encoder settings every time you press record. Android phone, iPhone, DSLR and OBS screen recorder each make their own choices about resolution, frame rate, audio sample rate and pixel aspect ratio, and those choices are baked into the file.",
+            zh: "同一台设备拍的短片是最简单的情况：手机或相机每次按下录制时都使用同一套编码设置。但安卓手机、iPhone、单反和 OBS 录屏各自对分辨率、帧率、音频采样率和像素宽高比有自己的默认选择，而这些选择已经被写入文件本身。"
+          },
+          {
+            en: "That is why a merge that worked yesterday can fail today: the files look identical in a file browser, but the streams inside them were encoded by different settings. The file name extension tells you nothing about this.",
+            zh: "正因如此，昨天能顺利合并的流程今天可能失败：在文件管理器里两个文件看起来一样，但内部的流是用不同设置编出来的。扩展名完全说明不了这件事。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "How to spot the mismatch before you merge",
+          zh: "合并前怎么发现参数不一致"
+        },
+        list: [
+          {
+            en: "Check resolution first. Open each clip in a player and note the reported width and height. 1920x1080 plus 3840x2160 is an obvious mismatch.",
+            zh: "先看分辨率。用播放器打开每个片段，记下显示的宽高。1920×1080 和 3840×2160 混在一起是明显的不一致。"
+          },
+          {
+            en: "Watch for frame rate differences. 30fps and 60fps clips concatenated without normalisation produce visible stutter at the join point and a drifting total duration.",
+            zh: "注意帧率差异。30fps 与 60fps 片段在不做归一的情况下拼接，衔接处会看到卡顿，总时长也会漂移。"
+          },
+          {
+            en: "Listen for the audio. Clips with no audio track at all are a common cause, and so are clips recorded with different sample rates such as 44.1kHz versus 48kHz.",
+            zh: "注意声音。某个片段完全没有音轨是很常见的原因，采样率不同（例如 44.1kHz 与 48kHz）也会造成问题。"
+          },
+          {
+            en: "Check orientation. A clip recorded in portrait mode is a rotated landscape stream with a rotation flag, which stream copy carries over unchanged.",
+            zh: "注意方向。竖屏录制的片段本质上是一段横向流加上旋转标记，流拷贝会原样保留这个标记。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Three fixes, in order of preference",
+          zh: "三种解决方式，按推荐顺序排列"
+        },
+        list: [
+          {
+            en: "1. Merge the matching clips together first, then handle the odd one separately. If three of four clips came from one phone, joining those three is the cheapest operation you can do.",
+            zh: "1. 先把参数一致的片段合并，再单独处理那个例外。如果四段里有三段来自同一台手机，先合并这三段是成本最低的做法。"
+          },
+          {
+            en: "2. Re-export the odd clip with the same settings as the rest, then merge everything with stream copy. This costs one re-encode instead of re-encoding the whole join at the end.",
+            zh: "2. 把那个例外片段按其他片段的设置重新导出一次，然后再整体走流拷贝合并。这样只付出一次重编码的代价，而不是到最后把整个合并流程全部重编码一遍。"
+          },
+          {
+            en: "3. Use unified re-encode for the whole job. The first clip defines the target resolution and frame rate, and every other clip is scaled, padded and re-timed to match it. It always works, and it is the slowest option.",
+            zh: "3. 整个合并统一走重编码。以第一个片段的分辨率和帧率为目标，其余片段全部做缩放、补边和帧率对齐。这条路一定能成功，也是最慢的一条。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Why the browser makes this trade-off visible",
+          zh: "为什么在浏览器里这个取舍格外明显"
+        },
+        callout: {
+          en: "Unified re-encode runs on your own CPU inside the browser, so its duration scales with total footage length rather than with how fast your connection is. A ten-minute 1080p join is usually fine; a pile of 4K clips needs a desktop browser with free RAM and is best done in smaller batches.",
+          zh: "统一重编码由您本机的 CPU 在浏览器内完成，因此耗时随素材总长度增长，而和网络速度无关。十分钟的 1080p 合并通常没问题；一堆 4K 片段则需要内存充足的桌面浏览器，并且建议分批处理。"
+        }
+      },
+      {
+        h2: {
+          en: "Different-device merge FAQ",
+          zh: "跨设备合并常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Why does the merged video show black bars or a distorted frame in places?",
+              zh: "为什么合并后的视频有的地方出现黑边或画面变形？"
+            },
+            a: {
+              en: "That is what happens when clips of different aspect ratios are stacked without normalisation. Unified re-encode adds padding so the frame keeps its proportions, which is why black bars appear around the narrower clip instead of stretching it.",
+              zh: "当宽高比不同的片段在未归一的情况下拼接时就会出现这种情况。统一重编码会补边以保持画幅比例，因此较窄的片段四周出现黑边，而不是被拉伸变形。"
+            }
+          },
+          {
+            q: {
+              en: "Can a clip with no audio track sit in the middle of a merged file?",
+              zh: "没有音轨的片段能放在合并文件的中间吗？"
+            },
+            a: {
+              en: "With unified re-encode it is handled by re-encoding the audio together, and the silent section stays silent. With a raw stream-copy join the missing track is one of the reasons the join can fail, so check the audio layout first.",
+              zh: "走统一重编码时，音频会被一起重新编码，无声段落就保持无声。走纯流拷贝拼接时，缺失的音轨正是可能失败的原因之一，因此请先检查音轨布局。"
+            }
+          },
+          {
+            q: {
+              en: "Is it better to fix the clips or to let the tool re-encode everything?",
+              zh: "应该先修素材，还是直接让工具全部重编码？"
+            },
+            a: {
+              en: "Fixing the odd clip costs one re-encode of that clip and keeps the rest untouched. Re-encoding the whole join costs quality and CPU time on every segment, so fix first when you can and fall back to re-encode when you cannot.",
+              zh: "先修那个例外片段只需对它做一次重编码，其余片段保持原样。整体重编码会让每一段都付出画质和 CPU 时间的代价，因此能修就先修，修不了再回退到整体重编码。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: "/blog/convert-m4a-to-mp3-online/",
+    isArticle: true,
+    contentStandardVersion: 2,
+    title: {
+      en: "How to Convert M4A to MP3 Without Uploading Your Recording",
+      zh: "如何把 M4A 转成 MP3，而不用上传你的录音"
+    },
+    description: {
+      en: "M4A voice memos and downloads are not always accepted everywhere. Here is how to convert them to MP3 in the browser, what quality to expect, and what the conversion costs.",
+      zh: "M4A 录音和下载文件并不总是到处都能用。本文说明如何在浏览器里把它转成 MP3、音质会发生什么变化，以及这一步的实际代价。"
+    },
+    category: { en: "Tutorials", zh: "实战教程" },
+    readTime: { en: "6 min read", zh: "6 分钟阅读" },
+    date: { en: "September 18, 2026", zh: "2026年9月18日" },
+    toolLink: "/convert-audio/",
+    toolName: { en: "Free Audio Converter", zh: "免费在线音频格式转换器" },
+    content: [
+      {
+        h2: {
+          en: "Why M4A and MP3 are not interchangeable labels",
+          zh: "为什么 M4A 和 MP3 不是两个可以互换的名字"
+        },
+        p: [
+          {
+            en: "M4A is an audio-only MP4 container, and the audio inside it is almost always AAC. MP3 is a different container with a different codec inside. Converting from one to the other means decoding the AAC samples and encoding them again as MP3, because the two formats store audio in different ways.",
+            zh: "M4A 是一个只装音频的 MP4 容器，里面的音频几乎总是 AAC。MP3 则是另一种容器，里面对应的是另一套编码格式。两者存储音频的方式不同，因此从一种转成另一种，本质上是先把 AAC 采样解码出来，再重新编码成 MP3。"
+          },
+          {
+            en: "This matters because it explains the two things people usually ask about: why the file size changes, and why the conversion is not 'free' in quality terms even though it costs nothing in money terms.",
+            zh: "这一点解释了大家最常问的两个问题：为什么文件体积会变，以及为什么这次转换在金钱上免费、在音质上却并非「零代价」。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "What quality to actually expect",
+          zh: "实际上应该期待什么样的音质"
+        },
+        p: [
+          {
+            en: "AAC to MP3 is a lossy-to-lossy conversion, which is the least favourable case. The first encode already discarded detail, and the second encode discards a little more. In practice a 192kbps or 256kbps MP3 export of a voice memo or a lecture recording is indistinguishable for listening purposes, while music with wide dynamics is where the loss becomes easier to hear.",
+            zh: "AAC 转 MP3 属于「有损转有损」，是最不理想的一种情况：第一次编码已经舍弃了细节，第二次编码又会再丢一点。实际使用中，把语音备忘或课程录音导出成 192kbps 或 256kbps 的 MP3，用于收听基本听不出差别；而动态范围大的音乐，才是损失比较容易听出来的场景。"
+          },
+          {
+            en: "The important consequence: choosing a higher bitrate than the source does not repair anything. If the recording arrived at 128kbps, exporting at 320kbps only avoids adding a little more damage and makes the file bigger.",
+            zh: "由此得出一个重要结论：把码率设置得比源文件更高，并不会修复任何东西。如果录音原本就是 128kbps，以 320kbps 导出只能避免再增加一点损伤，同时让文件变大。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Doing it in the browser",
+          zh: "在浏览器里完成转换"
+        },
+        list: [
+          {
+            en: "1. Add the M4A file to the audio converter. It also accepts MP3, WAV, FLAC, OGG, AIFF, and the audio track inside MP4, MOV, MKV or WebM files.",
+            zh: "1. 把 M4A 文件加入音频转换工具。它也接受 MP3、WAV、FLAC、OGG、AIFF，以及 MP4、MOV、MKV、WebM 文件里的音轨。"
+          },
+          {
+            en: "2. Choose MP3 as the output format. For recordings, 192kbps is a reasonable default; use 256kbps or 320kbps when the material is music.",
+            zh: "2. 输出格式选择 MP3。如果是语音录音，192kbps 是合理的默认值；素材是音乐时可以用 256kbps 或 320kbps。"
+          },
+          {
+            en: "3. Run the task. Decoding and encoding both happen on your own machine, so the duration scales with recording length and your CPU rather than with your internet speed.",
+            zh: "3. 开始处理。解码和编码都在您本机完成，因此耗时随录音长度和 CPU 性能变化，而与网络速度无关。"
+          },
+          {
+            en: "4. Compare a short segment before converting the whole archive. If the source is already lossy, that test tells you whether the extra step is worth doing at all.",
+            zh: "4. 批量转换整个归档前，先对比一小段。如果源文件本身已经有损，这个小测试能告诉您这一步是否值得做。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "What the local route costs",
+          zh: "本地路线的实际代价"
+        },
+        callout: {
+          en: "Nothing is uploaded, so a private interview recording never leaves your machine. The trade-off is that the file has to fit in your browser's memory, and that a long recording keeps your CPU busy for a while — a one-hour lecture is a realistic job, a 4K video you only need the audio from is better handled on a desktop.",
+          zh: "文件不需要上传，因此私密访谈录音不会离开您的电脑。代价是它必须能放进浏览器内存，而且较长的录音会让 CPU 忙上一段时间 —— 一小时课程录音属于合理范围；如果您只是要从一个 4K 视频里取音频，建议在桌面浏览器上处理。"
+        }
+      },
+      {
+        h2: {
+          en: "M4A to MP3 FAQ",
+          zh: "M4A 转 MP3 常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Is the MP3 conversion lossless?",
+              zh: "转成 MP3 是无损的吗？"
+            },
+            a: {
+              en: "No. MP3 is a lossy format, and going from AAC to MP3 means encoding the audio a second time, so a small amount of additional detail is discarded. If you need the audio as it currently exists, export WAV or FLAC instead of MP3.",
+              zh: "不是。MP3 是有损格式，而从 AAC 转成 MP3 意味着音频被编码了第二次，因此会再舍弃少量细节。如果需要原样保留音频现有内容，请导出 WAV 或 FLAC，而不是 MP3。"
+            }
+          },
+          {
+            q: {
+              en: "Does 32-bit float WAV or a very high bitrate make the recording better?",
+              zh: "用更高位深的 WAV 或极高码率能让录音变好吗？"
+            },
+            a: {
+              en: "No. Bit depth and bitrate describe how precisely a file stores what it holds; they cannot recreate information that an earlier encode removed. Converting a 128kbps source to a very high bitrate produces a bigger file with the same content.",
+              zh: "不能。位深和码率描述的是「文件保存现有内容有多精确」，无法凭空还原之前编码已经移除的信息。把 128kbps 的源文件转成极高码率，只会得到一个内容相同而体积更大的文件。"
+            }
+          },
+          {
+            q: {
+              en: "Can I convert a batch of recordings at once?",
+              zh: "可以一次批量转换多个录音吗？"
+            },
+            a: {
+              en: "Process them one at a time. Each job holds the source file and the decoded audio in browser memory, so running several large recordings together is the fastest way to hit the memory ceiling rather than the fastest way to finish.",
+              zh: "建议逐个处理。每个任务都需要把源文件和解码后的音频放进浏览器内存，因此同时跑多个大录音，只会更快撞上内存上限，而不是更快完成。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: "/blog/wav-vs-flac-vs-mp3/",
+    isArticle: true,
+    contentStandardVersion: 2,
+    title: {
+      en: "WAV vs FLAC vs MP3: Which One Should You Export?",
+      zh: "WAV、FLAC、MP3 到底该导出哪一个？"
+    },
+    description: {
+      en: "A practical comparison of WAV, FLAC and MP3 for editing, archiving and sharing, including where the quality is actually lost and when a conversion cannot help.",
+      zh: "从剪辑、归档和分享三个用途出发对比 WAV、FLAC 与 MP3，说明音质到底在哪一步损失，以及什么情况下转换根本帮不上忙。"
+    },
+    category: { en: "Guide", zh: "选购指南" },
+    readTime: { en: "7 min read", zh: "7 分钟阅读" },
+    date: { en: "September 18, 2026", zh: "2026年9月18日" },
+    toolLink: "/convert-audio/",
+    toolName: { en: "Free Audio Converter", zh: "免费在线音频格式转换器" },
+    content: [
+      {
+        h2: {
+          en: "Three formats, three different jobs",
+          zh: "三种格式，对应三种用途"
+        },
+        p: [
+          {
+            en: "WAV, FLAC and MP3 are often listed as if they were ranked by quality, but the more useful framing is that they solve different problems. One stores raw samples, one stores them compactly without discarding any, and one deliberately discards some to make files small.",
+            zh: "WAV、FLAC、MP3 常被当作一个「音质排行榜」来排，但更有用的视角是：它们解决的是不同问题。一个存原始采样，一个在不丢弃数据的前提下把体积压小，另一个则主动舍弃一部分数据来换取小体积。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "The decision list I work from",
+          zh: "我实际使用的决策清单"
+        },
+        list: [
+          {
+            en: "Editing or mixing in a DAW → WAV. It stores uncompressed PCM, so every edit and export avoids an extra round of lossy encoding. The cost is size: roughly ten times an MP3 of the same duration.",
+            zh: "要在剪辑或混音软件里继续处理 → WAV。它存储未压缩的 PCM，每次编辑和导出都不会再叠加一次有损编码。代价是体积：约为同时长 MP3 的十倍左右。"
+          },
+          {
+            en: "Archiving a recording you may edit later → FLAC. It keeps the samples that are present in the file while taking noticeably less space than WAV, so it is the better shelf format of the two.",
+            zh: "要归档一段以后可能还要剪的录音 → FLAC。它完整保留文件中现有的采样数据，同时比 WAV 明显更省空间，因此在两者之间更适合长期存放。"
+          },
+          {
+            en: "Sending to another person or playing in a car → MP3 at 192kbps or above. Compatibility is the whole point here, and 192kbps to 256kbps is transparent enough for speech and most casual listening.",
+            zh: "要发给别人或在车载播放器里听 → 192kbps 以上的 MP3。这个场景的核心是兼容性，而 192kbps 到 256kbps 对语音和大多数日常收听已经足够。"
+          },
+          {
+            en: "Uploading to a web player or a small download page → OGG/Opus at a lower bitrate, because it holds up better than MP3 when the bitrate is reduced.",
+            zh: "要放到网页播放器或提供小体积下载 → 用更低码率的 OGG/Opus，因为在低码率下它比 MP3 表现更好。"
+          },
+          {
+            en: "Feeding a video editor → WAV or AIFF, whichever the editor prefers. Both are uncompressed PCM and behave the same in a timeline.",
+            zh: "要喂给视频剪辑软件 → 按软件偏好选择 WAV 或 AIFF。两者都是未压缩 PCM，在时间轴上的表现一致。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Where quality is actually lost",
+          zh: "音质究竟在哪一步损失"
+        },
+        p: [
+          {
+            en: "Loss happens at encode time, not at export time. A phone voice memo recorded to AAC already lost detail the moment it was saved. Turning that file into WAV afterwards does not restore anything: WAV is simply a container that can hold the decoded result exactly, including the damage.",
+            zh: "损失发生在「编码的那一刻」，而不是「导出的那一刻」。手机录音保存成 AAC 时就已经丢过一次细节。事后再把它转成 WAV，并不能还原任何东西：WAV 只是一个能精确保存解码结果的容器，包括那部分损伤。"
+          },
+          {
+            en: "That is also why the same recording can sound identical in WAV and in a well-made 256kbps MP3. If the source was already lossy, both files are carrying the same information, and only one of them is large.",
+            zh: "这也解释了为什么同一段录音在 WAV 和制作良好的 256kbps MP3 里听起来可能一模一样：如果源文件本身已经有损，两者承载的信息相同，区别只在于其中一个体积大得多。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "What happens in the browser",
+          zh: "在浏览器里会发生什么"
+        },
+        callout: {
+          en: "The conversion runs on your own CPU, so a long file takes real time and both the source and the decoded audio occupy browser memory while it works. That is the honest ceiling: a long lecture is comfortable, an hour of 96kHz multitrack audio is not a browser job.",
+          zh: "转换由您本机的 CPU 完成，因此长文件确实需要时间，而且处理期间源文件和解码后的音频都会占用浏览器内存。这就是诚实的上限：一段较长的课程录音没问题，一小时的 96kHz 多轨音频不适合放在浏览器里处理。"
+        }
+      },
+      {
+        h2: {
+          en: "WAV, FLAC and MP3 FAQ",
+          zh: "WAV、FLAC、MP3 常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Is FLAC really the same quality as WAV?",
+              zh: "FLAC 的音质真的和 WAV 一样吗？"
+            },
+            a: {
+              en: "For the audio content, yes. FLAC stores the same sample values in a more compact form and decodes back to the identical PCM stream. The difference between them is file size and how quickly an editor can read them, not fidelity.",
+              zh: "就音频内容而言是一样的。FLAC 用更紧凑的方式存储相同的采样值，解码后能得到完全一致的 PCM 数据流。两者的差别在文件体积和剪辑软件读取速度，而不在保真度。"
+            }
+          },
+          {
+            q: {
+              en: "Why did my WAV file become smaller after converting to MP3 but sound the same?",
+              zh: "为什么转成 MP3 后文件小了很多，听起来却没区别？"
+            },
+            a: {
+              en: "Because perceptual encoders remove information the ear is unlikely to miss, especially in quiet or masked frequency ranges. On speech and most music this is hard to notice at 192kbps and above, which is exactly the trade the format was designed around.",
+              zh: "因为有损编码器会移除人耳大概率注意不到的信息，尤其是在安静或被人声掩蔽的频段。对语音和大多数音乐来说，192kbps 以上很难听出区别 —— 这正是这类格式设计时所做的取舍。"
+            }
+          },
+          {
+            q: {
+              en: "Can converting an MP3 to WAV make it sound better?",
+              zh: "把 MP3 转成 WAV 会让它更好听吗？"
+            },
+            a: {
+              en: "No. It changes the container, not the information. The only practical reason to do it is compatibility: some editors and playback chains handle WAV more predictably. If you want better audio, the fix has to happen at recording and encoding time.",
+              zh: "不会。它改变的只是容器，不是信息本身。这样做唯一实际的理由是兼容性：某些剪辑软件和处理链路对 WAV 的支持更可预期。想要更好的音质，只能在录制和编码环节解决。"
             }
           }
         ]

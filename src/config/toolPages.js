@@ -1,4 +1,5 @@
 import { BLOG_PAGES } from "./blogPages.js";
+import { conservativeCopy } from "../lib/conservativeCopy.js";
 
 export const DEFAULT_PAGE = {
   path: "/",
@@ -28,22 +29,22 @@ export const DEFAULT_PAGE = {
     zh: "在上方选择一个工具开始使用，或浏览下方各专属工具页面了解更多功能。"
   },
   badge: {
-    en: "🚀 100% Free • No Watermark • 6 Tools in One",
-    zh: "🚀 免费使用 • 无水印 • 六大工具合一"
+    en: "🚀 100% Free • No Watermark • 8 Tools in One",
+    zh: "🚀 免费使用 • 无水印 • 八大工具合一"
   },
   proTip: {
-    en: "💡 Pro-Tip: All processing happens locally in your browser via WebAssembly. Your files never leave your device — perfect for confidential or sensitive media.",
+    en: "💡 Pro-Tip: All processing happens locally in your browser via WebAssembly. Your files stay on your own device, which suits confidential or sensitive media.",
     zh: "💡 专家建议：所有处理均通过 WebAssembly 在浏览器本地完成。您的文件绝不会离开设备 — 非常适合处理机密或敏感媒体文件。"
   },
   faqs: [
     {
       q: {
         en: "Is HappyConvert completely free to use? Do I need to register or pay?",
-        zh: "无云剪工作室是完全免费的吗？需要注册账号或付费订阅吗？"
+        zh: "HappyConvert 是完全免费的吗？需要注册账号或付费订阅吗？"
       },
       a: {
         en: "Yes, HappyConvert is free to use. There is no registration required, no login needed, and no credit card or subscription fees. You can use the video and audio tools directly in your browser. Exports are watermark-free, with no cloud queue times; practical file size depends on your browser memory.",
-        zh: "100% 免费使用！不仅没有任何收费门槛，更郑重承诺：无需注册账号、无需登录、无需绑定信用卡！您只要打开网页即可立刻使用全部专业音频与视频处理工具。导出的所有媒体文件纯净无水印、无文件大小限制、无排队等待，依靠浏览器本地引擎极速完成，随开随用！"
+        zh: "是的，HappyConvert 免费使用。无需注册账号、无需登录、无需绑定信用卡，打开网页即可直接使用全部音视频工具。导出的文件不带水印，也没有云端排队，不必等待别人的服务器；实际可处理的文件大小取决于浏览器与设备内存。"
       }
     },
     {
@@ -52,8 +53,8 @@ export const DEFAULT_PAGE = {
         zh: "HappyConvert 快乐转码工作室包含哪些工具？"
       },
       a: {
-        en: "HappyConvert includes 6 free tools: Video Converter (MP4/WebM/MOV/MKV), Video Cutter (lossless trim), Video Compressor (smart CRF), Video to GIF (custom FPS), Audio Extractor (MP3/WAV), and Video Cropper (9:16/16:9/1:1 ratios). All tools are 100% free with no watermarks.",
-        zh: "无云剪工作室包含 6 大免费工具：视频格式转换（MP4/WebM/MOV/MKV）、视频剪切（无损流拷贝）、视频压缩（智能 CRF）、视频转 GIF（自定义帧率）、音频提取（MP3/WAV）、画面裁切（9:16/16:9/1:1 比例）。所有工具免费使用，无水印。"
+        en: "HappyConvert includes 8 free tools: Video Converter (MP4/WebM/MOV/MKV), Video Cutter (stream-copy trim), Video Compressor (smart CRF), Video to GIF (custom FPS), Audio Extractor (MP3/WAV), Video Cropper (9:16/16:9/1:1 ratios), Video Merger (join clips with stream copy), and Audio Converter (MP3/M4A/WAV/FLAC/OGG/AIFF). All tools are free to use with no watermarks.",
+        zh: "HappyConvert 包含 8 大免费工具：视频格式转换（MP4/WebM/MOV/MKV）、视频剪切（无损流拷贝）、视频压缩（智能 CRF）、视频转 GIF（自定义帧率）、音频提取（MP3/WAV）、画面裁切（9:16/16:9/1:1）、视频合并（同源片段流拷贝拼接）、音频格式转换（MP3/M4A/WAV/FLAC/OGG/AIFF）。所有工具免费使用，无水印。"
       }
     },
     {
@@ -62,8 +63,8 @@ export const DEFAULT_PAGE = {
         zh: "浏览器本地处理是如何工作的？安全吗？"
       },
       a: {
-        en: "We use WebAssembly (WASM) technology to run the FFmpeg engine directly inside your browser's sandboxed memory. Your video and audio files are never uploaded to any server — all processing happens on your device's CPU and RAM. This means zero data leaks, instant processing speed, and complete privacy.",
-        zh: "我们使用 WebAssembly (WASM) 技术在浏览器沙盒内存中直接运行 FFmpeg 引擎。您的视频和音频文件永远不会上传到任何服务器 — 所有处理都在您设备的 CPU 和内存中完成。这意味着零数据泄露、即时处理速度和完全的隐私保护。"
+        en: "We use WebAssembly (WASM) technology to run the FFmpeg engine directly inside your browser's sandboxed memory. Your video and audio files are not uploaded to any server for processing — the work happens on your device's own CPU and RAM, so the file never has to leave your computer. Nothing is queued on a remote machine, and there is nothing for us to store.",
+        zh: "我们使用 WebAssembly (WASM) 技术在浏览器沙盒内存中直接运行 FFmpeg 引擎。您的视频和音频文件不会被上传到任何服务器进行处理 — 运算在您设备自己的 CPU 与内存中完成，文件不必离开您的电脑。没有远端排队，也没有需要我们保存的数据。"
       }
     },
     {
@@ -123,7 +124,7 @@ export const TOOL_PAGES = [
         },
         a: {
           en: "Yes, the video converter is free to use. There is no registration required, no login needed, and no credit card or subscription fees. You can convert videos directly in your browser, with no watermark overlays or cloud queue times. Practical file size depends on your browser memory.",
-          zh: "100% 免费使用！不仅没有任何收费门槛，更郑重承诺：无需注册账号、无需登录、无需绑定信用卡！您只要打开网页即可立刻使用视频与音频转码功能。导出的所有视频和音频均保持原生纯净，绝对无水印、无体积限制、无排队等待，随开随用！"
+          zh: "是的，这款视频转换工具免费使用。无需注册账号、无需登录、无需付费订阅，打开网页即可直接转换。导出的视频不带水印，也没有云端排队；实际可处理的文件大小取决于浏览器内存，超大文件建议在桌面浏览器上处理。"
         }
       },
       {
@@ -177,7 +178,7 @@ export const TOOL_PAGES = [
     },
     description: {
       en: "Cut video online for free with zero watermarks. Fast trim video online tool for MP4, MOV, WebM, and MKV files locally in your browser with millisecond precision.",
-      zh: "免费在线进行视频剪切，纯净无水印！支持毫秒级精准定轨裁剪 MP4、MOV、WebM、MKV 文件。提供无损流拷贝模式，快速导出原始画质片段。"
+      zh: "免费在线进行视频剪切，纯净无水印！支持按时间戳精确裁剪 MP4、MOV、WebM、MKV 文件。提供无损流拷贝模式，通常可以更快导出原始画质片段。"
     },
     h1: {
       en: "Cut Video Online - <span class=\"highlight\">Video Trimmer</span>",
@@ -354,8 +355,8 @@ export const TOOL_PAGES = [
       zh: "自定义帧率与尺寸，生成丝滑无闪烁的高清动图"
     },
     subtitle: {
-      en: "Turn your favorite video highlights into sharable animated GIFs instantly. Adjust custom FPS framerates and pixel widths to balance animation smoothness against lightweight file size.",
-      zh: "免费使用、无水印、秒级生成！一键将视频高光转化成适合微信群聊和社媒分享的高清 GIF 动图。自由调控 FPS 帧率与像素宽度，告别模糊卡顿与马赛克！"
+      en: "Turn a video highlight into a shareable animated GIF without waiting on an upload. Adjust custom FPS framerates and pixel widths to balance animation smoothness against lightweight file size.",
+      zh: "免费使用、无水印！把视频高光片段转成适合微信群聊和社媒分享的 GIF 动图。可自由调控 FPS 帧率与像素宽度，在流畅度与体积之间自己取舍。"
     },
     intent: {
       en: "Best for creating chat memes, social media reaction gifs, software tutorial demonstrations, and GitHub documentation previews.",
@@ -386,7 +387,7 @@ export const TOOL_PAGES = [
           zh: "如何把 MP4 或 MOV 视频转换成高清流动的 GIF 动图？"
         },
         a: {
-          en: "Step 1: Upload your video file. Step 2: (Optional) If you only want a specific segment, switch to the Video Cutter tool to trim the timestamps first. Step 3: In the GIF settings, choose your desired Framerate (e.g., 15 FPS for smooth animation, 10 FPS for smaller size) and Width (e.g., 480px or 320px). Step 4: Click '🚀 Run Editing Task' and download your GIF instantly!",
+          en: "Step 1: Upload your video file. Step 2: (Optional) If you only want a specific segment, switch to the Video Cutter tool to trim the timestamps first. Step 3: In the GIF settings, choose your desired Framerate (e.g., 15 FPS for smoother animation, 10 FPS for a smaller file) and Width (e.g., 480px or 320px). Step 4: Click '🚀 Run Editing Task' and wait for the GIF to be generated — GIF encoding is frame-by-frame work, so longer or higher-FPS clips take noticeably more time.",
           zh: "第一步：上传待转的视频文件。第二步：（可选）如果只想截取其中几秒，可先在上方切换到「视频剪切」选定时间区间。第三步：在右侧 GIF 设置面板中，选择合适的帧率（建议 15 FPS 保证丝滑，10 FPS 缩小体积）与画面宽度（如 480px 或 320px）。第四步：点击首屏「🚀 开始处理」，自动生成并导出动图！"
         }
       },
@@ -396,8 +397,8 @@ export const TOOL_PAGES = [
           zh: "为什么很多转换网站做出来的 GIF 动图颜色严重失真，有明显色块和闪烁？"
         },
         a: {
-          en: "Standard GIF converters force your video colors into a generic 256-color palette, causing terrible dithering and color banding. Our engine utilizes FFmpeg's two-pass custom palette generation algorithm, which scans your video's unique color spectrum first to create a dedicated color palette, resulting in crystal-clear, flicker-free GIFs!",
-          zh: "普通的 GIF 转换工具只会生硬地将视频颜色套用系统默认的 256 色色盘，导致色彩断层、严重颗粒感和绿色噪点。无云剪引擎内置了 FFmpeg 顶级的双向调色板（Two-pass Palette）算法，在生成动图前会自动全局扫描您视频的独特色彩空间并生成专属调色盘，确保生成的 GIF 画面平滑、色泽饱和无闪烁！"
+          en: "Standard GIF converters force your video colors into a generic 256-color palette, causing dithering and color banding. Our engine uses FFmpeg's two-pass custom palette generation, which scans your video's own color spectrum first to build a dedicated palette, so the result keeps steadier colors and less flicker.",
+          zh: "普通的 GIF 转换工具只会生硬地将视频颜色套用系统默认的 256 色色盘，导致色彩断层、严重颗粒感和绿色噪点。HappyConvert 的引擎内置了 FFmpeg 的双向调色板（Two-pass Palette）算法，在生成动图前会自动全局扫描您视频的独特色彩空间并生成专属调色盘，让生成的 GIF 画面更平滑、色泽更稳定。"
         }
       },
       {
@@ -441,7 +442,7 @@ export const TOOL_PAGES = [
     },
     badge: {
       en: "🎵 320kbps Quality • 100% Free • Fast Export",
-      zh: "🎵 极品音质 • 免费使用 • 秒级导出"
+      zh: "🎵 高音质导出 • 免费使用 • 快速导出"
     },
     proTip: {
       en: "💡 Pro-Tip: Choose WAV for lossless podcast and video editing, or MP3 320kbps for universal music sharing across all devices.",
@@ -465,7 +466,7 @@ export const TOOL_PAGES = [
         },
         a: {
           en: "Step 1: Upload your video (MP4, MOV, WebM, MKV, etc.). Step 2: In the right-hand options panel, select your target audio format: choose MP3 (with bitrate up to 320kbps) for sharing, or WAV for lossless DAW editing. Step 3: Click '🚀 Run Editing Task'. Your clean audio track will extract in seconds!",
-          zh: "第一步：上传含有目标音轨的视频文件（支持 MP4、MOV、WebM、MKV 等）。第二步：在右侧面板中选择所需的音频格式：日常分享发歌请选 MP3（最高支持 320kbps 发烧级码率），如需放入剪映、PR 或 Logic Pro 调音请选 WAV 无损格式。第三步：点击首屏「🚀 开始处理」，系统自动将纯净音轨提取并下载到本地！"
+          zh: "第一步：上传含有目标音轨的视频文件（支持 MP4、MOV、WebM、MKV 等）。第二步：在右侧面板中选择所需的音频格式：日常分享发歌请选 MP3（最高支持 320kbps 码率），如需放入剪映、PR 或 Logic Pro 调音请选 WAV 无损格式。第三步：点击首屏「🚀 开始处理」，系统会把音轨提取并下载到本地，耗时取决于视频时长与本机 CPU。"
         }
       },
       {
@@ -474,8 +475,8 @@ export const TOOL_PAGES = [
           zh: "导出的 MP3 (320kbps) 和无损 WAV 格式到底有什么区别？怎么选？"
         },
         a: {
-          en: "MP3 is a compressed audio format that shrinks file sizes dramatically, making it ideal for mobile listening, WhatsApp sharing, and email attachments. Our 320kbps MP3 setting provides the highest possible bitrate for MP3, indistinguishable from CD quality for everyday listening. WAV is an uncompressed PCM studio format that retains 100% of the original audio spectrum without any compression, making it mandatory for professional audio engineers and podcast producers.",
-          zh: "MP3 是一种高效率的音频压缩格式，文件体积非常轻量，完美适合在手机、微信、车载 MP3 和邮件中畅快播放；我们提供的 320kbps 是 MP3 协议支持的最高极品码率，日常听感媲美 CD。而 WAV 则是未经任何数据压缩的母带级 PCM 原始音频格式，保留了 100% 的声场动态细节，适合专业剪辑师和音乐制作人在后期编辑中进行调音与多轨混音。"
+          en: "MP3 is a compressed audio format that keeps file sizes small, which makes it convenient for phones, car stereos, messaging apps and email attachments. Our 320kbps setting is the highest bitrate MP3 supports, but MP3 is still a lossy format. WAV is uncompressed PCM audio and keeps every sample that is present in the current file, which is why editors and podcast producers prefer it for further processing. If the source is already lossy, converting it to WAV or to a higher bitrate does not recover detail that was discarded earlier.",
+          zh: "MP3 是一种高效率的音频压缩格式，文件体积很轻，适合在手机、车载播放器和邮件中分享；我们提供的 320kbps 是 MP3 协议支持的最高码率之一，但请注意它仍然是有损格式。WAV 则是未压缩的 PCM 原始音频，保留了当前文件里的全部采样数据，适合在后期编辑中进行调音与多轨混音。如果源文件本身就是有损格式，转成 WAV 或更高码率并不会找回已经丢失的细节。"
         }
       },
       {
@@ -484,8 +485,8 @@ export const TOOL_PAGES = [
           zh: "分离公司内部会议录像或私密录音视频时，文件会泄露或上传到服务器吗？"
         },
         a: {
-          en: "Never! This is our biggest competitive advantage over standard online tools. Your audio extraction happens strictly inside your web browser using local WebAssembly RAM. Your private meeting recordings and voice notes never touch the internet.",
-          zh: "绝对不会！这是无云剪对比其他在线提取网站最大的技术护城河。所有的音频分离运算均在您电脑本地浏览器的 WebAssembly 内存中闭环执行，您的会议纪要、讲座录播和个人视频只在电脑本地处理，连一比特的数据都不会向网络发送！"
+          en: "No. Your audio extraction runs inside your own browser using local WebAssembly memory. Your private meeting recordings, lecture captures and personal videos are processed on your device and are not uploaded to a server for processing.",
+          zh: "不会。这正是 HappyConvert 与多数在线工具最大的区别：音频分离运算全部在您电脑本地浏览器的 WebAssembly 内存中完成，您的会议纪要、讲座录播和个人视频只在本地处理，不会被上传到服务器。"
         }
       },
       {
@@ -494,8 +495,8 @@ export const TOOL_PAGES = [
           zh: "导出的音频文件有大小限制、时长限制或者水印提示音吗？"
         },
         a: {
-          en: "No limitations whatsoever! Extract audio from multi-hour lectures or 2GB videos completely free without watermarks, audio watermarks, or paywalls.",
-          zh: "没有任何限制！您可以免费从几个小时的公开课视频或大几百兆的影片中任意提取音频，导出的声音干净纯淬，没有任何插播广告音、水印提示音或付费门槛！"
+          en: "The exported file carries no watermark, no audio tag and no paywall. The real limit is your device: both the source file and the decoded audio have to fit in your browser's memory at the same time, so multi-hour recordings are best handled on a desktop browser with plenty of free RAM.",
+          zh: "导出的音频里不会有水印提示音、插播广告音，也没有付费门槛。真正的限制来自设备：源文件和解码后的音频需要同时放进浏览器内存，因此几个小时的超长录音建议在内存充足的桌面浏览器上处理。"
         }
       }
     ]
@@ -520,7 +521,7 @@ export const TOOL_PAGES = [
       zh: "将横屏视频一键裁切为 9:16 竖屏，适配抖音、Shorts 和 Reels"
     },
     subtitle: {
-      en: "Reframe your visual canvas instantly with zero watermarks. Convert horizontal landscape videos into viral vertical 9:16 Shorts, Reels, and TikToks, or square 1:1 Instagram posts.",
+      en: "Reframe your visual canvas with zero watermarks. Convert horizontal landscape videos into vertical 9:16 Shorts, Reels and TikToks, or square 1:1 Instagram posts.",
       zh: "免费使用、高清无水印！立刻重塑您的视频视觉构图。把横屏长视频完美裁剪为适合抖音、小红书、TikTok 与 Shorts 的 9:16 爆款竖屏，或适合 Instagram 和朋友圈的 1:1 方形短片。"
     },
     intent: {
@@ -552,7 +553,7 @@ export const TOOL_PAGES = [
           zh: "怎样把一段横屏拍摄的长视频裁剪成适合抖音、小红书和 Shorts 的 9:16 竖屏短视频？"
         },
         a: {
-          en: "Step 1: Upload your landscape video. Step 2: In the Crop settings panel, click the '📱 TikTok / Shorts 9:16' tag pill or the 9:16 ratio button. Step 3: A visual guide box will appear over your video—adjust the custom dimensions if needed. Step 4: Click '🚀 Run Editing Task' to export your viral vertical clip instantly!",
+          en: "Step 1: Upload your landscape video. Step 2: In the Crop settings panel, click the '📱 TikTok / Shorts 9:16' tag pill or the 9:16 ratio button. Step 3: A visual guide box will appear over your video—adjust the custom dimensions if needed. Step 4: Click '🚀 Run Editing Task' to export the reframed clip. Cropping re-encodes the frame, so export time scales with clip length and your CPU.",
           zh: "第一步：上传您的横屏原视频。第二步：在右侧裁切面板中，直接点击「📱 TikTok / Shorts 9:16」平台快速选择标签，或下方的 9:16 比例按键。第三步：下方预览框中会出现裁剪对齐引导指示；如果需要精确宽高，还可点击「自定义」输入精确像素值。第四步：点击首屏「🚀 开始处理」，一键生成高清构图的竖屏短片！"
         }
       },
@@ -583,7 +584,183 @@ export const TOOL_PAGES = [
         },
         a: {
           en: "100% free with no watermarks! When you crop your video, we re-encode the frame using professional-grade H.264 high-profile encoding, ensuring your cropped video remains sharp and vibrant without any branding overlays.",
-          zh: "100% 免费使用，导出视频绝无水印！在对画面进行物理边缘裁切时，无云剪采用高规格的 H.264 High-Profile 编码引擎进行重新渲染，确保构图裁切后的视频画面干净通透、色彩饱满，绝不仅有任何商业水印污染您的创作！"
+          zh: "100% 免费使用，导出视频绝无水印！在对画面进行物理边缘裁切时，HappyConvert 会使用 H.264 High-Profile 编码重新渲染，让裁切后的视频画面保持清晰、色彩正常，不会添加任何商业水印。"
+        }
+      }
+    ]
+  },
+  {
+    path: "/merge-video/",
+    toolId: "Merge",
+    title: {
+      en: "Merge Video Online - Free MP4 Joiner & Video Combiner",
+      zh: "在线合并视频 - 免费 MP4 视频拼接与合并工具"
+    },
+    description: {
+      en: "Merge video online for free with no watermarks. Join MP4, MOV, WebM and MKV clips in your browser: matching clips are joined with stream copy, mismatched ones are re-encoded to match the first clip.",
+      zh: "免费在线合并视频，无水印。在浏览器本地把 MP4、MOV、WebM、MKV 片段按顺序拼接：编码一致的片段走流拷贝拼接，来源不同时以第一个片段为基准统一规格后重新编码。"
+    },
+    h1: {
+      en: "Free Online <span class=\"highlight\">Video Merger</span>",
+      zh: "免费在线<span class=\"highlight\">视频合并拼接</span>"
+    },
+    seoH2: {
+      en: "Join Multiple Video Clips into One File in Your Browser",
+      zh: "在浏览器中把多段视频按顺序拼接成一个文件"
+    },
+    subtitle: {
+      en: "Combine several clips into a single video. When every clip shares the same codec and resolution, the join uses stream copy and adds little extra load; mixed sources are re-encoded to match the first clip.",
+      zh: "把多段视频拼接为一个文件。当所有片段的编码与分辨率一致时，合并采用流拷贝，额外开销很小；来源混合时会以第一个片段为基准重新编码对齐规格。"
+    },
+    intent: {
+      en: "Best for joining phone clips into one video, stitching separately recorded segments, or recombining parts of a file that was split earlier.",
+      zh: "适合把手机拍的多段素材拼成一条完整视频、把分段录制的课程或会议录像接起来，以及把之前被切开的视频重新合成完整文件。"
+    },
+    badge: {
+      en: "🔗 Fast Join • 100% Free • No Watermark",
+      zh: "🔗 快速拼接 • 免费使用 • 无水印"
+    },
+    proTip: {
+      en: "💡 Pro-Tip: Merge clips that came from the same camera or the same export preset first. Identical codec, resolution and frame rate are what let the engine use stream copy — the fastest and lightest path.",
+      zh: "💡 专家建议：优先合并同一台设备或同一导出预设产生的片段。编码、分辨率、帧率一致，引擎才能走流拷贝 — 这是最快、最省内存的路径。"
+    },
+    faqs: [
+      {
+        q: {
+          en: "Is this video merger completely free? Do I need to register an account or pay?",
+          zh: "这款在线视频合并工具是完全免费的吗？需要注册账号或付费订阅吗？"
+        },
+        a: {
+          en: "Yes, the video merger is free to use. There is no registration required, no login needed, and no subscription fees, and the merged output carries no watermark. The practical limit is your browser memory, since the clips you join are held in your device's RAM while the engine works.",
+          zh: "是的，这款视频合并工具免费使用。无需注册账号、无需登录、无需付费订阅，合并后的文件不带水印。实际限制来自浏览器内存：合并期间这些片段需要同时停留在您设备的内存中。"
+        }
+      },
+      {
+        q: {
+          en: "How do I merge several videos into one file?",
+          zh: "怎样把多段视频合并成一个文件？"
+        },
+        a: {
+          en: "Step 1: Add two or more clips to the input area — you can select them in one go or add them one by one. Step 2: Check the order of the list; clips are joined in the order shown, so drag or move an entry if it is out of place. Step 3: Leave the mode on Fast Join (stream copy) if all clips come from the same source, or switch to Unified Re-encode if they do not. Step 4: Click '🚀 Start Processing' and wait for the single joined file to appear in the output gallery.",
+          zh: "第一步：把两段或更多片段加入输入区 — 可以一次多选，也可以逐个添加。第二步：确认列表顺序，合并严格按列表顺序进行，顺序不对就先调整。第三步：如果所有片段来源一致，保持「快速合并（流拷贝）」；来源不一致则切换到「统一重编码」。第四步：点击首屏「🚀 开始处理」，等待输出区生成合并后的单个文件。"
+        }
+      },
+      {
+        q: {
+          en: "Why is fast join sometimes much faster than re-encoding?",
+          zh: "为什么快速合并有时候很快，有时候却很慢？"
+        },
+        a: {
+          en: "Fast join copies the existing compressed stream instead of decoding frames, so when all clips share the same codec, resolution, frame rate and audio parameters, the work is mostly file copying. When the parameters differ, stream copy is no longer reliable — and it does not always announce that. ffmpeg can finish with a success code while the muxer drops the frames it cannot place on a monotonic timeline, leaving a file that opens fine but goes wrong partway through. This tool therefore probes every clip before a fast join and switches to Unified Re-encode as soon as the parameters disagree. That path decodes all clips together and costs more CPU and memory, but it is the one that stays correct.",
+          zh: "快速合并直接复制已有的压缩流，不解码画面。因此当所有片段的编码、分辨率、帧率和音频参数都一致时，主要工作只是复制数据。参数不一致时，流拷贝就不再可靠 — 而且它不一定告诉你。ffmpeg 可能返回成功码，而 muxer 已经丢掉了放不进单调时间线的帧，留下一个能打开、但播到中途就不对劲的文件。所以本工具会在快速合并前逐段预检，一旦参数对不上就改用统一重编码。这条路会把所有片段一起解码，更吃 CPU 和内存，但它是正确的那条。"
+        }
+      },
+      {
+        q: {
+          en: "Does merging videos reduce the quality?",
+          zh: "合并视频会让画质下降吗？"
+        },
+        a: {
+          en: "With stream copy the video data is moved without being re-compressed, so the joined result keeps the quality of the input clips. Unified Re-encode decodes and encodes again, which is a lossy step for H.264/H.265 output; how visible that is depends on the bitrate you choose and on the source footage.",
+          zh: "走流拷贝时视频数据只是被搬运，没有重新压缩，合并结果保留输入片段的原有画质。走统一重编码时会重新解码再编码，对 H.264/H.265 来说这一步是有损的；损失是否明显取决于码率设置和原始素材。"
+        }
+      },
+      {
+        q: {
+          en: "How many clips can I merge, and how large can they be?",
+          zh: "最多能合并几段？总大小可以到多少？"
+        },
+        a: {
+          en: "There is no fixed clip count imposed by the tool; what limits you is memory. Every added clip plus the joined output has to fit in your browser's memory at the same time, so a handful of short clips merges comfortably, while many long 4K clips are better handled on a desktop with plenty of free RAM and in smaller batches.",
+          zh: "工具本身没有写死的片段数量上限，真正的约束是内存。所有加入的片段加上合并后的输出需要同时放进浏览器内存，因此几段短视频合并很轻松；如果是一堆很长的 4K 片段，建议在内存充足的桌面电脑上分批合并。"
+        }
+      }
+    ]
+  },
+  {
+    path: "/convert-audio/",
+    toolId: "Audio",
+    title: {
+      en: "Convert Audio Online - Free MP3, M4A, WAV, FLAC & OGG Converter",
+      zh: "在线音频格式转换 - 免费 MP3/M4A/WAV/FLAC/OGG 转换器"
+    },
+    description: {
+      en: "Convert audio online for free with no watermarks. Turn MP3, M4A, WAV, FLAC, OGG and AIFF files into each other in your browser, and pull the audio track out of a video file in the same place.",
+      zh: "免费在线转换音频格式，无水印。在浏览器本地把 MP3、M4A、WAV、FLAC、OGG、AIFF 互相转换，也可以直接从这里导出视频文件里的音轨。"
+    },
+    h1: {
+      en: "Free Online <span class=\"highlight\">Audio Converter</span>",
+      zh: "免费在线<span class=\"highlight\">音频格式转换</span>"
+    },
+    seoH2: {
+      en: "Convert Between MP3, M4A, WAV, FLAC, OGG and AIFF in Your Browser",
+      zh: "在浏览器中互转 MP3、M4A、WAV、FLAC、OGG 与 AIFF"
+    },
+    subtitle: {
+      en: "Seven output formats from one tool. MP3 and M4A stay small for sharing, WAV and FLAC keep the samples that are present in the source, and OGG/Opus is efficient for web playback.",
+      zh: "一个工具提供七种输出格式。MP3 与 M4A 体积小便于分享，WAV 与 FLAC 保留源文件现有的采样数据，OGG/Opus 则适合网页播放场景。"
+    },
+    intent: {
+      en: "Best for turning M4A voice memos into MP3, converting a FLAC download into something you can send, or exporting a clean audio track from a video file.",
+      zh: "适合把手机录音的 M4A 转成通用的 MP3、把下载来的 FLAC 转成方便发送的格式，或从视频文件中单独导出干净的音轨。"
+    },
+    badge: {
+      en: "🎧 7 Output Formats • 100% Free • No Watermark",
+      zh: "🎧 七种输出格式 • 免费使用 • 无水印"
+    },
+    proTip: {
+      en: "💡 Pro-Tip: MP3, M4A and OGG/Opus are lossy formats. Re-encoding a 128kbps source at 320kbps does not bring back detail that was already discarded, so choose WAV or FLAC when you want to keep the current samples intact.",
+      zh: "💡 专家建议：MP3、M4A、OGG/Opus 都是有损格式。把原本 128kbps 的音频重新编码成 320kbps，并不能找回已经丢失的细节；需要原样保留现有采样数据时，请选择 WAV 或 FLAC。"
+    },
+    faqs: [
+      {
+        q: {
+          en: "Is this audio converter completely free? Do I need to register an account or pay?",
+          zh: "这款在线音频格式转换工具是完全免费的吗？需要注册账号或付费订阅吗？"
+        },
+        a: {
+          en: "Yes, the audio converter is free to use. There is no registration required, no login needed, and no subscription fees, and the exported audio carries no watermark or advertising tag. The practical limit is your browser memory.",
+          zh: "是的，这款音频格式转换工具免费使用。无需注册账号、无需登录、无需付费订阅，导出的音频不带水印，也不会加插广告提示音。实际限制来自浏览器内存。"
+        }
+      },
+      {
+        q: {
+          en: "Which audio formats can I convert between?",
+          zh: "支持哪些音频格式之间的互转？"
+        },
+        a: {
+          en: "You can export MP3, M4A (AAC), WAV, FLAC, OGG (Opus), OGG (Vorbis) and AIFF. On the input side the tool reads those formats plus the audio tracks inside common video containers such as MP4, MOV, MKV and WebM, so you can also use it to pull audio out of a video.",
+          zh: "可以导出 MP3、M4A (AAC)、WAV、FLAC、OGG (Opus)、OGG (Vorbis) 和 AIFF。输入侧除了支持这些音频格式，还能读取 MP4、MOV、MKV、WebM 等常见视频封装里的音轨，所以也可以用它从视频中直接导出音频。"
+        }
+      },
+      {
+        q: {
+          en: "What is the difference between MP3, M4A, WAV and FLAC?",
+          zh: "MP3、M4A、WAV、FLAC 这几种格式到底有什么区别？"
+        },
+        a: {
+          en: "MP3 and M4A are lossy: they discard audio detail to make files small, and MP3 is the most universally supported. FLAC is a lossless format — smaller than WAV, but able to reproduce the current samples exactly. WAV stores uncompressed PCM, so it is the largest but the simplest to edit. OGG/Opus is lossy and efficient at low bitrates, which suits web playback.",
+          zh: "MP3 与 M4A 是有损格式：通过舍弃部分音频细节来缩小体积，其中 MP3 的通用性最好。FLAC 属于无损格式 — 文件比 WAV 小，但能精确还原当前文件的采样数据。WAV 存储未压缩的 PCM，体积最大，但最适合直接进入后期编辑。OGG/Opus 也是有损格式，在低码率下效率较高，适合网页播放。"
+        }
+      },
+      {
+        q: {
+          en: "Will converting a 128kbps file to 320kbps improve the sound quality?",
+          zh: "把 128kbps 的文件转成 320kbps，音质会变好吗？"
+        },
+        a: {
+          en: "No. Once a lossy encoder has discarded detail, that detail is gone; a higher bitrate only avoids adding further damage, it cannot restore what was removed. If you must re-encode, going from a low bitrate to a higher one mostly increases file size. Keeping the source untouched is the only way to preserve its current quality.",
+          zh: "不会。有损编码一旦舍弃了细节，那些细节就已经丢失；提高码率只能避免造成新的损伤，无法还原已经被移除的内容。如果必须重新编码，从低码率转成高码率主要只是把体积变大。想保住当前音质，唯一办法是让源文件本身不被重新编码。"
+        }
+      },
+      {
+        q: {
+          en: "Can I extract the audio from a video file here, and is there a size limit?",
+          zh: "可以在这里从视频中提取音频吗？有大小或时长限制吗？"
+        },
+        a: {
+          en: "Yes — add an MP4, MOV, MKV or WebM file and choose any of the seven audio formats; the video stream is simply dropped. There is no fixed size limit, but the source file and the decoded audio must both fit in your browser's memory, so very long recordings are best done on a desktop browser.",
+          zh: "可以 — 直接加入 MP4、MOV、MKV 或 WebM 文件，再选择七种音频格式中的任意一种，视频流会被直接丢弃。工具没有写死的大小限制，但源文件和解码后的音频需要同时放进浏览器内存，因此超长录音建议在桌面浏览器上处理。"
         }
       }
     ]
@@ -701,40 +878,56 @@ export function getToolPageByTool(toolId) {
   return TOOL_PAGES.find((page) => page.toolId === toolId) || DEFAULT_PAGE;
 }
 
+/**
+ * Single funnel for page copy.
+ *
+ * Both consumers go through here — the React app at runtime and
+ * scripts/prerender-seo.mjs at build time — which is exactly why the
+ * conservative-copy rewrite belongs *here* rather than only in the build
+ * script. When the rewrite lived only in the prerenderer, crawlers and
+ * reviewers read the toned-down text while real users read the raw marketing
+ * claims. Anchoring it in this funnel guarantees both audiences see the same
+ * words, and the audit gate can assert on that single output.
+ *
+ * `conservativeCopy` is idempotent, so the prerenderer applying it again on
+ * top of these fields is a harmless no-op.
+ */
 export function localizedPage(page, lang) {
   const language = lang === "zh" ? "zh" : "en";
+  const localize = (value) => (value ? value[language] : "");
+  const copy = (value) => conservativeCopy(localize(value), language);
   return {
     ...page,
-    title: page.title ? page.title[language] : "",
-    description: page.description ? page.description[language] : "",
-    h1: page.h1 ? page.h1[language] : "",
-    seoH2: page.seoH2 ? page.seoH2[language] : "",
-    subtitle: page.subtitle ? page.subtitle[language] : "",
-    intent: page.intent ? page.intent[language] : "",
-    badge: page.badge ? page.badge[language] : "",
-    proTip: page.proTip ? page.proTip[language] : "",
-    category: page.category ? page.category[language] : "",
-    readTime: page.readTime ? page.readTime[language] : "",
-    date: page.date ? page.date[language] : "",
-    toolName: page.toolName ? page.toolName[language] : "",
+    title: copy(page.title),
+    description: copy(page.description),
+    h1: copy(page.h1),
+    seoH2: copy(page.seoH2),
+    subtitle: copy(page.subtitle),
+    intent: copy(page.intent),
+    badge: copy(page.badge),
+    proTip: copy(page.proTip),
+    category: copy(page.category),
+    readTime: copy(page.readTime),
+    date: copy(page.date),
+    toolName: copy(page.toolName),
     content: page.content ? page.content.map((sec) => ({
-      h2: sec.h2 ? sec.h2[language] : null,
-      p: sec.p ? sec.p.map((pText) => pText[language]) : null,
-      list: sec.list ? sec.list.map((lText) => lText[language]) : null,
-      callout: sec.callout ? sec.callout[language] : null,
+      h2: copy(sec.h2),
+      p: sec.p ? sec.p.map((pText) => copy(pText)) : null,
+      list: sec.list ? sec.list.map((lText) => copy(lText)) : null,
+      callout: copy(sec.callout),
       image: sec.image ? {
         src: sec.image.src,
-        alt: sec.image.alt ? sec.image.alt[language] : "",
-        caption: sec.image.caption ? sec.image.caption[language] : ""
+        alt: copy(sec.image.alt),
+        caption: copy(sec.image.caption)
       } : null,
       faqs: sec.faqs ? sec.faqs.map((faq) => ({
-        q: faq.q[language],
-        a: faq.a[language]
+        q: copy(faq.q),
+        a: copy(faq.a)
       })) : null
     })) : null,
     faqs: page.faqs ? page.faqs.map((faq) => ({
-      q: faq.q[language],
-      a: faq.a[language]
+      q: copy(faq.q),
+      a: copy(faq.a)
     })) : []
   };
 }

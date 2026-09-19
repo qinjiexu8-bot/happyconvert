@@ -31,6 +31,8 @@ export const TRANSLATIONS = {
     tool_GIF: "🖼️ Export GIF",
     tool_ExtractAudio: "🎵 Audio Extract",
     tool_Crop: "📐 Crop Frame",
+    tool_Merge: "🔗 Merge Clips",
+    tool_Audio: "🎧 Audio Convert",
 
     // cards & titles
     inputCardTitle: "Media Input",
@@ -45,9 +47,9 @@ removeFile: "Unload file",
     
     // settings: trim
     trimCutMode: "Cut Mode",
-    trimLossless: "Stream Copy (Lossless & Instant)",
+    trimLossless: "Stream Copy (No Re-encode)",
     trimReencode: "Re-encode Video (Highly Compatible)",
-    trimHelp: "* Direct Copy copies the raw stream encoding data without decoding, preserving original quality instantly.",
+    trimHelp: "* Stream Copy moves the existing encoded data without decoding it, so there is no second round of compression and the export is usually much faster.",
     trimStart: "Start Position",
     trimEnd: "End Position",
     
@@ -104,6 +106,33 @@ removeFile: "Unload file",
     cropY: "Offset Y (px)",
     cropHelp: "* Look at the player preview screen. The dashed bounding mesh overlay shows your selected crop boundaries.",
 
+    // settings: merge
+    mergeCardTitle: "Clips to Merge",
+    mergeDragText: "Drag clips here or click to add",
+    mergeFormatsText: "Add two or more clips — MP4, MOV, MKV, WebM",
+    mergeOrderHint: "Clips are joined in the order listed below. Use ↑ ↓ to reorder.",
+    mergeAddClips: "Add more clips",
+    mergeStageHelp: "Fast join copies the existing streams, which is the lightest path — but it is only safe when every clip shares the same codec, resolution, frame rate and audio layout. ffmpeg will not reliably tell you when they differ: a mismatched copy join can report success while quietly dropping the later clips' frames. So before a fast join, this tool probes every clip and switches to unified re-encode whenever the parameters do not match.",
+    mergeModeLabel: "Join Mode",
+    mergeModeCopy: "Fast join (stream copy, no re-encode)",
+    mergeModeReencode: "Unified re-encode (normalise all clips)",
+    mergeHelp: "* Fast join moves the compressed data as it is, so it is quick but only valid for clips that match. Unified re-encode decodes every clip at once, then scales, pads and re-times each one to the first clip's frame size and frame rate, and standardises audio to 48 kHz stereo. It is slower, depends on your CPU, and needs more memory because all clips are decoded together.",
+    mergeTargetLabel: "Target Geometry",
+    mergeNoClips: "Add clips first — the first clip defines the target resolution.",
+    mergeClipCount: "Clips in queue",
+    mergeResolving: "reading first clip...",
+
+    // settings: audio format converter
+    audioTargetLabel: "Output Format",
+    audioTarget_mp3: "MP3 (lossy, most compatible)",
+    audioTarget_m4a: "M4A / AAC (lossy, good for phones)",
+    audioTarget_wav: "WAV (uncompressed PCM, largest)",
+    audioTarget_flac: "FLAC (lossless compression)",
+    audioTarget_opus: "OGG / Opus (lossy, efficient)",
+    audioTarget_vorbis: "OGG / Vorbis (lossy, older)",
+    audioTarget_aiff: "AIFF (uncompressed PCM)",
+    audioConvertHelp: "* MP3, M4A, Opus and Vorbis are lossy: re-encoding discards more detail, and a higher bitrate cannot restore what an earlier encode already removed. WAV and FLAC keep the samples present in the source file. Opus output here uses FFmpeg's built-in Opus encoder — at the same bitrate it does not match the reference libopus encoder, which is not usable in this browser build.",
+
     // player screen
     playerPlaceholderTitle: "Media Studio Preview",
     playerPlaceholderSub: "Load a video or audio file to activate live editing timeline",
@@ -120,7 +149,7 @@ removeFile: "Unload file",
     terminalOutput: "Terminal Output",
     toolHelp: "Tool Help",
     clearLogs: "Clear Logs",
-    cliPrompt: "NCC-WASM:$",
+    cliPrompt: "HC-WASM:$",
     progressLabel: "Progress Indicator",
     runTool: "⚡ Start Processing",
     runToolWorking: "⏳ Processing locally...",
@@ -163,20 +192,20 @@ logWasmSuccess: "FFmpeg WASM environment initialized successfully. Local compute
     // FAQ Section
     faqTitle: "Frequently Asked Questions",
     faqQ1: "Is HappyConvert completely free to use? Do I need to register an account or pay?",
-    faqA1_1: "Yes, 100% completely free forever! There is no registration required, no login needed, and no credit card or subscription fees. You can use all professional video and audio tools immediately right in your browser.",
-    faqA1_2: "All exported files are watermark-free, with no cloud queue times. Practical file size depends on your browser and device memory. We monetize solely through non-intrusive advertising.",
+    faqA1_1: "Yes, HappyConvert is free to use. There is no registration required, no login needed, and no credit card or subscription fees, and you can use the video and audio tools straight away in your browser.",
+    faqA1_2: "Exported files are watermark-free and there is no cloud queue, so you are not waiting on someone else's server. Practical file size depends on your browser and device memory. We cover running costs with non-intrusive advertising.",
     
     faqQ2: "Is HappyConvert really safe and private to use?",
-    faqA2_1: "Yes, absolutely. Your security is our highest priority. Traditional sites require you to upload private video recordings to their clouds, creating massive security and privacy risks.",
-    faqA2_2: "HappyConvert utilizes modern WebAssembly to run the FFmpeg engine directly inside your browser. All processing is executed locally by your CPU inside your browser sandbox — your files never touch any server.",
+    faqA2_1: "Traditional sites require you to upload private video recordings to their clouds, which adds a privacy risk you cannot inspect. We take a different approach.",
+    faqA2_2: "HappyConvert uses WebAssembly to run the FFmpeg engine directly inside your browser. Processing is executed locally by your CPU inside the browser sandbox, so your files are not uploaded to a server for processing.",
     
     faqQ3: "What audio and video container formats are supported?",
     faqA3_1: "HappyConvert supports loading almost any standard media format recognized by FFmpeg, including MP4, WebM, MOV, MKV, AVI, FLV, MP3, WAV, M4A, and OGG.",
-    faqA3_2: "You can export your results to Web-compatible containers like MP4 (H.264 / AAC), WebM (VP8 / Vorbis), MOV, animated GIF images, standard MP3, or lossless raw WAV audio.",
+    faqA3_2: "You can export your results to web-compatible containers like MP4 (H.264 / AAC), WebM (VP8 / Vorbis), MOV, animated GIF, MP3, M4A, uncompressed WAV or AIFF, lossless FLAC, or OGG audio.",
 
     faqQ4: "Why does the engine take a moment to load initially?",
     faqA4_1: "On your first visit, your browser downloads the WebAssembly core engine (~30MB). Depending on your internet speed, this initial setup takes just a few seconds.",
-    faqA4_2: "Once loaded, your browser automatically caches the engine locally. Subsequent visits will load instantaneously, even in complete offline mode!",
+    faqA4_2: "Once loaded, your browser caches the engine locally, so later visits load it from cache and the tool keeps working without a network connection.",
 
     faqQ5: "Does this tool work on mobile devices and tablets?",
     faqA5_1: "Yes! HappyConvert is built with modern responsive design and runs smoothly on Chrome, Safari, and Edge across iOS, iPadOS, and Android devices.",
@@ -189,6 +218,8 @@ logWasmSuccess: "FFmpeg WASM environment initialized successfully. Local compute
     helpGif: "Export GIF: Encodes frames to a high-quality palette-mapped GIF file. Range limits apply.",
     helpAudio: "Extract Audio: Strip video structures and write audio tracks directly into MP3/WAV stream formats.",
     helpCrop: "Crop Frame: Restructure visual bounds. Set custom parameters or apply grid-centered aspect ratios.",
+    helpMerge: "Merge Clips: queue several clips, put them in order, then join them. Stream copy is the fastest path; if the clips do not match, the tool retries with unified re-encode.",
+    helpAudioConvert: "Audio Convert: export MP3, M4A, WAV, FLAC, OGG or AIFF, or pull the audio track out of a video. WAV and FLAC keep the samples already in the source file.",
     helpCropGuide: "Look at the player preview screen. The dashed bounding mesh overlay shows your selected crop boundaries.",
 
 
@@ -218,7 +249,7 @@ logWasmSuccess: "FFmpeg WASM environment initialized successfully. Local compute
     navConsole: "控制台",
     showLogsLabel: "显示运行日志",
     heroBadgeText: "100% 本地计算 • 不用注册 • 完全免费",
-    heroTitle: "离线安全、<span class=\"highlight\">绝对私密</span>的本地浏览器媒体工作室",
+    heroTitle: "离线可用、<span class=\"highlight\">本地处理</span>的浏览器媒体工作室",
     heroSub: "在您的浏览器本地沙盒内直接进行视频裁剪、压缩、裁切与格式转换。100% 本地运算，无需上传任何服务器，保护您的隐私安全。",
     latestOutputTitle: "最新生成预览",
     latestOutputWarning: "提示: WebM、MKV、MOV 的本地播放取决于系统或播放器支持。若要下载后在电脑/手机上通用播放，建议导出 MP4。",
@@ -232,6 +263,8 @@ logWasmSuccess: "FFmpeg WASM environment initialized successfully. Local compute
     tool_GIF: "🖼️ 导出 GIF",
     tool_ExtractAudio: "🎵 提取音频",
     tool_Crop: "📐 画面裁切",
+    tool_Merge: "🔗 视频合并",
+    tool_Audio: "🎧 音频转换",
 
     // cards & titles
     inputCardTitle: "媒体输入",
@@ -246,9 +279,9 @@ removeFile: "卸载文件",
     
     // settings: trim
     trimCutMode: "裁剪模式",
-    trimLossless: "流拷贝 (无损秒切)",
+    trimLossless: "流拷贝 (不重新编码)",
     trimReencode: "重新编码 (高兼容性)",
-    trimHelp: "* 直接拷贝 (Stream Copy) 会直接复制原始视音频流编码而不进行重新解码，实现无损瞬时裁剪。",
+    trimHelp: "* 流拷贝 (Stream Copy) 直接搬运已有的编码数据、不解码，因此不会产生二次压缩，导出通常也快得多。",
     trimStart: "剪切起点",
     trimEnd: "剪切终点",
     
@@ -257,7 +290,7 @@ removeFile: "卸载文件",
     compHigh: "高质量 (压缩率低, CRF 18)",
     compMedium: "平衡 (中度压缩, CRF 23)",
     compLow: "极小文件 (高压缩率, CRF 30)",
-    compHelp: "* CRF (无损因子) 决定了画面视觉损失，数值越大压缩率越高，文件体积越小。",
+    compHelp: "* CRF（恒定速率因子）决定画质与体积的取舍，数值越大压缩率越高，文件体积越小，但细节损失也更明显。",
     compScale: "分辨率缩放",
     compScaleOrig: "原始分辨率 (100%)",
     compPreset: "编码速度预设",
@@ -305,6 +338,33 @@ removeFile: "卸载文件",
     cropY: "Y 轴偏移量 (像素)",
     cropHelp: "* 请看右侧播放器画面。紫色虚线网格即为最终裁剪导出的画面范围。",
 
+    // settings: merge
+    mergeCardTitle: "待合并片段",
+    mergeDragText: "拖入视频片段，或点击此处添加",
+    mergeFormatsText: "至少添加两段片段 — MP4、MOV、MKV、WebM",
+    mergeOrderHint: "合并严格按下方列表顺序进行，可用 ↑ ↓ 调整次序。",
+    mergeAddClips: "继续添加片段",
+    mergeStageHelp: "快速合并直接复制现有数据流，是最省资源的路径 — 但只有当所有片段的编码、分辨率、帧率与音轨布局完全一致时才是安全的。规格不一致时 ffmpeg 不一定会告诉你：一个错配的流拷贝合并可能报告成功，同时悄悄丢掉后续片段的帧。所以本工具会在快速合并前先逐段预检，一旦参数对不上就自动改用统一重编码。",
+    mergeModeLabel: "合并模式",
+    mergeModeCopy: "快速合并 (流拷贝，不重新编码)",
+    mergeModeReencode: "统一重编码 (把所有片段对齐规格)",
+    mergeHelp: "* 快速合并只是搬运已有压缩数据，快，但仅对规格一致的片段有效。统一重编码会同时解码所有片段，再把每一段缩放、补边、对齐到第 1 段的分辨率与帧率，并把音频统一为 48 kHz 立体声。它更慢、受本机 CPU 限制，而且因为所有片段要同时解码，内存占用明显更高。",
+    mergeTargetLabel: "目标画面规格",
+    mergeNoClips: "请先添加片段 — 第一个片段的分辨率将作为目标规格。",
+    mergeClipCount: "队列中片段数",
+    mergeResolving: "正在读取第一个片段...",
+
+    // settings: audio format converter
+    audioTargetLabel: "输出格式",
+    audioTarget_mp3: "MP3 (有损，通用性最好)",
+    audioTarget_m4a: "M4A / AAC (有损，手机友好)",
+    audioTarget_wav: "WAV (未压缩 PCM，体积最大)",
+    audioTarget_flac: "FLAC (无损压缩)",
+    audioTarget_opus: "OGG / Opus (有损，低码率效率高)",
+    audioTarget_vorbis: "OGG / Vorbis (有损，较早期)",
+    audioTarget_aiff: "AIFF (未压缩 PCM)",
+    audioConvertHelp: "* MP3、M4A、Opus、Vorbis 都是有损格式：重新编码会再丢一次细节，提高码率也无法还原之前编码已经移除的内容。WAV 与 FLAC 保留源文件中现有的采样数据。此处的 Opus 输出来自 FFmpeg 内置的 Opus 编码器 —— 同码率下音质不及参考实现 libopus，而后者在这个浏览器版本里无法使用。",
+
     // player screen
     playerPlaceholderTitle: "媒体工作区预览",
     playerPlaceholderSub: "导入视频或音频文件后即可激活时间轴手柄进行剪辑",
@@ -321,7 +381,7 @@ removeFile: "卸载文件",
     terminalOutput: "终端日志输出",
     toolHelp: "工具指南",
     clearLogs: "清除日志",
-    cliPrompt: "NCC-WASM:$",
+    cliPrompt: "HC-WASM:$",
     progressLabel: "任务处理进度",
     runTool: "⚡ 立即开始处理",
     runToolWorking: "⏳ 正在本地极速处理中...",
@@ -339,10 +399,10 @@ removeFile: "卸载文件",
 
     // logs messages
     logInit: "系统初始化完毕。拖拽文件或加载测试视频，将自动启动本地 WebAssembly (WASM) 媒体引擎。",
-    logNoCloud: "云端零上传保护：所有处理均在您的浏览器本地执行，您的文件绝不会离开您的电脑。",
+    logNoCloud: "本地处理：所有运算都在您的浏览器中完成，文件不需要上传到服务器。",
     logLoadedFile: "成功加载本地文件",
     logUnloaded: "文件已卸载。",
-logWasmSuccess: "FFmpeg WASM 环境初始化成功！本地硬件加速计算已启用。",
+logWasmSuccess: "FFmpeg WASM 环境初始化成功，本地计算已就绪。",
     logWasmError: "初始化 FFmpeg WASM 引擎失败",
     logWasmTimeout: "加载超时，请检查网络后重试。",
     logTriggerWasm: "正在加载并编译 FFmpeg 核心 WASM 模块...",
@@ -354,42 +414,44 @@ logWasmSuccess: "FFmpeg WASM 环境初始化成功！本地硬件加速计算已
     logCropPreset: "已应用画面比例预设",
 
     // Marketing Feature cards
-    mCardTitle1: "100% 隐私安全保障",
-    mCardDesc1: "区别于传统在线音视频转换网站，您的文件永远不需要上传到任何云端服务器。所有剪辑、画面裁剪、压缩和转码渲染全在浏览器沙盒内存中通过 WebAssembly (WASM) 本地运算完成。",
-    mCardTitle2: "免云端排队与体积限制",
-    mCardDesc2: "无需付费订阅，没有上传限制。因为所有处理都运行在您本机的 CPU 上，即使导入大体积视频也可以直接在本地极速转换，不消耗任何上传流量（为保证浏览器稳定性，推荐 1GB 以内视频）。",
+    mCardTitle1: "本地处理，隐私友好",
+    mCardDesc1: "区别于传统在线音视频转换网站，文件不需要上传到任何云端服务器。所有剪辑、画面裁切、压缩和转码渲染都在浏览器内存中通过 WebAssembly (WASM) 完成。",
+    mCardTitle2: "没有云端排队",
+    mCardDesc2: "无需付费订阅，也不需要等服务器排队。因为运算都运行在您本机的 CPU 上，导入较大的视频也可以直接在本地处理，不消耗上传流量（为保证浏览器稳定性，推荐 1GB 以内视频）。",
     mCardTitle3: "专业级极客参数控制",
     mCardDesc3: "基于标准 FFmpeg 封装。支持控制封装容器、视频分辨率缩放、视觉损失 CRF、音频剥离以及原始 FFmpeg 命令行参数自定义输入，让资深级极客用户也能游刃有余。",
 
     // FAQ Section
     faqTitle: "常见问题解答",
     faqQ1: "使用 HappyConvert 是完全免费的吗？需要注册账号或付费订阅吗？",
-    faqA1_1: "100% 永久免费！不仅没有任何收费门槛，更郑重承诺：无需注册账号、无需登录、无需绑定信用卡！您只要打开网页即可立刻使用全部专业音频与视频处理功能。",
-    faqA1_2: "所有导出的视频或音频纯净无水印、不限转换次数与文件体积、无排队等待时间（实际文件限制取决于浏览器内存）。我们仅通过页面底部的非侵入式广告维持服务器运行，让您真正实现随开随用！",
+    faqA1_1: "是的，HappyConvert 免费使用。无需注册账号、无需登录、无需绑定信用卡，打开网页即可使用全部音视频处理功能。",
+    faqA1_2: "导出的文件不带水印，也没有转换次数限制，不需要排队等待；实际可处理的体积取决于浏览器内存。我们通过页面上的非侵入式广告维持运营。",
     
     faqQ2: "HappyConvert 真的安全保密吗？视频会上传到云服务器吗？",
-    faqA2_1: "绝对安全保密！传统转换网站需要把您的私人视频上传到云端服务器，存在严重的数据泄露隐患和隐私风险。",
-    faqA2_2: "HappyConvert 利用前沿的 WebAssembly 技术将 FFmpeg 媒体引擎直接装载在您的浏览器本地。所有的读取、转码与保存操作全程只在您本机的 CPU 与内存中闭环运行 — 视频绝不会离开您的电脑！",
+    faqA2_1: "多数在线转换网站需要把您的私人视频上传到云端服务器，这会带来您无法核查的隐私风险。我们采用另一种做法：",
+    faqA2_2: "HappyConvert 利用 WebAssembly 技术把 FFmpeg 引擎直接装载在您的浏览器本地。读取、转码与保存都在您本机的 CPU 与内存中完成，文件不会被上传到服务器处理。",
     
     faqQ3: "系统支持哪些音频和视频格式的导入与导出？",
-    faqA3_1: "得益于 FFmpeg 强大的封装支持，HappyConvert 几乎可以读取市面上所有的主流媒体格式，包括 MP4、WebM、MOV、MKV、AVI、FLV、MP3、WAV、M4A 与 OGG 等。",
-    faqA3_2: "在导出时，您可以将其转为网页兼容性极佳的 MP4 (H.264)、WebM (VP8)、MOV、高清流畅的 GIF 动画、通用 MP3 音频或无损母带级 WAV 音频。",
+    faqA3_1: "得益于 FFmpeg 的封装支持，HappyConvert 可以读取市面上常见的媒体格式，包括 MP4、WebM、MOV、MKV、AVI、FLV、MP3、WAV、M4A 与 OGG 等。",
+    faqA3_2: "导出时，您可以转为网页兼容性良好的 MP4 (H.264)、WebM (VP8)、MOV、GIF 动图，或 MP3、M4A、未压缩 WAV/AIFF、无损 FLAC、OGG 等音频格式。",
 
     faqQ4: "为什么首次加载处理引擎需要一点时间？",
-    faqA4_1: "在您第一次打开网页时，浏览器会自动下载 WebAssembly 本地处理引擎（约 30MB）。根据您的网络带宽，初次加载可能需要几秒钟的时间。",
-    faqA4_2: "但请放心，一旦加载成功，浏览器会自动将其放入本地缓存。以后再访问时均是瞬时秒开，即使断开网络在离线状态下也依旧可以正常转码！",
+    faqA4_1: "在您第一次打开网页时，浏览器会下载 WebAssembly 本地处理引擎（约 30MB）。具体耗时取决于您的网络带宽。",
+    faqA4_2: "加载成功后浏览器会把它放进本地缓存，之后再访问直接从缓存读取；引擎已在本地，断网状态下也可以继续处理文件。",
 
     faqQ5: "可以在手机、平板或 iPad 上流畅使用吗？",
     faqA5_1: "可以！HappyConvert 采用了现代响应式自适应布局。只要您在 iPhone、iPad 或 Android 设备上的 Chrome、Safari、Edge 等主流浏览器中打开，即可获得同样流畅便捷的触屏修图与转码体验！",
 
     // Help Text Tab
     helpTitle: "核心工作室功能指南：",
-    helpTrim: "剪切 (Trim / Cut)：拖动时间轴选择剪切区间。“流拷贝”免去重新编码，瞬间完成裁剪。",
+    helpTrim: "剪切 (Trim / Cut)：拖动时间轴选择剪切区间。“流拷贝”不解码、不二次压缩，通常更快完成裁剪。",
     helpCompress: "压缩画面 (Compress)：降低视频分辨率或调高 CRF 牺牲极少细节，实现体积大幅缩减。",
     helpConvert: "格式转码 (Convert)：转换为适合各大平台的 MP4, WebM (VP8) 视频或 MP3, WAV 音频。",
     helpGif: "导出 GIF (Export GIF)：将选中的视频片段导出为经过色彩空间优化的动态 GIF 图像。",
     helpAudio: "剥离音频 (Extract Audio)：自动剔除画面轨，将音频流单独提取输出为 MP3 / WAV 文件。",
     helpCrop: "裁切画面 (Crop)：设定局部像素矩形或直接调用 16:9 / 9:16 等自适应比例，裁剪画面死角。",
+    helpMerge: "视频合并 (Merge)：把多段片段加入队列、排好顺序后一次拼接。流拷贝最快；片段参数不一致时工具会自动改用统一重编码重试。",
+    helpAudioConvert: "音频转换 (Audio Convert)：导出 MP3、M4A、WAV、FLAC、OGG 或 AIFF，也可直接从视频中导出音轨。WAV 与 FLAC 保留源文件现有采样数据。",
     helpCropGuide: "请看上方播放器画面。紫色虚线网格即为最终裁剪导出的画面范围。",
 
 
@@ -410,5 +472,7 @@ export const TOOLS = [
   { id: "Convert" },
   { id: "GIF" },
   { id: "Extract Audio" },
-  { id: "Crop" }
+  { id: "Crop" },
+  { id: "Merge" },
+  { id: "Audio" }
 ];

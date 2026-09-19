@@ -2,7 +2,19 @@ import React, { useMemo, useRef, useState, useEffect } from "react";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 import { formatBytes, formatTime, parseTime, extensionFor, isExpectedOutputFormat, detectBinaryFormat } from "./lib/mediaUtils.js";
-import { buildCommandPreview, buildFfmpegArgs, getBlobTypeForFormat, getOutputFormatForTool } from "./lib/ffmpegCommands.js";
+import {
+  AUDIO_TARGET_FORMATS,
+  MERGE_LIST_FILE,
+  buildCommandPreview,
+  buildFfmpegArgs,
+  buildMergeListContent,
+  compareMergeSignatures,
+  firstMergeCopyCorruption,
+  getBlobTypeForFormat,
+  getOutputFormatForTool,
+  mergeProbeArgs,
+  mergeStreamSignature
+} from "./lib/ffmpegCommands.js";
 import { TOOLS, TRANSLATIONS } from "./i18n/translations.js";
 import { DEFAULT_PAGE, TOOL_PAGES, getToolPageByPath, getToolPageByTool, localizedPage, normalizePath } from "./config/toolPages.js";
 import { BLOG_PAGES } from "./config/blogPages.js";
@@ -106,6 +118,30 @@ const getToolShowcaseData = (tool, lang) => {
         bgSize: "76% auto",
         bgPosition: "center 15%"
       };
+    case "Merge":
+      return {
+        title: lang === "zh" ? "🔗 多片段拼接台" : "🔗 Multi-Clip Join Deck",
+        badgeRight: lang === "zh" ? "按序拼接" : "Sequential Join",
+        privacyTag: lang === "zh" ? "⚡ 本地拼接" : "⚡ LOCAL JOIN",
+        heading: lang === "zh" ? "顺序排好 · 合成一个文件" : "Ordered · Joined Into One File",
+        desc: lang === "zh"
+          ? "把多段片段按列表顺序拼接成单个视频。片段编码与分辨率一致时走流拷贝，几乎不需要重新编码；参数不一致会自动改用统一重编码，并受本机 CPU 限制。"
+          : "Join several clips into one file in the order shown. Matching codecs and resolutions use stream copy and need almost no re-encoding; mismatched clips fall back to a unified re-encode that depends on your CPU.",
+        img: "/banner-merge.jpg"
+      };
+    case "Audio":
+      return {
+        title: lang === "zh" ? "🎧 音频格式互转" : "🎧 Audio Format Converter",
+        badgeRight: lang === "zh" ? "七种输出格式" : "7 Output Formats",
+        privacyTag: lang === "zh" ? "⚡ 音轨重编码" : "⚡ AUDIO RE-ENCODE",
+        heading: lang === "zh" ? "按需选格式 · 明白有损无损" : "Pick a Format · Know What Is Lossy",
+        desc: lang === "zh"
+          ? "在 MP3、M4A、WAV、FLAC、OGG、AIFF 之间互转，也可以直接从视频中导出音轨。WAV 与 FLAC 保留当前采样数据；MP3、M4A、OGG 为有损格式。"
+          : "Convert between MP3, M4A, WAV, FLAC, OGG and AIFF, or pull the audio track out of a video. WAV and FLAC keep the current samples; MP3, M4A and OGG are lossy.",
+        img: "/banner-audio-convert.jpg",
+        bgSize: "76% auto",
+        bgPosition: "center 15%"
+      };
     case "Crop":
       return {
         title: lang === "zh" ? "📐 画面智能裁切" : "📐 Smart Framing & Crop",
@@ -136,6 +172,12 @@ export default function App() {
   const ffmpegRef = useRef(new FFmpeg());
   const videoRef = useRef(null);
   const terminalRef = useRef(null);
+  // 非 null 时表示正在做快速合并，ffmpeg 日志会被收集到这里以识别「退出码 0 但产物已坏」
+  const mergeCopyLogRef = useRef(null);
+  // 非 null 时表示正在跑 ffprobe，日志（即 JSON 输出）被收集到这里且不进 UI 日志
+  const probeLogRef = useRef(null);
+  // 非 null 时表示引擎正在加载中，值为该次加载的 promise（单飞守卫）
+  const loadPromiseRef = useRef(null);
   const [currentPath, setCurrentPath] = useState(() => getCleanPathFromUrl(window.location.pathname));
   
   // Multi-Language State (Prioritize URL subdirectory for Google SEO indexing)
@@ -246,6 +288,16 @@ export default function App() {
   const [cropH, setCropH] = useState(360);
   const [cropX, setCropX] = useState(0);
   const [cropY, setCropY] = useState(0);
+
+  // 7. Tool Options: Merge (join multiple clips into one file)
+  const [mergeFiles, setMergeFiles] = useState([]);
+  const [mergeMode, setMergeMode] = useState("copy"); // "copy" (stream copy) | "reencode" (normalise + encode)
+  // 预检得到的第 1 段帧率（null = 还没预检过，重编码时退回 30）
+  const [mergeProbeFps, setMergeProbeFps] = useState(null);
+
+  // 8. Tool Options: Audio format converter
+  const [audioTargetFormat, setAudioTargetFormat] = useState("mp3"); // see AUDIO_TARGET_FORMATS
+  const [audioConvertKbps, setAudioConvertKbps] = useState("192k");
   
   // Interactive Crop Box Dragging/Resizing States
   const [isDraggingCrop, setIsDraggingCrop] = useState(false);
@@ -531,7 +583,16 @@ export default function App() {
     cropW,
     cropH,
     cropX,
-    cropY
+    cropY,
+    mergeMode,
+    // The first clip defines the target geometry for the unified re-encode path.
+    mergeWidth: videoWidth || 1280,
+    mergeHeight: videoHeight || 720,
+    // 只有预检探到了第 1 段的真实帧率才会用上，否则退回 30
+    mergeFps: mergeProbeFps || 30,
+    mergeClipCount: mergeFiles.length,
+    audioTargetFormat,
+    audioConvertKbps
   };
 
   // Live CLI Command formulation based on options states
@@ -592,9 +653,28 @@ export default function App() {
     }
   }
 
-  // Load engine async
+  // Load engine async.
+  //
+  // Single-flight: this function re-creates the FFmpeg instance and terminates the
+  // previous one, so two overlapping calls destroy each other. That is exactly what
+  // used to happen on the merge page — addMergeFiles() calls selectFile(), which
+  // schedules a load in 200ms, and then schedules a second load itself — so the later
+  // call killed the instance the earlier one was still awaiting, surfacing as
+  // "Failed to initialize FFmpeg WASM: called FFmpeg.terminate()". Concurrent callers
+  // now share one in-flight load instead.
   async function loadFFmpeg() {
     if (isLoaded) return;
+    if (loadPromiseRef.current) return loadPromiseRef.current;
+    const pending = loadFFmpegInner();
+    loadPromiseRef.current = pending;
+    try {
+      return await pending;
+    } finally {
+      loadPromiseRef.current = null;
+    }
+  }
+
+  async function loadFFmpegInner() {
     setEngineLoadError(false);
     setIsWorking(true);
     setProgress(0);
@@ -603,7 +683,9 @@ export default function App() {
     // Re-create the ffmpeg instance to guarantee fresh startup state
     try {
       if (ffmpegRef.current) {
-        await ffmpegRef.current.terminate().catch(() => {});
+        // terminate() is a plain arrow function in @ffmpeg/ffmpeg 0.12.x and returns
+        // undefined, so it must never be chained with .catch().
+        ffmpegRef.current.terminate();
       }
     } catch (e) {}
 
@@ -612,6 +694,18 @@ export default function App() {
 
     ffmpeg.on("log", ({ message }) => {
       if (message) {
+        // ffprobe 的 JSON 走日志通道输出（返回值只有退出码），预检期间只收集、不刷 UI
+        if (probeLogRef.current) {
+          probeLogRef.current.push(message);
+          return;
+        }
+        // 快速合并期间收集日志，用于识别「退出码为 0 但产物已坏」的情况
+        if (mergeCopyLogRef.current) mergeCopyLogRef.current.push(message);
+        // Emscripten 的运行期在每次作业收尾时都会打印一行裸的 "Aborted()" —— 这份
+        // ffmpeg-core 连纯音频转码成功也照打。它不是状态信号：真正的失败要么是抛出的
+        // RuntimeError（被 processMedia 的 catch 记成 Operation failed），要么是非零退出码。
+        // 原样显示只会在成功路径上制造"是不是崩了"的错觉，因此丢弃。
+        if (/^Aborted\(\)$/.test(message.trim())) return;
         let type = "info";
         const msgClean = message.toLowerCase();
         if (msgClean.includes("error") || msgClean.includes("failed") || msgClean.includes("invalid")) {
@@ -647,7 +741,14 @@ export default function App() {
     } catch (error) {
       setIsLoaded(false);
       setEngineLoadError(true);
-      await ffmpeg.terminate().catch(() => {});
+      // The terminal is the only place the concrete failure reason is written, so
+      // reveal it rather than leaving the user with a bare "retry" label.
+      setShowLogs(true);
+      // terminate() returns void in @ffmpeg/ffmpeg 0.12.x. Chaining .catch() here
+      // threw a TypeError *inside* this catch block, which aborted the load before
+      // the reason below was ever recorded — and made loadFFmpeg reject, so the
+      // caller's own not-ready fallback never ran either.
+      ffmpeg.terminate();
       const isTimeout = error?.name === "AbortError";
       const detail = isTimeout ? t("logWasmTimeout") : (error.message || String(error));
       addLog(`${t("logWasmError")}: ${detail}`, "error");
@@ -932,11 +1033,24 @@ export default function App() {
 
   // Run FFmpeg Process
   async function processMedia() {
-    if (!file) {
+    const isMerge = effectiveSelectedTool === "Merge";
+    const inputs = isMerge ? mergeFiles : file ? [file] : [];
+
+    if (isMerge && inputs.length < 2) {
+      addLog(
+        lang === "zh"
+          ? "请先添加至少两段需要合并的视频片段。"
+          : "Add at least two clips before merging.",
+        "warn"
+      );
+      return;
+    }
+
+    if (!isMerge && inputs.length === 0) {
       addLog("Please select a local media file to process first.", "warn");
       return;
     }
-    
+
     if (!isLoaded) {
       await loadFFmpeg();
     }
@@ -951,19 +1065,150 @@ export default function App() {
     addLog(`${t("logRunTool")}: ${effectiveSelectedTool}`, "info");
 
     const ffmpeg = ffmpegRef.current;
-    const inputExt = extensionFor(file);
+    const primaryFile = inputs[0];
+    const inputExt = extensionFor(primaryFile);
     const inputName = `input.${inputExt}`;
     const outFormat = getOutputFormatForTool({ ...ffmpegOptions, inputExt });
-    const outputName = `ncc-${Date.now()}.${outFormat}`;
+    const outputName = `happyconvert-${Date.now()}.${outFormat}`;
+    const totalInputSize = inputs.reduce((sum, item) => sum + (item?.size || 0), 0);
+    const writtenInputs = [];
 
     try {
       addLog(t("logWritingSandbox"), "info");
-      await ffmpeg.writeFile(inputName, await fetchFile(file));
-      
-      const args = buildFfmpegArgs(inputName, outputName, { ...ffmpegOptions, inputExt });
+      for (let index = 0; index < inputs.length; index += 1) {
+        const sandboxName = isMerge ? `merge-in-${index}.${extensionFor(inputs[index])}` : inputName;
+        await ffmpeg.writeFile(sandboxName, await fetchFile(inputs[index]));
+        writtenInputs.push(sandboxName);
+      }
+
+      if (isMerge) {
+        await ffmpeg.writeFile(
+          MERGE_LIST_FILE,
+          new TextEncoder().encode(buildMergeListContent(writtenInputs))
+        );
+        addLog(
+          lang === "zh"
+            ? `合并队列已写入沙盒：${writtenInputs.join(" + ")}`
+            : `Merge playlist written to sandbox: ${writtenInputs.join(" + ")}`,
+          "info"
+        );
+      }
+
+      // Fast join is only safe when every clip carries the same codec, resolution,
+      // frame rate and audio layout — and ffmpeg will NOT reliably tell us when
+      // they differ: with mismatched clips a `-c copy` concat can exit 0 while
+      // silently dropping the later clips' frames (measured: 4s of input became
+      // a 3.70s / 110-frame file with no warning). So decide by pre-flight probe,
+      // not by hoping for an error code.
+      //
+      // The probe runs for BOTH merge modes: the re-encode filter graph also needs
+      // the first clip's frame rate, and needs to know which clips carry no audio
+      // so it can pad them with silence.
+      let requestedMergeMode = mergeMode;
+      let mergeClipInfo = [];
+      let mergeProbedFps = null;
+      if (isMerge) {
+        if (mergeMode === "copy") {
+          addLog(
+            lang === "zh"
+              ? "正在预检每段片段的编码、分辨率、帧率与音轨参数…"
+              : "Pre-checking codec, resolution, frame rate and audio layout of every clip...",
+            "info"
+          );
+        }
+        const signatures = [];
+        for (const name of writtenInputs) {
+          const collected = [];
+          probeLogRef.current = collected;
+          try {
+            await ffmpeg.ffprobe(mergeProbeArgs(name));
+          } catch (probeError) {
+            // 探测本身失败不致命 —— 空签名会让 compareMergeSignatures 判为不可信
+          } finally {
+            probeLogRef.current = null;
+          }
+          signatures.push(mergeStreamSignature(collected.join("\n")));
+        }
+        mergeClipInfo = signatures.map((s) =>
+          s ? { hasAudio: s.hasAudio, hasVideo: s.hasVideo, duration: s.duration } : {}
+        );
+        mergeProbedFps = signatures.find(Boolean)?.frameRate || null;
+        if (mergeProbedFps) setMergeProbeFps(mergeProbedFps);
+
+        if (mergeMode === "copy") {
+          const verdict = compareMergeSignatures(signatures);
+          if (verdict.compatible) {
+            addLog(
+              lang === "zh"
+                ? "预检通过：所有片段规格一致，可以走流拷贝。"
+                : "Pre-check passed: every clip matches, stream copy is safe.",
+              "success"
+            );
+          } else {
+            requestedMergeMode = "reencode";
+            const detail = verdict.reason === "probe-failed"
+              ? (lang === "zh" ? "有片段的流信息无法读取" : "one clip's stream info could not be read")
+              : verdict.detail
+                ? (lang === "zh" ? `片段 ${verdict.index + 1} 与第 1 段不一致（${verdict.detail}）` : `clip ${verdict.index + 1} differs from clip 1 (${verdict.detail})`)
+                : verdict.reason;
+            addLog(
+              lang === "zh"
+                ? `预检未通过：${detail}。流拷贝在这种组合下可能产出时间戳错乱的坏文件，已改用统一重编码。`
+                : `Pre-check failed: ${detail}. Stream copy can produce a file with broken timestamps in this combination, so unified re-encode is used instead.`,
+              "warn"
+            );
+            setMergeMode("reencode");
+          }
+        }
+      }
+
+      let args = buildFfmpegArgs(inputName, outputName, {
+        ...ffmpegOptions,
+        inputExt,
+        mergeMode: requestedMergeMode,
+        mergeInputNames: isMerge ? writtenInputs : undefined,
+        mergeClipInfo,
+        mergeFps: mergeProbedFps || ffmpegOptions.mergeFps || 30
+      });
       addLog(`Executing: ffmpeg ${args.join(" ")}`, "command");
-      
-      const exitCode = await ffmpeg.exec(args);
+
+      // Secondary net: even a pre-checked copy join can still hit a container-level
+      // problem the probe cannot see. Watch the engine's own warnings and exit code.
+      const watchCopyLog = isMerge && requestedMergeMode === "copy" ? [] : null;
+      mergeCopyLogRef.current = watchCopyLog;
+
+      let exitCode = await ffmpeg.exec(args);
+      mergeCopyLogRef.current = null;
+
+      const copyCorruption = watchCopyLog ? firstMergeCopyCorruption(watchCopyLog) : null;
+
+      if (isMerge && requestedMergeMode === "copy" && (exitCode !== 0 || copyCorruption)) {
+        addLog(
+          copyCorruption
+            ? (lang === "zh"
+              ? `快速合并产出的文件不可信（${copyCorruption.trim()}），正在切换为统一重编码重试...`
+              : `The stream-copy join produced an unreliable file (${copyCorruption.trim()}). Retrying with unified re-encode...`)
+            : (lang === "zh"
+              ? "快速合并未成功（片段参数可能不一致），正在切换为统一重编码重试..."
+              : "Stream-copy merge did not succeed (clip parameters likely differ). Retrying with unified re-encode..."),
+          "warn"
+        );
+        await ffmpeg.deleteFile(outputName).catch(() => {});
+        args = buildFfmpegArgs(inputName, outputName, {
+          ...ffmpegOptions,
+          inputExt,
+          mergeMode: "reencode",
+          mergeInputNames: writtenInputs,
+          mergeClipInfo,
+          mergeFps: mergeProbedFps || ffmpegOptions.mergeFps || 30
+        });
+        addLog(`Executing: ffmpeg ${args.join(" ")}`, "command");
+        exitCode = await ffmpeg.exec(args);
+        if (exitCode === 0) {
+          setMergeMode("reencode");
+        }
+      }
+
       if (exitCode !== 0) {
         throw new Error(`FFmpeg processing failed with exit code ${exitCode}`);
       }
@@ -990,9 +1235,9 @@ export default function App() {
         format: outFormat,
         blob: outputFile,
         mimeType,
-        origSize: file ? file.size : 0,
-        origSizeStr: file ? formatBytes(file.size) : "0 B",
-        percentSaved: file && file.size > 0 ? Math.round(Math.max(0, (file.size - outputBytes.length) / file.size * 100)) : 0
+        origSize: totalInputSize,
+        origSizeStr: formatBytes(totalInputSize),
+        percentSaved: totalInputSize > 0 ? Math.round(Math.max(0, (totalInputSize - outputBytes.length) / totalInputSize * 100)) : 0
       };
       
       setExportGallery((current) => [exportItem, ...current]);
@@ -1001,17 +1246,68 @@ export default function App() {
       addLog(`Verified output container: ${detectedFormat.toUpperCase()} (${mimeType})`, "success");
       addLog(`${t("logSuccessFile")}: ${targetReadName}`, "success");
       
-      await ffmpeg.deleteFile(inputName).catch(() => {});
+      await Promise.all(writtenInputs.map((name) => ffmpeg.deleteFile(name).catch(() => {})));
+      if (isMerge) {
+        await ffmpeg.deleteFile(MERGE_LIST_FILE).catch(() => {});
+      }
       await ffmpeg.deleteFile(targetReadName).catch(() => {});
     } catch (error) {
+      setShowLogs(true);
       addLog(`Operation failed: ${error.message || String(error)}`, "error");
     } finally {
       setIsWorking(false);
       setIsLoaded(false);
       if (ffmpegRef.current) {
-        ffmpegRef.current.terminate().catch(() => {});
+        // terminate() returns void; .catch() on undefined rethrew out of this
+        // `finally` block, turning every finished job into an unhandled rejection.
+        ffmpegRef.current.terminate();
       }
     }
+  }
+
+  // Merge helpers: clips are joined in list order, so order is user-visible state.
+  function addMergeFiles(incoming) {
+    const clips = (incoming || []).filter(Boolean);
+    if (clips.length === 0) return;
+    setMergeFiles((current) => [...current, ...clips]);
+    if (!file) {
+      selectFile(clips[0]);
+    } else {
+      clips.forEach((clip) => addLog(`${t("logLoadedFile")}: ${clip.name} (${formatBytes(clip.size)})`, "success"));
+    }
+    setMergeMode("copy");
+    if (!isLoaded && !isWorking) {
+      setTimeout(() => loadFFmpeg(), 200);
+    }
+  }
+
+  function removeMergeFile(index) {
+    setMergeFiles((current) => {
+      const next = current.filter((_, i) => i !== index);
+      if (next.length === 0) {
+        setFile(null);
+        setPreviewUrl("");
+        setVideoWidth(0);
+        setVideoHeight(0);
+        setDuration(0);
+      } else if (index === 0) {
+        selectFile(next[0]);
+      }
+      return next;
+    });
+  }
+
+  function moveMergeFile(index, direction) {
+    setMergeFiles((current) => {
+      const target = index + direction;
+      if (target < 0 || target >= current.length) return current;
+      const next = [...current];
+      [next[index], next[target]] = [next[target], next[index]];
+      if (index === 0 || target === 0) {
+        selectFile(next[0]);
+      }
+      return next;
+    });
   }
 
   // Gallery Item Controls
@@ -1258,6 +1554,8 @@ export default function App() {
                       {page.toolId === "GIF" && "🖼️"}
                       {page.toolId === "Extract Audio" && "🎵"}
                       {page.toolId === "Crop" && "📐"}
+                      {page.toolId === "Merge" && "🔗"}
+                      {page.toolId === "Audio" && "🎧"}
                     </span>
                     <div className="item-details">
                       <strong>{item.title.split(" - ")[0]}</strong>
@@ -1399,6 +1697,8 @@ export default function App() {
                         {page.toolId === "GIF" && "🖼️"}
                         {page.toolId === "Extract Audio" && "🎵"}
                         {page.toolId === "Crop" && "📐"}
+                        {page.toolId === "Merge" && "🔗"}
+                        {page.toolId === "Audio" && "🎧"}
                       </span>
                       <strong>{item.title.split(" - ")[0]}</strong>
                     </a>
@@ -1777,7 +2077,7 @@ export default function App() {
 
                     <h2 style={{ fontSize: "18px", fontWeight: "700", marginTop: "28px", marginBottom: "12px", color: "var(--text-primary)", borderBottom: "1px solid var(--border-color)", paddingBottom: "8px" }}>5. 知识产权与用户内容所有权</h2>
                     <p style={{ marginBottom: "16px" }}>
-                      <strong>您对处理前后的媒体内容享有 100% 的全部所有权与知识产权。</strong>部分传统在线剪辑网站在其用户协议中宣称对用户上传的素材享有二次展示或营销授权；而在 HappyConvert 无云剪，因我们采用“零上传”本地运算技术，我们既无法读取或复制您的文件，也绝对不对您的任何视频、音频或创意成果宣称任何形式的版权或许可。
+                      <strong>您对处理前后的媒体内容享有 100% 的全部所有权与知识产权。</strong>部分传统在线剪辑网站在其用户协议中宣称对用户上传的素材享有二次展示或营销授权；而在 HappyConvert，由于采用“零上传”的本地运算方式，我们既无法读取或复制您的文件，也不会对您的任何视频、音频或创意成果主张任何形式的版权或许可。
                     </p>
                     <p style={{ marginBottom: "16px" }}>
                       与此同时，本站的 UI 交互设计、底层代码实现、品牌标识（Logo）、域名及专有算法优化等全部知识产权，均归 HappyConvert 开发团队所有。未经官方书面许可，任何人不得抓取、克隆本站网页或将本站作为付费商业 SaaS 进行打包倒卖。
@@ -2084,12 +2384,12 @@ export default function App() {
 
               <div className="article-cta-box" style={{ marginTop: "56px", padding: "40px", backgroundColor: "var(--bg-root)", border: "1px solid var(--border-color)", borderRadius: "var(--radius-lg)", textAlign: "center", backgroundImage: "linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%)" }}>
                 <h3 style={{ fontSize: "24px", fontWeight: "800", marginBottom: "12px", color: "var(--text-primary)" }}>
-                  {lang === "zh" ? "🚀 想要亲自体验极速无损视频处理？" : "🚀 Ready to experience blazing-fast video processing?"}
+                  {lang === "zh" ? "🚀 想要亲自体验浏览器本地视频处理？" : "🚀 Ready to try video processing that runs in your browser?"}
                 </h3>
                 <p style={{ fontSize: "15px", color: "var(--text-secondary)", marginBottom: "28px", maxWidth: "600px", margin: "0 auto 28px auto" }}>
                   {lang === "zh" 
-                    ? `立即免费打开 ${activePage.toolName || "无云剪工作室"}！无需注册账号、无需上传文件、纯净无水印，依靠 WebAssembly 引擎在您的浏览器本地极速完成。`
-                    : `Try our ${activePage.toolName || "HappyConvert"} online now! 100% Free, no sign-up required, no file uploads, and zero watermarks.`}
+                    ? `立即免费打开 ${activePage.toolName || "HappyConvert"}！无需注册账号、无需上传文件、不带水印，全部由 WebAssembly 引擎在您的浏览器本地完成。`
+                    : `Try our ${activePage.toolName || "HappyConvert"} online now! Free to use, no sign-up required, no upload step, and no watermarks.`}
                 </p>
                 <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
                   <button 
@@ -2147,7 +2447,113 @@ export default function App() {
         <div className="stage-deck">
           {/* Merged Media Stage / Workspace (Upload Zone when empty, Player Preview when loaded) */}
           <div className="studio-card preview-card merged-media-stage" id="workspace-stage" style={{ minHeight: !file ? "380px" : "auto", display: "flex", flexDirection: "column" }}>
-            {!file ? (
+            {effectiveSelectedTool === "Merge" ? (
+              <div style={{ display: "flex", flexDirection: "column", flex: 1, padding: "8px" }}>
+                <div className="card-title" style={{ marginBottom: "16px", paddingBottom: "12px", borderBottom: "1px dashed var(--border-color)" }}>
+                  {t("mergeCardTitle")}
+                  <span>{t("localOnly")}</span>
+                </div>
+                <input
+                  id="mergeUploader"
+                  type="file"
+                  accept="video/*,audio/*"
+                  multiple
+                  hidden
+                  onChange={(e) => {
+                    addMergeFiles(Array.from(e.target.files || []));
+                    e.target.value = "";
+                  }}
+                />
+                {mergeFiles.length === 0 ? (
+                  <div
+                    className="upload-zone"
+                    style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", minHeight: "280px" }}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      addMergeFiles(Array.from(e.dataTransfer.files || []));
+                    }}
+                    onClick={() => document.getElementById("mergeUploader").click()}
+                  >
+                    <div className="upload-icon-container" style={{ transform: "scale(1.1)", marginBottom: "16px" }}>+</div>
+                    <h3 style={{ fontSize: "18px", marginBottom: "8px" }}>{t("mergeDragText")}</h3>
+                    <p style={{ fontSize: "14px", marginBottom: "20px" }}>{t("mergeFormatsText")}</p>
+                    <div className="upload-format-pills">
+                      <span className="upload-format-pill">MP4</span>
+                      <span className="upload-format-pill">MOV</span>
+                      <span className="upload-format-pill">MKV</span>
+                      <span className="upload-format-pill">WEBM</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div style={{ fontSize: "13px", color: "var(--text-tertiary)" }}>{t("mergeOrderHint")}</div>
+                    <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: "8px" }}>
+                      {mergeFiles.map((clip, index) => (
+                        <li
+                          key={`${clip.name}-${index}`}
+                          style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", border: "1px solid var(--border-color)", borderRadius: "var(--radius-md)", backgroundColor: "var(--bg-surface-elevated)" }}
+                        >
+                          <span style={{ flexShrink: 0, width: "22px", height: "22px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", fontWeight: "800", color: "#fff", backgroundColor: "var(--accent-purple)" }}>
+                            {index + 1}
+                          </span>
+                          <span style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontSize: "14px", fontWeight: "600", color: "var(--text-primary)" }} title={clip.name}>
+                            {clip.name}
+                          </span>
+                          <span style={{ flexShrink: 0, fontSize: "12px", color: "var(--text-muted)" }}>{formatBytes(clip.size)}</span>
+                          <span style={{ flexShrink: 0, display: "flex", gap: "4px" }}>
+                            <button
+                              type="button"
+                              title={lang === "zh" ? "上移" : "Move up"}
+                              disabled={index === 0}
+                              onClick={() => moveMergeFile(index, -1)}
+                              style={{ width: "26px", height: "26px", borderRadius: "6px", border: "1px solid var(--border-color)", background: "var(--bg-root)", color: "var(--text-secondary)", cursor: index === 0 ? "not-allowed" : "pointer", opacity: index === 0 ? 0.4 : 1 }}
+                            >
+                              ↑
+                            </button>
+                            <button
+                              type="button"
+                              title={lang === "zh" ? "下移" : "Move down"}
+                              disabled={index === mergeFiles.length - 1}
+                              onClick={() => moveMergeFile(index, 1)}
+                              style={{ width: "26px", height: "26px", borderRadius: "6px", border: "1px solid var(--border-color)", background: "var(--bg-root)", color: "var(--text-secondary)", cursor: index === mergeFiles.length - 1 ? "not-allowed" : "pointer", opacity: index === mergeFiles.length - 1 ? 0.4 : 1 }}
+                            >
+                              ↓
+                            </button>
+                            <button
+                              type="button"
+                              title={lang === "zh" ? "移除" : "Remove"}
+                              onClick={() => removeMergeFile(index)}
+                              style={{ width: "26px", height: "26px", borderRadius: "6px", border: "1px solid rgba(239, 68, 68, 0.25)", background: "rgba(239, 68, 68, 0.1)", color: "var(--accent-red)", cursor: "pointer" }}
+                            >
+                              ✕
+                            </button>
+                          </span>
+                        </li>
+                      ))}
+                    </ol>
+                    <button
+                      type="button"
+                      className="studio-btn"
+                      onClick={() => document.getElementById("mergeUploader").click()}
+                      style={{ alignSelf: "flex-start" }}
+                    >
+                      + {t("mergeAddClips")}
+                    </button>
+                    <div className="setting-help-note">{t("mergeStageHelp")}</div>
+                  </div>
+                )}
+                {previewUrl && (
+                  <video
+                    key={previewUrl}
+                    src={previewUrl}
+                    preload="metadata"
+                    style={{ display: "none" }}
+                    onLoadedMetadata={onMetadataLoaded}
+                  />
+                )}
+              </div>
+            ) : !file ? (
               <div style={{ display: "flex", flexDirection: "column", flex: 1, padding: "8px" }}>
                 <div className="card-title" style={{ marginBottom: "16px", paddingBottom: "12px", borderBottom: "1px dashed var(--border-color)" }}>
                   {t("inputCardTitle")}
@@ -2826,6 +3232,77 @@ export default function App() {
                 </div>
               )}
 
+              {/* 7. MERGE SETTINGS */}
+              {effectiveSelectedTool === "Merge" && (
+                <div className="tool-settings-panel">
+                  <div className="setting-group">
+                    <label>
+                      {t("mergeModeLabel")}
+                      <span>
+                        {mergeMode === "copy"
+                          ? (lang === "zh" ? "流拷贝" : "Stream copy")
+                          : (lang === "zh" ? "统一重编码" : "Unified re-encode")}
+                      </span>
+                    </label>
+                    <select
+                      className="studio-select"
+                      value={mergeMode}
+                      onChange={(e) => setMergeMode(e.target.value)}
+                    >
+                      <option value="copy">{t("mergeModeCopy")}</option>
+                      <option value="reencode">{t("mergeModeReencode")}</option>
+                    </select>
+                    <div className="setting-help-note">{t("mergeHelp")}</div>
+                  </div>
+                  <div className="setting-group" style={{ marginTop: "12px" }}>
+                    <label>{t("mergeTargetLabel")}</label>
+                    <div className="setting-help-note" style={{ marginTop: "6px" }}>
+                      {mergeFiles.length === 0
+                        ? t("mergeNoClips")
+                        : `${t("mergeClipCount")}: ${mergeFiles.length} · ${
+                            videoWidth && videoHeight ? `${videoWidth}×${videoHeight}` : t("mergeResolving")
+                          }`}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* 8. AUDIO FORMAT CONVERT SETTINGS */}
+              {effectiveSelectedTool === "Audio" && (
+                <div className="tool-settings-panel">
+                  <div className="setting-group">
+                    <label>{t("audioTargetLabel")}</label>
+                    <select
+                      className="studio-select"
+                      value={audioTargetFormat}
+                      onChange={(e) => setAudioTargetFormat(e.target.value)}
+                    >
+                      {AUDIO_TARGET_FORMATS.map((format) => (
+                        <option key={format} value={format}>{t(`audioTarget_${format}`)}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {["mp3", "m4a", "opus"].includes(audioTargetFormat) && (
+                    <div className="setting-group">
+                      <label>{t("audioKbps")}</label>
+                      <select
+                        className="studio-select"
+                        value={audioConvertKbps}
+                        onChange={(e) => setAudioConvertKbps(e.target.value)}
+                      >
+                        <option value="128k">{t("audioKbps128")}</option>
+                        <option value="192k">{t("audioKbps192")}</option>
+                        <option value="256k">{t("audioKbps256")}</option>
+                        <option value="320k">{t("audioKbps320")}</option>
+                      </select>
+                    </div>
+                  )}
+
+                  <div className="setting-help-note">{t("audioConvertHelp")}</div>
+                </div>
+              )}
+
             </div>
 
 
@@ -2952,6 +3429,8 @@ export default function App() {
                       <li><strong>{lang === "zh" ? "生成 GIF" : "Export GIF"}:</strong> {t("helpGif")}</li>
                       <li><strong>{lang === "zh" ? "提取音频" : "Extract Audio"}:</strong> {t("helpAudio")}</li>
                       <li><strong>{lang === "zh" ? "画面裁切" : "Crop Frame"}:</strong> {t("helpCrop")}</li>
+                      <li><strong>{lang === "zh" ? "视频合并" : "Merge Clips"}:</strong> {t("helpMerge")}</li>
+                      <li><strong>{lang === "zh" ? "音频转换" : "Audio Convert"}:</strong> {t("helpAudioConvert")}</li>
                     </ul>
                   </div>
                 )}
@@ -2976,6 +3455,19 @@ export default function App() {
                     ></div>
                   </div>
                 </div>
+
+                {/* Console visibility. styles.css already shipped a full
+                    .show-logs-toggle rule set, but no markup ever referenced it and
+                    showLogs had no setter — so the terminal, the CLI command preview
+                    and the error detail were unreachable dead UI. */}
+                <label className="show-logs-toggle">
+                  <input
+                    type="checkbox"
+                    checked={showLogs}
+                    onChange={(event) => setShowLogs(event.target.checked)}
+                  />
+                  <span>{t("terminalOutput")}</span>
+                </label>
 
                 {/* Execution trigger */}
                 <button 

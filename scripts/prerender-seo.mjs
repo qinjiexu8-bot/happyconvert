@@ -3,10 +3,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { DEFAULT_PAGE, DOC_PAGES, TOOL_PAGES, localizedPage } from "../src/config/toolPages.js";
 import { BLOG_PAGES } from "../src/config/blogPages.js";
+import { conservativeCopy } from "../src/lib/conservativeCopy.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
-const distDir = path.join(rootDir, "dist");
+const distDir = process.env.DIST_DIR
+  ? path.resolve(process.env.DIST_DIR)
+  : path.join(rootDir, "dist");
 const templatePath = path.join(distDir, "index.html");
 const siteUrl = "https://happyconvert.app";
 const ogImage = `${siteUrl}/og-banner.png`;
@@ -47,30 +50,8 @@ const localizedPath = (routePath, lang) => {
 
 const absoluteUrl = (routePath, lang) => `${siteUrl}${localizedPath(routePath, lang)}`;
 
-const conservativeCopy = (text, lang) => {
-  if (!text) return "";
-  const replacements = lang === "zh"
-    ? [
-        [/不限文件大小|不限文件体积|不限体积|零体积限制|无上限/g, "受本机内存限制"],
-        [/1秒(?:钟)?内|1 秒(?:钟)?内|1秒极速|1 秒极速|秒级/g, "快速"],
-        [/无损压缩|极速无损压缩|无损视频极速剪切|高清不失真|肉眼无损|肉眼不失真/g, "高质量处理"],
-        [/任意视频|任意格式/g, "常见视频"],
-        [/绝不(?:会)?上传|绝对不会/g, "不会主动上传"],
-        [/完全没有|没有任何限制/g, "没有人为云端队列限制"],
-        [/永久免费/g, "免费使用"]
-      ]
-    : [
-        [/no file size limits?|zero file size limits?|without file size limits?|no size limit|unlimited/gi, "limited by your browser and device memory"],
-        [/\bin under 1 second\b|\bunder 1 second\b|\bin 1 second\b|\b1-second\b|\b1 second\b|\binstantly\b/gi, "quickly"],
-        [/lossless compression|visually lossless|video compressor no loss|no loss|zero quality degradation/gi, "high-quality"],
-        [/any video|any format|all formats/gi, "common video formats"],
-        [/never uploaded|nothing is ever uploaded/gi, "not actively uploaded"],
-        [/no limitations whatsoever|none at all/gi, "no cloud queue limits"],
-        [/free forever/gi, "free to use"]
-      ];
-
-  return replacements.reduce((current, [pattern, replacement]) => current.replace(pattern, replacement), text);
-};
+// Conservative copy rules live in src/lib/conservativeCopy.js so that the
+// content audit can assert against exactly the same rewrite.
 
 const pageType = (config) => {
   if (config.isArticle) return "article";
@@ -214,7 +195,7 @@ const renderStaticContent = (config, page, lang) => {
     const list = section.list?.length
       ? `<ul>${section.list.map((item) => `<li>${escapeHtml(conservativeCopy(item, lang))}</li>`).join("")}</ul>`
       : "";
-    return `<section><h2>${escapeHtml(section.h2 || "")}</h2>${paragraphs}${list}</section>`;
+    return `<section><h2>${escapeHtml(conservativeCopy(section.h2 || "", lang))}</h2>${paragraphs}${list}</section>`;
   }).join("") || "";
   const blogArticleLinks = config.isBlogIndex
     ? BLOG_PAGES
@@ -403,6 +384,13 @@ fs.writeFileSync(path.join(distDir, indexNowFileName), indexNowKey);
 const allUrls = Array.from(new Set(sitemapUrls.map(({ config, lang }) => absoluteUrl(config.path, lang))));
 
 const submitIndexNow = async () => {
+  // `SKIP_INDEXNOW=1` keeps local verification builds side-effect free. The
+  // production build must run without it so new URLs are actually submitted.
+  if (process.env.SKIP_INDEXNOW === "1") {
+    console.log(`[IndexNow] Skipped (SKIP_INDEXNOW=1). ${allUrls.length} URLs were prepared but not submitted.`);
+    return;
+  }
+
   const payload = {
     host: "happyconvert.app",
     key: indexNowKey,

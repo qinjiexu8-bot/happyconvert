@@ -48,6 +48,9 @@ export function detectBinaryFormat(bytes) {
   const ascii = (start, length) => String.fromCharCode(...b.slice(start, start + length));
 
   if (ascii(0, 3) === "GIF") return "gif";
+  if (ascii(0, 4) === "fLaC") return "flac";
+  if (ascii(0, 4) === "OggS") return "ogg";
+  if (ascii(0, 4) === "FORM" && (ascii(8, 4) === "AIFF" || ascii(8, 4) === "AIFC")) return "aiff";
   if (ascii(0, 3) === "ID3") return "mp3";
   if (ascii(0, 4) === "RIFF" && ascii(8, 4) === "WAVE") return "wav";
   if (ascii(0, 4) === "RIFF" && ascii(8, 4) === "WEBP") return "webp";
@@ -62,6 +65,8 @@ export function isExpectedOutputFormat(bytes, expectedFormat) {
   if (detected === "unknown") return true;
   if (expectedFormat === "mov" && detected === "mp4") return true;
   if (expectedFormat === "mkv" && detected === "webm") return true;
+  // M4A is an audio-only MP4 container, so the ISO-BMFF magic is the same.
+  if (expectedFormat === "m4a" && detected === "mp4") return true;
   return detected === expectedFormat;
 }
 
