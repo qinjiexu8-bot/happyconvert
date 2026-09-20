@@ -1,6 +1,6 @@
 # HappyConvert SEO Content Standards
 
-Last updated: 2026-08-01
+Last updated: 2026-09-19
 
 This document is the publishing gate for HappyConvert blog content. A draft is not allowed into `src/config/blogPages.js` unless it passes the checklist below.
 
@@ -119,3 +119,52 @@ Before publishing, every article must pass:
 
 1. `How to Compress Screen Recordings Without Blurry Text` -> `/compress-video/`
 2. `How to Extract WAV Audio from Video for Editing` -> `/video-to-audio/`
+
+## Seventh Batch Topics
+
+1. `Why a Trimmed Video Comes Out Slightly Longer Than You Set` -> `/cut-video/`
+2. `Why Your GIF Looks Washed Out (And Why the File Is So Big)` -> `/video-to-gif/`
+3. `Merging Video in a Browser: What It Costs in Memory and Time` -> `/merge-video/`
+4. `How Big Will the Converted Audio File Be?` -> `/convert-audio/`
+
+The first two fill the thinnest tool pages (one article each before this batch). All four
+are written from measurements taken against the same command lines the product runs, so
+every number in them is reproducible — see "Write from measurement, not from memory".
+
+## Internal Linking
+
+Every article gets four "Related reading" links, chosen by `relatedArticles()` in
+`src/config/blogPages.js`. That function is the single funnel for both the React page and
+`prerender-seo.mjs`, so the crawler-visible static HTML and the served page carry the
+identical link graph. Do not hand-maintain related-article lists per page, and do not
+reimplement the selection in either renderer.
+
+Selection order: explicit `relatedSlugs` -> other articles on the same tool page ->
+neighbours along the publication timeline.
+
+The timeline step is load-bearing. An earlier version filled the remaining slots with the
+newest articles, and the graph degenerated into a star around the most recent posts:
+every article had outbound links, but the oldest one received none, and a crawler entering
+from any single article could reach only 5 of 26. Taking the neighbours instead brought
+that to 26 of 26 with zero orphans.
+
+`npm run audit:content` enforces two things here: every article must resolve at least two
+related articles, and no article may end up with zero inbound links. If you add an article
+and the audit reports an orphan, the timeline logic has been broken — do not paper over it
+with a hardcoded list.
+
+## Write from measurement, not from memory
+
+Articles in this project quote specific numbers, so the numbers have to be real. Before
+writing, run the same command the product builds and read the result with ffprobe. Two
+habits that caught wrong claims during the seventh batch:
+
+- Test the assumption that feels obvious. "Copy-mode cuts snap to the nearest keyframe"
+  is repeated everywhere and turned out to be false here — comparing the decoded pixels of
+  the output's first frame against every frame of the source showed the start point is
+  exact, and the drift is at the tail. Four keyframe intervals (1, 2, 5, 10 seconds) all
+  produced the same overshoot.
+- Check whether your test material is representative. FLAC compressing a pure sine wave to
+  8.5% of the original WAV would have produced a spectacular and completely misleading
+  claim. The same test on pink noise gave 40.9%, which is why the article states a range
+  and names the sources it was measured on.

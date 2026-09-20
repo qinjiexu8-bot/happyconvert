@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { BLOG_PAGES } from "../src/config/blogPages.js";
+import { BLOG_PAGES, relatedArticles } from "../src/config/blogPages.js";
 import { DEFAULT_PAGE, DOC_PAGES, TOOL_CATEGORIES, TOOL_PAGES, groupedToolPages } from "../src/config/toolPages.js";
 import { COPY_RULES, conservativeCopy } from "../src/lib/conservativeCopy.js";
 
@@ -220,6 +220,35 @@ if (navRenderedCount !== TOOL_PAGES.length) {
 }
 const navOrder = groupedToolPages("en").map((group) => `${group.label}: ${group.pages.map((page) => page.toolId).join(" / ")}`);
 
+/* -------------------------------------------------------------- internal links --- */
+// 文章互链门禁。新增文章时最容易出的问题是链接网络退化成以最新文章为中心的星形：
+// 每篇都有出链，但发布时间早的文章一条入链都拿不到（实测过一次：从任一篇文章出发
+// 只能到达 5/26 篇）。这两条检查就是针对它。
+const relatedCoverage = BLOG_PAGES
+  .filter((page) => page.isArticle)
+  .map((page) => ({ page, related: relatedArticles(page, 4) }));
+
+for (const { page, related } of relatedCoverage) {
+  if (related.length < 2) {
+    note(`internal links: ${page.path} resolves only ${related.length} related article(s)`);
+  }
+  if (related.some((item) => item.path === page.path)) {
+    note(`internal links: ${page.path} links to itself`);
+  }
+}
+
+const inboundCount = new Map(relatedCoverage.map(({ page }) => [page.path, 0]));
+for (const { related } of relatedCoverage) {
+  for (const target of related) {
+    inboundCount.set(target.path, (inboundCount.get(target.path) || 0) + 1);
+  }
+}
+const orphaned = [...inboundCount.entries()].filter(([, count]) => count === 0).map(([p]) => p);
+if (orphaned.length) {
+  note(`internal links: ${orphaned.length} article(s) receive no inbound link: ${orphaned.join(", ")}`);
+}
+const internalLinkTotal = relatedCoverage.reduce((sum, item) => sum + item.related.length, 0);
+
 /* ----------------------------------------------------------------- output --- */
 if (failures.length) {
   console.error(`Content audit failed with ${failures.length} problem(s):`);
@@ -233,6 +262,7 @@ console.log(
     `  pages checked:    ${allPages.length} (homepage + ${TOOL_PAGES.length} tool pages + ${DOC_PAGES.length} doc pages + ${BLOG_PAGES.length} blog pages)`,
     `  articles checked: ${auditedArticles.length}`,
     `  tool count gate:  ${toolCount} (badge + FAQ agree)`,
-    `  nav dropdown:     ${navOrder.join(" | ")}`
+    `  nav dropdown:     ${navOrder.join(" | ")}`,
+    `  internal links:   ${relatedCoverage.length} articles, ${internalLinkTotal} cross-links, ${orphaned.length} orphaned`
   ].join("\n")
 );

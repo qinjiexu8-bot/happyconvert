@@ -3289,6 +3289,60 @@ body.light-theme .adsense-placeholder:hover {
   font-size: 12px;
 }
 
+/* 文章间互链：文章此前只有指向工具页的单向链接，彼此之间零互链。
+   这个模块把 26 篇文章织成一张网，横向抓取路径和权重传递都靠它。 */
+.article-related-reading {
+  margin: 28px 0 0;
+  padding: 22px 24px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: var(--bg-root);
+}
+
+.article-related-reading-title {
+  margin: 0 0 14px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.article-related-reading ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.article-related-reading li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 16px;
+}
+
+.article-related-reading a {
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+  text-decoration: none;
+}
+
+.article-related-reading a:hover {
+  color: var(--accent-purple);
+  text-decoration: underline;
+}
+
+.article-related-reading small {
+  flex: none;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
 .tool-page-internal-links {
   grid-column: 1 / -1;
   display: flex;

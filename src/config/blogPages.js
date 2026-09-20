@@ -3708,5 +3708,710 @@ export const BLOG_PAGES = [
         ]
       }
     ]
+  },
+  {
+    path: "/blog/trim-video-accuracy/",
+    isArticle: true,
+    contentStandardVersion: 2,
+    title: {
+      en: "Why a Trimmed Video Comes Out Slightly Longer Than You Set",
+      zh: "剪出来的视频为什么比设定值长一点？"
+    },
+    description: {
+      en: "Fast trimming skips re-encoding, so it finishes almost instantly and leaves the picture untouched. It also runs a few frames past the mark you chose. We measured where those extra milliseconds come from and when they actually matter.",
+      zh: "快速剪切不重新编码，几乎瞬间完成，画面原封不动；它同时也会比你设定的位置多跑出几帧。我们实测了这几分之一秒来自哪里，以及什么时候真的需要在意。"
+    },
+    category: { en: "Guide", zh: "原理指南" },
+    readTime: { en: "6 min read", zh: "6 分钟阅读" },
+    date: { en: "September 19, 2026", zh: "2026年9月19日" },
+    toolLink: "/cut-video/",
+    toolName: { en: "Cut Video Online", zh: "在线剪切视频" },
+    content: [
+      {
+        h2: {
+          en: "The short answer",
+          zh: "先说结论"
+        },
+        p: [
+          {
+            en: "The trimmer has two paths. Fast trim copies the original video and audio streams without re-encoding, which is why it finishes in a fraction of a second and leaves every pixel as it was — but the file it hands back runs a couple of frames past the point you picked. Select a 2.000 second range and you get 2.133 seconds. Re-encode the same range and you get 2.000000 seconds, to the frame.",
+            zh: "剪切工具有两条路径。快速剪切直接复制原始的视频流与音频流、不做重新编码，因此瞬间完成、画面一个像素都没动 —— 但它交回来的文件会比你选定的位置多跑出几帧：选 2.000 秒的区间，拿回来的是 2.133 秒。同一区间改用重编码，得到 2.000000 秒，一帧不差。"
+          },
+          {
+            en: "The overshoot is two to four frames — 0.07 to 0.13 seconds on a 30fps clip. It is not caused by keyframe spacing, and it does not get worse as the video gets longer. Cutting a talking-head clip for a social post, you will never notice it. Cutting to a music beat or lining up subtitle cues, you will.",
+            zh: "多出来的长度在 2 到 4 帧之间，30fps 素材上就是 0.07 到 0.13 秒。它和关键帧间隔无关，也不会因为视频变长而变严重。剪一段口播发社交媒体，你基本察觉不到；要卡音乐节拍或对齐字幕，就会碰到它。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "What we measured",
+          zh: "实测数据"
+        },
+        p: [
+          {
+            en: "We pushed the same range through both paths on identical 640x360 30fps source clips, then read the results back with ffprobe.",
+            zh: "我们让同一条区间在两套路径上各跑一遍，素材为完全相同的 640x360、30fps 片段，再用 ffprobe 读回结果。"
+          }
+        ],
+        list: [
+          {
+            en: "2.000 s range (1.5 s to 3.5 s): fast trim returned 2.133 s over 62 frames. Re-encode returned 2.000000 s over 60 frames.",
+            zh: "目标 2.000 秒（1.5s 到 3.5s）：快速剪切输出 2.133 秒 / 62 帧；重编码输出 2.000000 秒 / 60 帧。"
+          },
+          {
+            en: "10.000 s range (5.0 s to 15.0 s): fast trim returned 10.133 s over 302 frames. Re-encode returned exactly 10.000000 s over 300 frames.",
+            zh: "目标 10.000 秒（5.0s 到 15.0s）：快速剪切输出 10.133 秒 / 302 帧；重编码精确输出 10.000000 秒 / 300 帧。"
+          },
+          {
+            en: "A range starting exactly on a keyframe (2.0 s to 4.0 s): fast trim still returned 2.067 s. Lining the cut up with a keyframe does not remove the drift.",
+            zh: "起点正好落在关键帧上的区间（2.0s 到 4.0s）：快速剪切依然输出 2.067 秒。把剪切点对准关键帧并不能消除这个偏差。"
+          },
+          {
+            en: "Four source clips with keyframes every 1, 2, 5 and 10 seconds: fast trim returned 2.133 s on all four. Keyframe spacing changed nothing.",
+            zh: "四段素材，关键帧间隔分别为 1、2、5、10 秒：快速剪切在四段上都输出 2.133 秒。关键帧间隔完全没有影响。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "It is the start that stays exact, not the end",
+          zh: "准确的是起点，不是结尾"
+        },
+        p: [
+          {
+            en: "The usual explanation for trimming inaccuracy is keyframe alignment — the claim that a copy-mode cut snaps back to the nearest keyframe. Our own test says otherwise. We compared the decoded pixels of the output's first frame against every frame of the source: the first frame of a 1.5 s to 3.5 s fast trim is pixel-identical to the source frame sitting at exactly 1.500 s.",
+            zh: "关于剪切不精确，最常见的解释是「关键帧对齐」—— 说复制模式的剪切点会吸附到最近的关键帧上。我们自己的实测不支持这个说法。把输出首帧的解码像素与源文件的每一帧逐一比对后，1.5s 到 3.5s 快速剪切的第 0 帧与源文件 1.500 秒那一帧像素完全一致。"
+          },
+          {
+            en: "The drift is at the tail. Dump the output's frame timestamps and the last two frames stop being evenly spaced: they land around 2.033 s and 2.100 s, where a steady 30fps cadence would put them at 2.000 s and 2.033 s. Nothing is duplicated or dropped from the picture itself; the packets at the end of your range simply do not fall on clean frame boundaries, and a stream copy is not allowed to rewrite them.",
+            zh: "偏差出在结尾。把输出的帧时间戳列出来，最后两帧就不再有均匀间隔：它们落在 2.033 秒和 2.100 秒附近，而标准的 30fps 节奏应该把这两帧放在 2.000 秒和 2.033 秒。画面本身没有被复制或丢帧，只是你选定区间的末尾那几个数据包本来就不落在整齐的帧边界上，而流拷贝不被允许改写它们。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Which path to pick",
+          zh: "该选哪条路"
+        },
+        list: [
+          {
+            en: "Speed, or the exact length does not matter: fast trim. On a 30-second test clip, cutting a 10-second range took 0.03 s against 0.26 s for re-encoding, and the encoded picture was never touched.",
+            zh: "只要快、长度差一点无所谓：用快速剪切。在一段 30 秒测试素材上剪 10 秒区间，快速剪切耗时 0.03 秒，重编码耗时 0.26 秒，而且原始编码画面一个比特都没动。"
+          },
+          {
+            en: "Cutting to a beat, a subtitle cue or a fixed time slot: re-encode. It costs a little time and one generation of quality, and it lands on the frame you asked for.",
+            zh: "要卡节拍、对齐字幕、或必须凑够固定时长：用重编码。代价是一点时间和一代画质，换来的是精确落在你指定的那一帧上。"
+          },
+          {
+            en: "Trimming clips that will then be merged: re-encode. Each clip carries its own tail drift, and joining several fast-trimmed segments adds them up.",
+            zh: "剪完还要把多段拼起来：建议重编码。每一段都带着自己的尾部偏差，把若干快速剪切的片段接起来会把这些偏差叠加在一起。"
+          },
+          {
+            en: "Output size is not a reliable reason to pick either one. In our test the 10-second fast trim came out at 1.34 MB and the re-encode at 0.83 MB, because CRF 23 re-compresses from scratch. Smaller is not the same as better here.",
+            zh: "文件大小不适合作为选择依据。实测同一条 10 秒区间，快速剪切输出 1.34 MB，重编码输出 0.83 MB —— 后者小是因为它用 CRF 23 从头重新压缩了一遍。更小并不等于更好。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "What this costs in the browser",
+          zh: "在浏览器里的实际代价"
+        },
+        callout: {
+          en: "Two things differ from a desktop command line. Both paths run on your own machine inside WebAssembly, so the 0.03 s against 0.26 s gap above becomes a much longer wait in absolute terms — the ratio is what carries over, not the numbers. And fast trim is genuinely cheap here: it never starts an encoder, so a long clip barely touches the CPU even though the file still has to be read into the browser first.",
+          zh: "与桌面命令行有两点不同。两条路径都在您本机的 WebAssembly 里跑，所以上面 0.03 秒对 0.26 秒的差距在绝对值上会变成更长的等待 —— 能沿用下来的是这个比例，而不是具体数字。另外快速剪切在浏览器里确实很轻：它根本不启动编码器，因此即使源文件需要先读进浏览器，长片段的 CPU 占用也几乎可以忽略。"
+        }
+      },
+      {
+        h2: {
+          en: "Trimming accuracy FAQ",
+          zh: "剪切精度常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Does fast trim reduce quality?",
+              zh: "快速剪切会降低画质吗？"
+            },
+            a: {
+              en: "No. It copies the existing encoded streams instead of decoding and re-encoding them, so the picture and sound are the ones already in your file. The only thing it cannot guarantee is that the first and last frames land exactly where you asked.",
+              zh: "不会。它复制的是文件里已有的编码流，而不是解码后重新编码，因此画面和声音就是你原文件里的那一份。它唯一无法保证的，是首尾两帧正好落在你指定的位置上。"
+            }
+          },
+          {
+            q: {
+              en: "Why did the re-encoded file come out smaller?",
+              zh: "为什么重编码后的文件反而更小？"
+            },
+            a: {
+              en: "Because it is a fresh encode at CRF 23, which discards detail the encoder considers expendable. On easy material that saves a lot of space; on detailed footage it can just as easily come out larger. Size is a side effect of the CRF you pick, not a signal of quality.",
+              zh: "因为它是用 CRF 23 重新编码了一遍，会舍弃编码器认为可以舍弃的细节。素材简单时能省下不少空间，细节丰富时也可能反而更大。文件大小是所选 CRF 的副产品，不是画质的信号。"
+            }
+          },
+          {
+            q: {
+              en: "Can I delete a section from the middle of a video here?",
+              zh: "可以用这个工具删掉视频中间的一段吗？"
+            },
+            a: {
+              en: "No — the trimmer outputs one continuous range, from a start point to an end point. To cut something out of the middle, trim the part before it and the part after it, then join those two files with the merge tool.",
+              zh: "不能 —— 剪切工具输出的是从起点到终点的一段连续区间。要去掉中间一段，就把它前面和后面的部分各剪出来，再用合并工具把这两个文件接起来。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: "/blog/gif-washed-out-colors/",
+    isArticle: true,
+    contentStandardVersion: 2,
+    title: {
+      en: "Why Your GIF Looks Washed Out (And Why the File Is So Big)",
+      zh: "GIF 为什么发灰、为什么这么大？"
+    },
+    description: {
+      en: "GIF caps every frame at 256 colours, so gradients and dark scenes turn into bands — and the file still lands 20 to 30 times larger than an MP4 of the same clip. Here is what each setting actually costs, measured.",
+      zh: "GIF 每一帧最多只能有 256 种颜色，于是渐变和暗部变成一层层色带；即便如此，文件仍然比同一段 MP4 大 20 到 30 倍。下面是用实测数字标出的每一项设置到底在花什么。"
+    },
+    category: { en: "Guide", zh: "原理指南" },
+    readTime: { en: "6 min read", zh: "6 分钟阅读" },
+    date: { en: "September 19, 2026", zh: "2026年9月19日" },
+    toolLink: "/video-to-gif/",
+    toolName: { en: "Video to GIF Converter", zh: "视频转 GIF 动图工具" },
+    content: [
+      {
+        h2: {
+          en: "The short answer",
+          zh: "先说结论"
+        },
+        p: [
+          {
+            en: "Both complaints come from the same place: GIF is a format from 1987. It stores at most 256 colours per frame and has no real inter-frame compression, only simple reuse of unchanged regions. A gradient therefore collapses into visible bands, while the file still ends up several times larger than a video of the same clip. In our test footage a single source frame held 5,751 distinct colours; the exported GIF frame held 246.",
+            zh: "两个抱怨来自同一个地方：GIF 是 1987 年的格式。它每帧最多保存 256 种颜色，也没有真正的帧间压缩，只是简单复用没变化的区域。于是渐变塌成一层层色带，而文件依然比同一段视频大出好几倍。实测中，源文件一帧有 5,751 种颜色，导出的 GIF 一帧只有 246 种。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Where the colours are lost",
+          zh: "颜色是在哪一步丢掉的"
+        },
+        p: [
+          {
+            en: "Before writing any frame, the encoder has to decide which 256 colours it is allowed to use. Ours does it in two passes: first it scans the whole clip and builds one palette, then it maps every frame onto that palette. Doing it in two passes is why flat areas stay clean instead of shimmering — a single-pass encoder picks colours frame by frame and the palette can shift underneath you.",
+            zh: "在写出任何一帧之前，编码器必须先决定它只能用哪 256 种颜色。我们的做法是两遍：先扫描整段素材生成一张调色板，再把每一帧映射到这张调色板上。两遍法的好处是平坦区域保持干净、不会闪烁 —— 单遍编码器逐帧挑色，调色板会在你脚下不断变化。"
+          },
+          {
+            en: "The catch is that the palette is global. A clip containing both a sunset and a dark blue night sky has to split its 256 slots between two very different colour ranges, and that is when the bands get obvious. This is also why GIF handles flat UI screens and simple illustrations far better than photography and film.",
+            zh: "代价是这张调色板是全局的。一段同时包含日落和深蓝夜空的素材，必须把 256 个槽位分给两个差别很大的色域，色带就是在这些素材上变得明显。这也解释了为什么 GIF 处理纯色界面和简单插画的效果，远好于照片和影片。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "What each setting costs",
+          zh: "每一项设置花掉多少体积"
+        },
+        p: [
+          {
+            en: "All of the numbers below come from the same filter chain the tool runs, on a colour-heavy 640x360 source clip.",
+            zh: "下面所有数字都来自与工具完全相同的滤镜链，素材是一段色彩丰富的 640x360 片段。"
+          }
+        ],
+        list: [
+          {
+            en: "Width, at 4 seconds and 10fps: 320px gives 892 KB, 480px gives 1.86 MB, 640px gives 3.10 MB.",
+            zh: "宽度（4 秒、10fps）：320px 得到 892 KB，480px 得到 1.86 MB，640px 得到 3.10 MB。"
+          },
+          {
+            en: "Frame rate, at 480px and 4 seconds: 8fps gives 1.48 MB, 10fps gives 1.86 MB, 15fps gives 2.83 MB, 20fps gives 3.77 MB.",
+            zh: "帧率（480px、4 秒）：8fps 得到 1.48 MB，10fps 得到 1.86 MB，15fps 得到 2.83 MB，20fps 得到 3.77 MB。"
+          },
+          {
+            en: "Length, at 480px and 10fps: 2 seconds gives 897 KB, 4 seconds gives 1.86 MB, 6 seconds gives 2.71 MB.",
+            zh: "时长（480px、10fps）：2 秒得到 897 KB，4 秒得到 1.86 MB，6 秒得到 2.71 MB。"
+          },
+          {
+            en: "For comparison, 4 seconds at 480px and 10fps as H.264 MP4 comes to 70.7 KB. The GIF of the same clip is 26 times larger.",
+            zh: "作为对照，同样 4 秒、480px、10fps 的 H.264 MP4 只有 70.7 KB —— 同一段内容的 GIF 是它的 26 倍。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Getting under a specific size",
+          zh: "要压到指定体积以内"
+        },
+        p: [
+          {
+            en: "Width and frame rate both scale close to linearly in this range: dropping 480px to 320px cuts the pixel count to 44% and the file to 48%; dropping 10fps to 8fps cuts the frame count by 20% and the file to 80%. Length is the one lever that changes what the GIF actually contains.",
+            zh: "在这个区间里，宽度和帧率都近似线性：宽度从 480px 降到 320px，像素数变成 44%、文件降到 48%；帧率从 10 降到 8，帧数少 20%、文件降到 80%。而时长是唯一会改变 GIF 实际内容的那个杠杆。"
+          }
+        ],
+        list: [
+          {
+            en: "200px / 8fps / 4s: 308 KB — the smallest setting that still reads on a phone screen.",
+            zh: "200px / 8fps / 4 秒：308 KB —— 在手机屏上仍然看得清的最小档位。"
+          },
+          {
+            en: "240px / 10fps / 4s: 540 KB.",
+            zh: "240px / 10fps / 4 秒：540 KB。"
+          },
+          {
+            en: "320px / 8fps / 4s: 708 KB.",
+            zh: "320px / 8fps / 4 秒：708 KB。"
+          },
+          {
+            en: "320px / 10fps / 4s: 892 KB.",
+            zh: "320px / 10fps / 4 秒：892 KB。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "What this costs in the browser",
+          zh: "在浏览器里的实际代价"
+        },
+        callout: {
+          en: "GIF encoding is heavier work than MP4 here. Every frame goes through a palette mapping step and then LZW compression, and the finished GIF has to be held in memory before it can be handed to you. So on a long clip the thing that slows you down is decoding and encoding time, not your connection — nothing is being uploaded at any point.",
+          zh: "在浏览器里，GIF 编码比 MP4 更吃力：每一帧都要经过调色板映射再走一遍 LZW 压缩，而且成品要完整留在内存里才能交给您保存。因此长片段转 GIF 真正拖慢您的是解码和编码时间，而不是网络 —— 全程没有任何东西被上传。"
+        }
+      },
+      {
+        h2: {
+          en: "GIF quality and size FAQ",
+          zh: "GIF 画质与体积常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Is there a lossless GIF option?",
+              zh: "有没有「无损 GIF」这个选项？"
+            },
+            a: {
+              en: "No, and not because of a missing setting — the format itself stores at most 256 colours per frame, so a lossless GIF cannot exist. If you need every colour preserved, the honest answer is that the GIF format is the wrong container and a video file is the right one.",
+              zh: "没有，而且原因不是缺一个开关 —— GIF 格式本身每帧最多存 256 色，所以「无损 GIF」不可能存在。如果必须完整保留所有颜色，诚实的答案是：GIF 这个容器本身就选错了，应该改用视频文件。"
+            }
+          },
+          {
+            q: {
+              en: "Why did my 4-second GIF turn out bigger than the full video?",
+              zh: "为什么 4 秒的 GIF 比整段视频还大？"
+            },
+            a: {
+              en: "Because the two formats are not doing the same job. A video codec only stores what changed between frames and can spend bits where the eye looks; GIF stores every frame as a mostly independent 256-colour image. In our measurement that gap was 26 times, and it widens as the clip gets more detailed.",
+              zh: "因为两者做的事不一样。视频编码只保存帧与帧之间变化的部分，还能把码率花在人眼关注的地方；GIF 把每一帧都当作一张基本独立的 256 色图片来存。实测这个差距是 26 倍，而且素材越复杂差距越大。"
+            }
+          },
+          {
+            q: {
+              en: "Does making the GIF smaller also make it look better?",
+              zh: "把 GIF 做小一点，画质也会变好吗？"
+            },
+            a: {
+              en: "Reducing the width does help the bands, because the same 256 colours are then spread over fewer pixels. Reducing the frame rate only saves space and leaves the colour banding exactly as it was. That is why width is the first lever to try when a GIF looks both blocky and huge.",
+              zh: "缩宽度确实能缓解色带，因为同样是 256 种颜色摊在更少的像素上。降帧率只省体积，色带一点都不会改善。所以当一个 GIF 又大又有色带时，第一个该动的参数是宽度。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: "/blog/merge-video-memory-cost/",
+    isArticle: true,
+    contentStandardVersion: 2,
+    title: {
+      en: "Merging Video in a Browser: What It Costs in Memory and Time",
+      zh: "在浏览器里合并视频：内存与时间的真实成本"
+    },
+    description: {
+      en: "The two merge paths differ by two orders of magnitude. Copy-merge moves existing packets, re-encode decodes everything at once. We measured both across 20, 40 and 80 seconds of footage, plus the case that makes a merge fail outright.",
+      zh: "两条合并路径的成本差两个数量级：流拷贝只搬运已有数据包，统一重编码要同时解码所有片段。我们在 20、40、80 秒三档时长上分别实测了两者的内存与耗时，也测了会让合并直接失败的那种情况。"
+    },
+    category: { en: "Guide", zh: "原理指南" },
+    readTime: { en: "7 min read", zh: "7 分钟阅读" },
+    date: { en: "September 19, 2026", zh: "2026年9月19日" },
+    toolLink: "/merge-video/",
+    toolName: { en: "Merge Video Online", zh: "在线合并视频" },
+    content: [
+      {
+        h2: {
+          en: "The short answer",
+          zh: "先说结论"
+        },
+        p: [
+          {
+            en: "Merging cost depends entirely on which path runs, and the two paths are not close. Copy-merge only moves the packets that already exist: 8 clips totalling 80 seconds finished in 0.07 seconds with a peak memory of 18 MB. Normalised re-encode has to decode every clip, unify its geometry, and encode the result again: the same 80 seconds took 7.31 seconds and peaked at 301 MB.",
+            zh: "合并的成本完全取决于走哪条路径，而两条路径不在一个量级上。流拷贝只搬运已经存在的数据包：8 段合计 80 秒的素材，0.07 秒完成、峰值内存 18 MB。统一重编码要把每段都解码、统一画幅、再重新编码：同样的 80 秒耗时 7.31 秒、峰值内存 301 MB。"
+          },
+          {
+            en: "So the question 'how long a video can I merge in a browser' does not have one answer. On the copy path, length is almost free and the limit is how long you are willing to wait for the file to be read. On the re-encode path, memory grows with total duration and that is the number to watch.",
+            zh: "所以「在浏览器里能合并多长的视频」没有单一答案。走流拷贝时，时长几乎不花成本，限制只在于您愿意等文件读取多久；走重编码时，内存随总时长增长，那才是需要盯住的数字。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "What we measured",
+          zh: "实测数据"
+        },
+        p: [
+          {
+            en: "Eight clips of identical 640x360 30fps footage with audio, each 10 seconds, merged into a 1280x720 output.",
+            zh: "八段规格完全一致的 640x360、30fps 带音轨片段，每段 10 秒，合并输出为 1280x720。"
+          }
+        ],
+        list: [
+          {
+            en: "Copy-merge, 20 s total: 0.04 s, 17 MB peak, output 20.021 s.",
+            zh: "流拷贝，合计 20 秒：0.04 秒、峰值 17 MB、输出 20.021 秒。"
+          },
+          {
+            en: "Copy-merge, 40 s total: 0.05 s, 17 MB peak, output 40.021 s.",
+            zh: "流拷贝，合计 40 秒：0.05 秒、峰值 17 MB、输出 40.021 秒。"
+          },
+          {
+            en: "Copy-merge, 80 s total: 0.07 s, 18 MB peak, output 80.021 s.",
+            zh: "流拷贝，合计 80 秒：0.07 秒、峰值 18 MB、输出 80.021 秒。"
+          },
+          {
+            en: "Re-encode, 20 s total: 1.72 s, 226 MB peak, output 20.010 s.",
+            zh: "重编码，合计 20 秒：1.72 秒、峰值 226 MB、输出 20.010 秒。"
+          },
+          {
+            en: "Re-encode, 40 s total: 5.07 s, 249 MB peak, output 40.021 s.",
+            zh: "重编码，合计 40 秒：5.07 秒、峰值 249 MB、输出 40.021 秒。"
+          },
+          {
+            en: "Re-encode, 80 s total: 7.31 s, 301 MB peak, output 80.042 s.",
+            zh: "重编码，合计 80 秒：7.31 秒、峰值 301 MB、输出 80.042 秒。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Why the copy path is nearly free",
+          zh: "为什么流拷贝几乎不花成本"
+        },
+        p: [
+          {
+            en: "Look at the 80-second row: 0.07 seconds, and the peak memory barely moved from the 20-second case. That is because no frame is ever decoded. The tool writes a short playlist listing your clips and asks the engine to concatenate the existing streams, so the work is proportional to the file size, not to the duration.",
+            zh: "看 80 秒那一行：0.07 秒，峰值内存和 20 秒那档几乎没区别。原因是一帧都没有被解码。工具只写一份列出片段的播放清单，然后让引擎把已有的流拼接起来，因此工作量与文件体积相关，而与时长无关。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "The failure mode that made pre-flight necessary",
+          zh: "那个让「预检」变得必要的情况"
+        },
+        p: [
+          {
+            en: "Copy-merge is only safe when every clip shares the same codec, resolution, pixel format, frame rate and audio parameters. When they do not, the merge does not politely stop. We merged a 640x360 30fps clip with a 1280x720 25fps clip, both exactly 2 seconds. The output came back as 3.696 seconds and 110 frames — 10 frames short of the 120 it should have contained — and the command exited with success and no warning at all.",
+            zh: "只有当所有片段的编码、分辨率、像素格式、帧率和音频参数完全一致时，流拷贝才是安全的。不一致时，它不会礼貌地停下。我们把一段 640x360、30fps 和一段 1280x720、25fps 合在一起，两段各自正好 2 秒；输出却是 3.696 秒、110 帧 —— 比应有的 120 帧少了 10 帧，而命令以「成功」退出，没有给出任何警告。"
+          },
+          {
+            en: "That is why the merge tool probes every clip before it starts instead of waiting for an error. If the signatures do not match, it does not try the copy path and then fall back — it switches to the re-encode path up front and tells you which parameter differed.",
+            zh: "这就是合并工具为什么在开始前先逐段探测，而不是等它报错。一旦发现各段参数不一致，它不会先试流拷贝再回退，而是直接改用重编码路径，并告诉你是哪个参数不一样。"
+          },
+          {
+            en: "Re-encode has to use the concat filter rather than the concat demuxer, and the difference is measurable. Re-encoding the mismatched pair through the demuxer produced 3.715 seconds; the filter produced 4.025 seconds, within a frame of the real 4.000.",
+            zh: "重编码必须用 concat 滤镜，而不是 concat 解复用器，这个差别是可测量的。同样那对异规格片段，走解复用器重编码得到 3.715 秒；走滤镜得到 4.025 秒，与真实的 4.000 秒只差一帧以内。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "A silent clip can stop a merge dead",
+          zh: "一段没有声音的片段会让合并直接失败"
+        },
+        p: [
+          {
+            en: "The concat filter needs every input to contribute the same number of streams, so a clip with no audio track breaks the graph outright — the engine reports that the audio stream specifier matches no streams and refuses to run. This is not a rare case: phone screen recordings, muted exports and clips taken from an animated GIF are all video-only.",
+            zh: "concat 滤镜要求每个输入贡献相同数量的流，因此一段没有音轨的片段会直接把整张滤镜图弄坏 —— 引擎会报告音频流匹配不到任何输入流，拒绝执行。这并不罕见：手机录屏、静音导出的剪辑、从动图转出来的片段，全都只有画面。"
+          },
+          {
+            en: "The merge tool handles this by generating a matching stretch of silence for any clip that has no audio, so a silent segment joins normally and plays as silence instead of aborting the job.",
+            zh: "合并工具的处理方式是：给任何没有音轨的片段生成一段等长的静音补上。这样无声片段能正常参与合并，播放时表现为静音，而不是让整个任务中断。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Where the browser adds its own cost",
+          zh: "浏览器额外增加的那一层成本"
+        },
+        callout: {
+          en: "The browser build carries one cost the command line does not: files are read into a virtual file system that lives in memory. So on top of the filter and encoder working set, every input clip occupies memory for the whole job, and the finished file has to fit there too. That is the real ceiling on the re-encode path — and the reason a long merge is worth splitting into two rounds rather than attempting in one go.",
+          zh: "浏览器版本多了一层命令行没有的成本：文件要先读进一个位于内存中的虚拟文件系统。也就是说，除了滤镜与编码器的工作内存，每一个输入片段都会在整个任务期间占着内存，成品也必须装得下。这才是重编码路径真正的上限所在 —— 也是长合并值得拆成两轮、而不是一次硬扛的原因。"
+        }
+      },
+      {
+        h2: {
+          en: "Merging FAQ",
+          zh: "合并常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Should I force re-encode just to be safe?",
+              zh: "为了保险起见，是不是干脆一律用重编码？"
+            },
+            a: {
+              en: "You do not have to choose blind. Leave the mode on copy: the tool probes each clip first and moves the job to re-encode by itself when the parameters differ. Forcing re-encode on matching clips only costs you time and one generation of quality for nothing.",
+              zh: "不必盲选。保持默认的快速合并即可：工具会先逐段探测，参数不一致时自己转到重编码。对本来规格一致的片段强行重编码，只是白白付出时间和一代画质。"
+            }
+          },
+          {
+            q: {
+              en: "Why is the merged file longer than the sum of my clips?",
+              zh: "为什么合并后的文件比各段时长相加略长？"
+            },
+            a: {
+              en: "Because each clip carries a small boundary offset of a couple of frames, and they accumulate. In our 80-second test the output was 80.042 seconds. It is not duplicated content — it is the same frame-boundary effect you see when trimming, multiplied by the number of joins.",
+              zh: "因为每段片段本身都带着几帧的边界偏移，拼起来就会累加。实测 80 秒那一档输出是 80.042 秒。这多出来的不是重复内容，而是和剪切时同一个帧边界效应，按拼接次数叠加而已。"
+            }
+          },
+          {
+            q: {
+              en: "How many clips can I merge at once?",
+              zh: "一次最多能合并几段？"
+            },
+            a: {
+              en: "There is no fixed clip limit — the constraint is total duration and total file size on the re-encode path, where memory scales with how much footage is being decoded at once. If a large merge is struggling, merge the first half, then the second half, then merge those two results: that keeps any single job small.",
+              zh: "没有固定的片段数上限 —— 真正的约束是重编码路径上的总时长与总体积，因为内存会随着「同时解码多少素材」增长。如果一次大合并很吃力，就把前一半、后一半各合一次，再合并这两个结果：这样任何单次任务都不会太大。"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: "/blog/converted-audio-file-size/",
+    isArticle: true,
+    contentStandardVersion: 2,
+    title: {
+      en: "How Big Will the Converted Audio File Be?",
+      zh: "转换后的音频文件会有多大？"
+    },
+    description: {
+      en: "Lossy audio size is arithmetic: bitrate times duration. Lossless size depends on how compressible your recording is. Here are measured sizes for MP3, M4A, FLAC, Opus, WAV and AIFF from the same three-second source.",
+      zh: "有损音频的体积是可以算出来的：码率乘时长。无损音频的体积则取决于你的录音有多好压缩。下面是同一段 3 秒素材转成 MP3、M4A、FLAC、Opus、WAV、AIFF 的实测体积。"
+    },
+    category: { en: "Guide", zh: "原理指南" },
+    readTime: { en: "6 min read", zh: "6 分钟阅读" },
+    date: { en: "September 19, 2026", zh: "2026年9月19日" },
+    toolLink: "/convert-audio/",
+    toolName: { en: "Convert Audio Online", zh: "在线音频格式转换" },
+    content: [
+      {
+        h2: {
+          en: "The short answer",
+          zh: "先说结论"
+        },
+        p: [
+          {
+            en: "For lossy formats the size is pure arithmetic: bitrate x duration / 8. A 192 kbps MP3 is about 1.4 MB per minute; 320 kbps is about 2.4 MB per minute; 128 kbps is about 0.9 MB per minute. That is why people who need a small file reach for a lower bitrate rather than a different codec.",
+            zh: "有损格式的体积是纯粹的算术：码率 × 时长 ÷ 8。192 kbps 的 MP3 每分钟约 1.4 MB，320 kbps 每分钟约 2.4 MB，128 kbps 每分钟约 0.9 MB。这也是为什么需要小文件时会去降码率，而不是换编码器。"
+          },
+          {
+            en: "Lossless formats work differently. WAV and AIFF are fixed by sample rate and bit depth, not by content: 44.1 kHz, 16-bit, stereo is about 10.6 MB per minute no matter what you recorded. FLAC sits in between — it is lossless too, but how much it saves depends entirely on how compressible the recording is.",
+            zh: "无损格式的规律不同。WAV 和 AIFF 由采样率和位深决定，与内容无关：44.1kHz、16 位、立体声固定每分钟约 10.6 MB，无论你录的是什么。FLAC 处在中间 —— 它同样无损，但能省下多少完全取决于这段录音有多好压缩。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Measured sizes from one source",
+          zh: "同一段素材的实测体积"
+        },
+        p: [
+          {
+            en: "Source: three seconds of 44.1 kHz stereo audio, 529,278 bytes as 16-bit PCM WAV.",
+            zh: "源文件：3 秒 44.1kHz 立体声音频，以 16 位 PCM WAV 保存时是 529,278 字节。"
+          }
+        ],
+        list: [
+          {
+            en: "MP3 320 kbps: 122,297 bytes, measuring about 326 kbps. MP3 192 kbps: 73,395 bytes, about 195 kbps. MP3 128 kbps: 48,945 bytes, about 130 kbps.",
+            zh: "MP3 320 kbps：122,297 字节，实测约 326 kbps。MP3 192 kbps：73,395 字节，约 195 kbps。MP3 128 kbps：48,945 字节，约 130 kbps。"
+          },
+          {
+            en: "M4A (AAC) 192 kbps: 73,757 bytes. M4A (AAC) 128 kbps: 49,716 bytes.",
+            zh: "M4A（AAC）192 kbps：73,757 字节。M4A（AAC）128 kbps：49,716 字节。"
+          },
+          {
+            en: "Opus 128 kbps: 49,015 bytes. FLAC: 45,245 bytes on this particular source, which is misleading — see below.",
+            zh: "Opus 128 kbps：49,015 字节。FLAC：在这段特定素材上是 45,245 字节，但这个数字有误导性 —— 见下文。"
+          },
+          {
+            en: "WAV: 529,278 bytes. AIFF: 529,254 bytes. The two uncompressed formats differ by 24 bytes.",
+            zh: "WAV：529,278 字节。AIFF：529,254 字节。两种未压缩格式相差 24 字节。"
+          },
+          {
+            en: "Note that the measured bitrates run slightly above the label: 192 kbps MP3 reads as 195, and 128 kbps AAC reads as 132. The difference is container and per-frame overhead, and it is always there.",
+            zh: "注意实测码率会略高于标称值：标称 192 kbps 的 MP3 实测 195，标称 128 kbps 的 AAC 实测 132。多出来的是容器与逐帧头部开销，它一直存在。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "How much FLAC saves depends on the recording",
+          zh: "FLAC 能省多少，取决于你录的是什么"
+        },
+        p: [
+          {
+            en: "We converted the same WAV to FLAC three times from three different sources. A pure sine wave compressed to 8.5% of the original — a waveform that barely changes can be described extremely compactly. A three-note chord came out at 37.9%. Pink noise, which is close to the hardest case for a lossless compressor, came out at 40.9%.",
+            zh: "我们把同样的 WAV 用三段不同素材各转了一次 FLAC：纯正弦波压到原来的 8.5%（几乎不变化的波形可以被极其紧凑地描述），三个正弦音的和弦是 37.9%，粉噪声 —— 接近无损压缩的最难情况 —— 是 40.9%。"
+          },
+          {
+            en: "The 8.5% figure is an outlier, not a promise. Real music and speech recordings typically land between 50% and 70%, because they contain a lot of detail that cannot be predicted away. If you are choosing FLAC to save space, the honest expectation is roughly half the size of WAV, not a tenth.",
+            zh: "8.5% 是极端特例，不是可以期待的常态。真实的音乐和语音录音通常落在 50% 到 70% 之间，因为它们包含了大量无法被预测掉的细节。如果你选 FLAC 是为了省空间，诚实的预期大约是 WAV 的一半，而不是十分之一。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "Choosing a target format",
+          zh: "该选哪个目标格式"
+        },
+        list: [
+          {
+            en: "Sending to another person, or playing in a car: MP3 at 192 to 256 kbps. Compatibility is the entire point of this choice.",
+            zh: "发给别人、或在车载播放器里播放：MP3，192 到 256 kbps。这个选择的全部理由就是兼容性。"
+          },
+          {
+            en: "Voice recordings and podcasts: M4A or Opus at the same bitrate rather than MP3, because both handle speech better at a given size.",
+            zh: "语音录音和播客：同码率下选 M4A 或 Opus，而不是 MP3，因为在相同体积下两者对语音的处理更好。"
+          },
+          {
+            en: "Feeding an editor: WAV or AIFF, whichever your software prefers. They behave identically on a timeline.",
+            zh: "要喂给剪辑软件：WAV 或 AIFF，看软件偏好。两者在时间轴上的表现一致。"
+          },
+          {
+            en: "Archiving something you may edit later: FLAC. It keeps the samples exactly while costing noticeably less than WAV.",
+            zh: "归档一段以后可能还要剪的录音：FLAC。它完整保留采样数据，同时比 WAV 明显省空间。"
+          },
+          {
+            en: "Embedding in a web player: Opus or OGG, which hold up better than MP3 when the bitrate is pushed down.",
+            zh: "内嵌到网页播放器：Opus 或 OGG，在码率被压低时比 MP3 撑得住。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "A raised bitrate cannot repair a lossy source",
+          zh: "调高码率救不回有损源文件"
+        },
+        p: [
+          {
+            en: "If your source is a 196 kbps AAC recording, exporting it as a 320 kbps MP3 produces a bigger file carrying the same information — the second encode cannot recreate detail the first one discarded. Bitrate and bit depth describe how precisely a file stores what it holds, not how good that content is.",
+            zh: "如果你的源文件是一段 196 kbps 的 AAC 录音，把它导出成 320 kbps 的 MP3 只会得到一个更大的、携带相同信息的文件 —— 第二次编码无法还原第一次已经丢弃的细节。码率和位深描述的是「文件保存现有内容有多精确」，而不是「内容本身有多好」。"
+          },
+          {
+            en: "One product-specific caveat worth stating plainly: the converter uses FFmpeg's native Opus encoder, because the libopus implementation in this WebAssembly build is not usable. At the same bitrate it does not reach libopus quality, and the tool labels this in the interface rather than quietly shipping it.",
+            zh: "有一点产品层面的说明值得直接讲清楚：本转换器使用的是 FFmpeg 的原生 Opus 编码器，因为这份 WebAssembly 构建里的 libopus 实现无法正常运行。在相同码率下它达不到 libopus 的音质，这一点我们在工具界面上直接标注，而不是悄悄带过。"
+          }
+        ]
+      },
+      {
+        h2: {
+          en: "What this costs in the browser",
+          zh: "在浏览器里的实际代价"
+        },
+        callout: {
+          en: "Audio work is far lighter than video, so a minute-long recording usually converts in about a second. The real boundaries are memory and length: the file is read into a virtual file system that lives in memory, and the decoded samples occupy memory while the encoder runs. An hour-long lecture is a reasonable job; converting the audio out of a long 4K video is slower because decoding 4K frames becomes the bottleneck long before the audio encoder does.",
+          zh: "音频处理比视频轻得多，因此一分钟的录音通常在一秒左右完成。真正的边界是内存与时长：文件要先读进位于内存中的虚拟文件系统，解码后的采样也会在编码期间占用内存。一小时的课程录音属于合理范围；而从一段很长的 4K 视频里转出音频会慢得多，因为瓶颈早在音频编码器之前就已经是 4K 画面的解码了。"
+        }
+      },
+      {
+        h2: {
+          en: "Audio size FAQ",
+          zh: "音频体积常见问题"
+        },
+        faqs: [
+          {
+            q: {
+              en: "Why did my converted file come out larger than the original?",
+              zh: "为什么转换后的文件比原文件还大？"
+            },
+            a: {
+              en: "Almost always because the target bitrate is higher than the source's. A 128 kbps source exported at 320 kbps grows by roughly two and a half times and sounds the same. Check the source bitrate before picking a target: matching it is usually the right call.",
+              zh: "几乎总是因为目标码率比源文件更高。128 kbps 的源以 320 kbps 导出，体积大约涨到 2.5 倍，听感没有变化。选目标码率前先看一眼源文件的码率：对齐它通常就是对的做法。"
+            }
+          },
+          {
+            q: {
+              en: "Does converting reduce quality even at the same bitrate?",
+              zh: "即使码率相同，转换也会降低音质吗？"
+            },
+            a: {
+              en: "Yes, if the target is lossy and the source is already lossy, because the audio is encoded a second time. Whether you can hear it depends on the material: speech at 192 kbps and above is usually transparent, while dense music is where a second generation becomes noticeable. Converting to WAV or FLAC instead avoids adding any loss.",
+              zh: "会 —— 只要目标是有限格式而源文件本身已经有损，音频就被编码了第二次。能不能听出来取决于素材：192 kbps 以上的语音通常听不出，而层次密集的音乐才是第二代损伤比较明显的地方。改转 WAV 或 FLAC 则不会叠加任何损失。"
+            }
+          },
+          {
+            q: {
+              en: "Can I convert several recordings at once?",
+              zh: "可以一次转换多个录音吗？"
+            },
+            a: {
+              en: "Process them one at a time. Each job holds the source file and the decoded audio in browser memory, so running several long recordings together reaches the memory ceiling faster than it finishes the work.",
+              zh: "建议逐个处理。每个任务都要把源文件和解码后的音频放进浏览器内存，同时跑多个长录音，只会更快撞上内存上限，而不是更快做完。"
+            }
+          }
+        ]
+      }
+    ]
   }
 ];
+
+/**
+ * 文章之间的互链选择。
+ *
+ * 为什么需要它：在此之前每篇文章只有一条指向工具页的链接，文章与文章之间零互链 ——
+ * 对爬虫来说 26 篇文章彼此孤立，抓取路径和页面权重都传不出去。
+ *
+ * 选择顺序：显式 `relatedSlugs` → 同一个工具页下的其它文章 → 沿时间轴向两侧扩散的邻居。
+ *
+ * 第三步一开始写的是「其余按日期倒序补齐」，实测退化了：每篇都指向最新的那几篇，
+ * 整张图变成以最新文章为中心的星形，从任一篇文章出发只能到达 5/26 篇，而且发布时间
+ * 最早的文章一条入链都拿不到。改成取时间轴上的前后邻居（±1、±2 ……）之后，链接会
+ * 沿时间铺成链条，老文章同样有入链。
+ *
+ * ⚠️ 这个函数是 React 端与 prerender-seo.mjs 共用的唯一漏斗。静态版和 JS 版必须拿到
+ * 同一份结果，否则爬虫看到的互链图和真实用户看到的不是同一张。
+ */
+export function relatedArticles(page, limit = 4) {
+  const articles = BLOG_PAGES.filter((item) => item.isArticle && item.path !== page.path);
+  if (!articles.length || limit <= 0) return [];
+
+  const indexOf = new Map(BLOG_PAGES.map((item, index) => [item.path, index]));
+  const byRecency = (a, b) =>
+    Date.parse(b.date?.en || 0) - Date.parse(a.date?.en || 0) ||
+    indexOf.get(b.path) - indexOf.get(a.path);
+
+  const byPath = new Map(articles.map((item) => [item.path, item]));
+  const picked = [];
+  const seen = new Set([page.path]);
+  const push = (candidate) => {
+    if (!candidate || seen.has(candidate.path) || picked.length >= limit) return;
+    seen.add(candidate.path);
+    picked.push(candidate);
+  };
+
+  (page.relatedSlugs || []).forEach((slug) => push(byPath.get(slug)));
+  articles.filter((item) => item.toolLink === page.toolLink).sort(byRecency).forEach(push);
+
+  const timeline = [page, ...articles].sort(byRecency);
+  const position = timeline.findIndex((item) => item.path === page.path);
+  for (let step = 1; step < timeline.length && picked.length < limit; step += 1) {
+    push(timeline[position - step]);
+    push(timeline[position + step]);
+  }
+
+  return picked;
+}

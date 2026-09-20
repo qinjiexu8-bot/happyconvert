@@ -17,7 +17,7 @@ import {
 } from "./lib/ffmpegCommands.js";
 import { TOOLS, TRANSLATIONS } from "./i18n/translations.js";
 import { DEFAULT_PAGE, TOOL_PAGES, getToolPageByPath, getToolPageByTool, groupedToolPages, localizedPage, normalizePath } from "./config/toolPages.js";
-import { BLOG_PAGES } from "./config/blogPages.js";
+import { BLOG_PAGES, relatedArticles } from "./config/blogPages.js";
 
 const FFMPEG_CORE_BASE_URL = "/ffmpeg";
 const FFMPEG_LOAD_TIMEOUT_MS = 45000;
@@ -249,6 +249,11 @@ export default function App() {
   const [showLogs, setShowLogs] = useState(false);
   const [visibleBlogCount, setVisibleBlogCount] = useState(BLOG_PAGE_SIZE);
   const sortedBlogArticles = useMemo(() => getSortedBlogArticles(), []);
+  // 文章互链：与 prerender-seo.mjs 共用 relatedArticles()，保证静态版和 React 版内链一致
+  const relatedReading = useMemo(
+    () => (activePageConfig.isArticle ? relatedArticles(activePageConfig, 4) : []),
+    [activePageConfig]
+  );
 
   // Latest Generated Output State
   const [latestOutput, setLatestOutput] = useState(null);
@@ -2391,6 +2396,31 @@ export default function App() {
                   );
                 })}
               </nav>
+
+              {relatedReading.length > 0 && (
+                <nav className="article-related-reading" aria-label={lang === "zh" ? "相关阅读" : "Related reading"}>
+                  <p className="article-related-reading-title">{lang === "zh" ? "相关阅读" : "Related reading"}</p>
+                  <ul>
+                    {relatedReading.map((page) => {
+                      const item = localizedPage(page, lang);
+                      return (
+                        <li key={page.path}>
+                          <a
+                            href={buildLocalizedPath(page.path, lang)}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigateToPath(page.path);
+                            }}
+                          >
+                            {item.title}
+                          </a>
+                          <small>{item.date}</small>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </nav>
+              )}
 
               <div className="article-cta-box" style={{ marginTop: "56px", padding: "40px", backgroundColor: "var(--bg-root)", border: "1px solid var(--border-color)", borderRadius: "var(--radius-lg)", textAlign: "center", backgroundImage: "linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(236, 72, 153, 0.08) 100%)" }}>
                 <h3 style={{ fontSize: "24px", fontWeight: "800", marginBottom: "12px", color: "var(--text-primary)" }}>

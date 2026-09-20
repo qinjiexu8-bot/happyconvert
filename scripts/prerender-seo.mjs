@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { DEFAULT_PAGE, DOC_PAGES, TOOL_PAGES, localizedPage } from "../src/config/toolPages.js";
-import { BLOG_PAGES } from "../src/config/blogPages.js";
+import { BLOG_PAGES, relatedArticles } from "../src/config/blogPages.js";
 import { conservativeCopy } from "../src/lib/conservativeCopy.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -197,6 +197,17 @@ const renderStaticContent = (config, page, lang) => {
       : "";
     return `<section><h2>${escapeHtml(conservativeCopy(section.h2 || "", lang))}</h2>${paragraphs}${list}</section>`;
   }).join("") || "";
+  // 文章互链：静态 HTML 里也必须出现，否则爬虫看到的文章页依旧只有指向工具页的链接，
+  // 文章之间仍然是孤岛 —— 而爬虫正是靠这些链接发现和流转权重的。
+  const relatedArticleLinks = config.isArticle
+    ? relatedArticles(config, 4)
+        .map((relatedPage) => {
+          const localizedRelated = localizedPage(relatedPage, lang);
+          return `<li><a href="${localizedPath(relatedPage.path, lang)}">${escapeHtml(localizedRelated.title)}</a> <small>${escapeHtml(localizedRelated.date || "")}</small></li>`;
+        })
+        .join("")
+    : "";
+
   const blogArticleLinks = config.isBlogIndex
     ? BLOG_PAGES
         .map((blogPage, index) => ({ blogPage, index }))
@@ -229,6 +240,7 @@ const renderStaticContent = (config, page, lang) => {
       ${heading ? `<section><h2>${escapeHtml(heading)}</h2><p>${escapeHtml(conservativeCopy(page.description, lang))}</p></section>` : ""}
       ${articleSections}
       ${blogArticleLinks ? `<section aria-label="${escapeHtml(lang === "zh" ? "全部文章" : "All articles")}">${blogArticleLinks}</section>` : ""}
+      ${relatedArticleLinks ? `<nav aria-label="${escapeHtml(lang === "zh" ? "相关阅读" : "Related reading")}"><h2>${escapeHtml(lang === "zh" ? "相关阅读" : "Related reading")}</h2><ul>${relatedArticleLinks}</ul></nav>` : ""}
       ${faqs.length ? `
         <section>
           <h2>${escapeHtml(lang === "zh" ? "常见问题" : "Frequently Asked Questions")}</h2>
